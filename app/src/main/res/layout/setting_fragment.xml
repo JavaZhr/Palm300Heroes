@@ -5,7 +5,7 @@
     android:id="@+id/setting_fragment">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="74dp"
         android:background="@color/blue"
         android:layout_alignParentTop="true">
         <TextView
@@ -14,7 +14,10 @@
             android:text="设置"
             android:textSize="25sp"
             android:textColor="#ffffff"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="5dp"
+            android:paddingTop="0dp"/>
     </RelativeLayout>
 
     <TextView
