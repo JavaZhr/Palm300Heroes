@@ -11,12 +11,13 @@
             android:id="@+id/webview_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:gravity="center"
             android:textColor="@color/white"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="5dp"
-            android:paddingTop="0dp"/>
+            android:paddingTop="0dp"
+            android:paddingBottom="14dp"/>
     </RelativeLayout>
     <WebView
         android:id="@+id/webview"

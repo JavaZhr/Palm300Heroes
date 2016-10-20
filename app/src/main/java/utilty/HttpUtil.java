@@ -1,4 +1,4 @@
-package util;
+package utilty;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import myInterface.HttpCallbackListener;
 
 /**
  * Created by NICOLITE on 2016/9/20 0020.
@@ -53,4 +55,6 @@ public class HttpUtil {
             }
         }).start();
     }
+
+
 }

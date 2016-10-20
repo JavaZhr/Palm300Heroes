@@ -1,6 +1,5 @@
 package cn.nicolite.palm300heros;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,7 @@ import fragment.GameFragment;
 import fragment.HerosFragment;
 import fragment.NewsFragment;
 import fragment.SettingFragment;
-import util.LogUtil;
+import utilty.LogUtil;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
