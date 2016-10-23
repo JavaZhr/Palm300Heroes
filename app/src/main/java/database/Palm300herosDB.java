@@ -93,4 +93,18 @@ public class Palm300herosDB {
 
         return list;
     }
+
+
+    public static boolean isExistence(News news){
+        if (news != null && palm300herosDB != null) {
+            List<News> list = palm300herosDB.loadNews();
+            for (News news1 : list) {
+                if (news.getTitle().equals(news1.getTitle())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
 }

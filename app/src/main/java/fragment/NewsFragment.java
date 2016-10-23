@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,6 @@ public class NewsFragment extends Fragment{
     private News selectedNews;
     private ListView listView;
     private NewsAdapter adapter;
-    private News news;
     private Palm300herosDB palm300herosDB;
     private SwipeRefreshLayout swipeRefreshLayout = null;
     private static final int REFRESH_COMPLETE_TIME = 2000;
@@ -50,6 +48,7 @@ public class NewsFragment extends Fragment{
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
                     adapter.notifyDataSetChanged();
+                    listView.setSelection(0);
                     break;
                 default:break;
             }
@@ -68,11 +67,9 @@ public class NewsFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedNews = newsList.get(position);
                 String content = selectedNews.getContent();
-                String imageUrl = selectedNews.getImageUrl();
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("content", content);
-                bundle.putString("imageUrl", imageUrl);
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
@@ -88,13 +85,13 @@ public class NewsFragment extends Fragment{
                     @Override
                     public void run() {
                         initNewsDate();
-                        //dataList.clear();
                         queryNews();
                         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
                     }
                 }).start();
             }
         });
+
         return view;
     }
 
@@ -118,18 +115,19 @@ public class NewsFragment extends Fragment{
 
     private void queryNews(){
         newsList = palm300herosDB.loadNews();
-        if (newsList.size() > 0) {
-            dataList.clear();
+        if (newsList.size() > 0 && dataList.size() > 0) {
             for (News news : newsList) {
-                    dataList.add(news);
-
+                if (news.getId() > dataList.size()) {
+                    dataList.add(0, news);
+                }
             }
-            //adapter.notifyDataSetChanged();
         }else {
-
+                 dataList.clear();
+                 for (News news : newsList) {
+                    dataList.add(news);
+                 }
         }
     }
-
 }
 
 

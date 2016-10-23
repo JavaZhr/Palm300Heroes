@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import database.Palm300herosDB;
 import model.News;
 
@@ -18,7 +20,6 @@ import model.News;
 
 //暂时不使用
 public class Utilty {
-    private Palm300herosDB palm300herosDB;
     /**
      * 解析和处理服务器返回的News数据
      */
@@ -51,6 +52,7 @@ public class Utilty {
                         String imageUrl = customFields.getString("git_thumb");
                         imageUrl = imageUrl.replace("[\"", "");
                         imageUrl = imageUrl.replace("\"]", "");
+                        imageUrl = imageUrl.replace("\\", "");
                         LogUtil.d("imagUrl", imageUrl);
 
                         News news = new News();
@@ -61,12 +63,12 @@ public class Utilty {
                         news.setDate(date);
                         news.setNickName(nickName);
                         news.setImageUrl(imageUrl);
-                        if (!palm300herosDB.loadNews().contains(news)) {
+                        if (!palm300herosDB.isExistence(news)) {
                             palm300herosDB.saveNews(news);
                         }
                      }
                 }else {
-                    Toast.makeText(GetContextUtil.getContex(), "服务器异常", Toast.LENGTH_SHORT).show();
+
                     return false;
                 }
 
@@ -74,9 +76,10 @@ public class Utilty {
                 e.printStackTrace();
             }
         }else {
-            Toast.makeText(GetContextUtil.getContex(), "服务器异常", Toast.LENGTH_SHORT).show();
+
             return false;
         }
         return true;
     }
+
 }

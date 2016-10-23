@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private HerosFragment herosFragment;
     private EquipmentFragment equipmentFragment;
     private GameFragment gameFragment;
-    private SettingFragment settingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "英雄"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_music_note_white_24dp, "装备"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp,"设置"))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
@@ -124,18 +122,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     transaction.show(gameFragment);
                 }
                 break;
-            case 4 :
-                /*点击设置*/
-                LogUtil.d("BottomNavigationBar", "点击了设置");
-                if (settingFragment == null) {
-                    /*如果SettingFragment为空，则创建一个*/
-                    settingFragment = new SettingFragment();
-                    transaction.add(R.id.content, settingFragment);
-                }else {
-                    /*如果不为空，则直接显示出来*/
-                    transaction.show(settingFragment);
-                }
-                break;
             default:break;
         }
         transaction.commit();
@@ -168,9 +154,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         }
         if (gameFragment != null) {
             transaction.hide(gameFragment);
-        }
-        if (settingFragment != null) {
-            transaction.hide(settingFragment);
         }
     }
 }
