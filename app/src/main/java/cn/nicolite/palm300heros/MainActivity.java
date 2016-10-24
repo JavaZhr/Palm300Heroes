@@ -2,9 +2,11 @@ package cn.nicolite.palm300heros;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -13,7 +15,6 @@ import fragment.EquipmentFragment;
 import fragment.GameFragment;
 import fragment.HerosFragment;
 import fragment.NewsFragment;
-import fragment.SettingFragment;
 import utilty.LogUtil;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
@@ -26,17 +27,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private HerosFragment herosFragment;
     private EquipmentFragment equipmentFragment;
     private GameFragment gameFragment;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+       // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
         setContentView(R.layout.bottom_navigation_bar);
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
@@ -44,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "资讯"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "英雄"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_music_note_white_24dp, "装备"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp, "装备"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         if (newsFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
             newsFragment = new NewsFragment();
+            actionBar.setTitle("资讯");
             transaction.add(R.id.content, newsFragment);
         }else {
                     /*如果不为空，则直接显示出来*/
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 0 :
                 /*点击资讯*/
                 LogUtil.d("BottomNavigationBar", "点击了资讯");
+                actionBar.setTitle("资讯");
                 if (newsFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
                     newsFragment = new NewsFragment();
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 1 :
                 /*点击英雄*/
                 LogUtil.d("BottomNavigationBar", "点击了英雄");
+                actionBar.setTitle("英雄");
                 if (herosFragment == null) {
                     //如果HerosFragment为空，则创建一个*/
                     herosFragment = new HerosFragment();
@@ -101,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 2 :
                 /*点击装备*/
                 LogUtil.d("BottomNavigationBar", "点击了装备");
+                actionBar.setTitle("装备");
                 if (equipmentFragment == null) {
                     /*如果EquipmentFragment为空，则创建一个*/
                     equipmentFragment = new EquipmentFragment();
@@ -113,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 3 :
                 /*点击游戏*/
                 LogUtil.d("BottomNavigationBar", "点击了游戏");
+                actionBar.setTitle("游戏");
                 if (gameFragment == null) {
                    /*如果GameFragment为空，则创建一个*/
                     gameFragment = new GameFragment();
@@ -125,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             default:break;
         }
         transaction.commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

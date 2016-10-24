@@ -46,13 +46,12 @@ public class NewsAdapter extends ArrayAdapter<News> {
         newsDate.setText(news.getDate());
         LogUtil.d("NewsAdapter", "imageUrl: " + news.getImageUrl());
         Glide
-                .with(getContext())
+                .with(context)
                 .load(news.getImageUrl())
-                .dontAnimate()
                 .thumbnail(0.1f)
-                .centerCrop()
+                .skipMemoryCache(true)
+                .dontAnimate()
                 .into(newsImage);
-
         return view;
     }
 

@@ -26,11 +26,12 @@ import utilty.HttpUtil;
 import utilty.LogUtil;
 import utilty.Utilty;
 
+
 /**
  * Created by NICOLITE on 2016/10/12 0012.
  */
 
-public class NewsFragment extends Fragment{
+public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private List<News> dataList = new ArrayList<News>();
     private List<News> newsList;
     private News selectedNews;
@@ -78,20 +79,9 @@ public class NewsFragment extends Fragment{
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setProgressViewEndTarget(true, 120);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        initNewsDate();
-                        queryNews();
-                        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-                    }
-                }).start();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
+        onRefresh();
         return view;
     }
 
@@ -115,18 +105,33 @@ public class NewsFragment extends Fragment{
 
     private void queryNews(){
         newsList = palm300herosDB.loadNews();
+        Utilty.sortByDate(newsList);
         if (newsList.size() > 0 && dataList.size() > 0) {
             for (News news : newsList) {
-                if (news.getId() > dataList.size()) {
+               if (news.getId() > dataList.size()) {
                     dataList.add(0, news);
                 }
             }
         }else {
                  dataList.clear();
                  for (News news : newsList) {
+                     LogUtil.d("queryNews", "NewsDate: " + news.getDate());
                     dataList.add(news);
                  }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initNewsDate();
+                queryNews();
+                handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+            }
+        }).start();
     }
 }
 

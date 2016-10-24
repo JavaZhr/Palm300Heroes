@@ -2,12 +2,16 @@ package utilty;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import database.Palm300herosDB;
@@ -82,4 +86,26 @@ public class Utilty {
         return true;
     }
 
+    public static Date stringToDate(String date) {
+        ParsePosition position = new ParsePosition(0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date dateValue = simpleDateFormat.parse(date, position);
+        return dateValue;
+    }
+
+    public static List<News> sortByDate(List<News> list) {
+        List<News> newList = list;
+        Collections.sort(newList, new Comparator<News>() {
+            @Override
+            public int compare(News o1, News o2) {
+                Date date1 = stringToDate(o1.getDate());
+                Date date2 = stringToDate(o2.getDate());
+                if (date1.after(date2)) {
+                    return -1;
+                }
+                return 1;
+            }
+        });
+        return newList;
+    }
 }
