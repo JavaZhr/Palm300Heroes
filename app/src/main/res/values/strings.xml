@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">掌上300英雄</string>
     <string name="copyright">Copyright© 2016</string>
+
+    <string name="all">全部</string>
+    <string name="assassin">刺客</string>
+    <string name="warrior">战士</string>
+    <string name="tank">坦克</string>
+    <string name="shooter">射手</string>
+    <string name="master">法师</string>
+    <string name="assist">辅助</string>
+
 </resources>

@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -17,10 +16,9 @@ import fragment.HerosFragment;
 import fragment.NewsFragment;
 import utilty.LogUtil;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     int lastSelectedPosition = 0; //底部菜单栏默认选中
-    private String TAG = MainActivity.class.getSimpleName();
 
     /*Fragment类*/
     private NewsFragment newsFragment;
@@ -28,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private EquipmentFragment equipmentFragment;
     private GameFragment gameFragment;
     private ActionBar actionBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
     }
-
     private void setDefaultFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

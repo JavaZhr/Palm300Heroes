@@ -10,15 +10,17 @@ import android.view.ViewGroup;
 import cn.nicolite.palm300heros.R;
 
 
+
 /**
  * Created by NICOLITE on 2016/10/11 0011.
  */
 
-public class HerosFragment extends Fragment {
+public class HerosFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.heros_fragment, container, false);
         return view;
     }
+
 }

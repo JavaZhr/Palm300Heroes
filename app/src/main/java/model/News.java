@@ -1,12 +1,10 @@
 package model;
 
-import java.io.Serializable;
-
 /**
  * Created by NICOLITE on 2016/10/15 0015.
  */
 
-public class News implements Serializable{
+public class News{
     private int id;
     private String category;
     private String url;

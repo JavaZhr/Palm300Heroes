@@ -18,7 +18,6 @@ import utilty.LogUtil;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
-    private TextView title;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

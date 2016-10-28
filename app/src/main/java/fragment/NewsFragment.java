@@ -78,7 +78,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
-        swipeRefreshLayout.setProgressViewEndTarget(true, 120);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         onRefresh();

@@ -34,12 +34,11 @@ public class Utilty {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
 
-                Log.d("handleNewsResponse", "status : " + status  );
+                Log.d("handleNewsResponse", "JSON status : " + status  );
                 if (status.equals("ok")) {
                     JSONObject category = jsonObject.getJSONObject("category");
                     String categoryTitle = category.getString("title");
 
-                    LogUtil.d("handleNewsResponse", categoryTitle);
                     JSONArray posts = jsonObject.getJSONArray("posts");
 
                     for (int i = 0; i < posts.length(); i++) {
@@ -57,7 +56,6 @@ public class Utilty {
                         imageUrl = imageUrl.replace("[\"", "");
                         imageUrl = imageUrl.replace("\"]", "");
                         imageUrl = imageUrl.replace("\\", "");
-                        LogUtil.d("imagUrl", imageUrl);
 
                         News news = new News();
                         news.setCategory(categoryTitle);
