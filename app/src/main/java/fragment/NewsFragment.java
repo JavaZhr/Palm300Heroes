@@ -61,7 +61,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_fragment, container, false);
         listView = (ListView) view.findViewById(R.id.news_listview);
-        adapter = new NewsAdapter(getActivity(), R.layout.listview_layout, dataList);
+        adapter = new NewsAdapter(getActivity(), R.layout.news_listview_layout, dataList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

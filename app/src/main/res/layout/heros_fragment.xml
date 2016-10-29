@@ -3,11 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/heros_fragment">
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/heros_title"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="74dp"
+        android:background="@color/blue"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heros"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="14dp"
+            android:paddingTop="0dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/menubar"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
         android:orientation="horizontal"
         android:background="@color/blue"
+        android:layout_below="@id/heros_title"
         tools:ignore="UselessParent">
 
         <Button
@@ -17,6 +38,7 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/all"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
         <Button
@@ -26,6 +48,7 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/assassin"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
         <Button
@@ -35,6 +58,7 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/warrior"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
         <Button
@@ -44,6 +68,7 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/tank"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
 
@@ -54,6 +79,7 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/shooter"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
 
@@ -64,6 +90,7 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/master"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
 
@@ -74,7 +101,23 @@
             android:layout_weight="1"
             android:background="@color/blue"
             android:text="@string/assist"
+            android:textSize="16sp"
             android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/menubar">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:flipInterval="30"
+            android:persistentDrawingCache="animation" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

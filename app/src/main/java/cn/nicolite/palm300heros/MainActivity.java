@@ -1,15 +1,22 @@
 package cn.nicolite.palm300heros;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.WindowManager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import adapter.FragAdapter;
 import fragment.EquipmentFragment;
 import fragment.GameFragment;
 import fragment.HerosFragment;
@@ -29,15 +36,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getSupportActionBar().hide();
+        getSupportActionBar().hide();
         //透明状态栏
-       // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
         setContentView(R.layout.bottom_navigation_bar);
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
@@ -52,6 +59,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
+
+      /* List<Fragment> fragments=new ArrayList<Fragment>();
+        fragments.add(new NewsFragment());
+        fragments.add(new HerosFragment());
+        fragments.add(new GameFragment());
+        fragments.add(new EquipmentFragment());
+        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
+        ViewPager vp = (ViewPager)findViewById(R.id.viewpager_main);
+        vp.setAdapter(adapter);*/
     }
     private void setDefaultFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
