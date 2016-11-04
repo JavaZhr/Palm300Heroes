@@ -10,106 +10,96 @@
         android:layout_height="74dp"
         android:background="@color/blue"
         android:layout_alignParentTop="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/heros"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
-            android:layout_centerInParent="true"
+        <LinearLayout
+            android:id="@+id/menubar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="@color/blue"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="14dp"
-            android:paddingTop="0dp"/>
+            android:layout_centerInParent="true"
+            tools:ignore="UselessParent">
+
+            <Button
+                android:id="@+id/all_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/all"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+            <Button
+                android:id="@+id/assassin_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/assassin"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+            <Button
+                android:id="@+id/warrior_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/warrior"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+            <Button
+                android:id="@+id/tank_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/tank"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/shooter_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/shooter"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/master_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/master"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/assist_heros"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:text="@string/assist"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/menubar"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:orientation="horizontal"
-        android:background="@color/blue"
-        android:layout_below="@id/heros_title"
-        tools:ignore="UselessParent">
-
-        <Button
-            android:id="@+id/all_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/all"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-        <Button
-            android:id="@+id/assassin_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/assassin"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-        <Button
-            android:id="@+id/warrior_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/warrior"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-        <Button
-            android:id="@+id/tank_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/tank"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-
-        <Button
-            android:id="@+id/shooter_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/shooter"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-
-        <Button
-            android:id="@+id/master_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/master"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-
-        <Button
-            android:id="@+id/assist_heros"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blue"
-            android:text="@string/assist"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/menubar">
+        android:layout_below="@id/heros_title">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
@@ -117,7 +107,6 @@
             android:layout_height="wrap_content"
             android:flipInterval="30"
             android:persistentDrawingCache="animation" />
-
     </RelativeLayout>
 
 </RelativeLayout>

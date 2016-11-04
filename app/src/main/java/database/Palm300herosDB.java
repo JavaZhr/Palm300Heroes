@@ -100,28 +100,15 @@ public class Palm300herosDB {
         return list;
     }
 
-
-    public static boolean isExistence(News news){
-        if (news != null && palm300herosDB != null) {
-            List<News> list = palm300herosDB.loadNews();
-            for (News news1 : list) {
-                if (news.getTitle().equals(news1.getTitle())) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return false;
-    }
-
-
     public void saveHeros(Heros heros) {
         if (heros != null) {
             ContentValues values = new ContentValues();
             values.put("hero_name", heros.getName());
             values.put("hero_type", heros.getType());
             values.put("hero_background", heros.getBackground());
-            values.put("hero_data", heros.getData());
+            values.put("hero_avatar_url", heros.getAvatarUrl());
+            values.put("hero_coins_price", heros.getCoinsPrice());
+            values.put("hero_diamond_price", heros.getDiamondPrice());
             db.insert("Heros", null, values);
         }else {
             LogUtil.d("saveHeros", "heros : null");
@@ -139,7 +126,9 @@ public class Palm300herosDB {
                 heros.setName(cursor.getString(cursor.getColumnIndex("hero_name")));
                 heros.setType(cursor.getString(cursor.getColumnIndex("hero_type")));
                 heros.setBackground(cursor.getString(cursor.getColumnIndex("hero_background")));
-                heros.setData(cursor.getString(cursor.getColumnIndex("hero_data")));
+                heros.setAvatarUrl(cursor.getString(cursor.getColumnIndex("hero_avatar_url")));
+                heros.setCoinsPrice(cursor.getString(cursor.getColumnIndex("hero_coins_price")));
+                heros.setDiamondPrice(cursor.getString(cursor.getColumnIndex("hero_diamond_price")));
                 list.add(heros);
             }while (cursor.moveToNext());
         }
@@ -246,5 +235,34 @@ public class Palm300herosDB {
             cursor.close();
         }
         return list;
+    }
+
+    public static boolean isExistence(Object object){
+        if (object instanceof News) {
+            News news = (News) object;
+            if (news != null && palm300herosDB != null) {
+                List<News> list = palm300herosDB.loadNews();
+                for (News news1 : list) {
+                    if (news.getTitle().equals(news1.getTitle())) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        if (object instanceof Heros) {
+            Heros heros = (Heros) object;
+            if (heros != null && palm300herosDB != null) {
+                List<Heros> list = palm300herosDB.loadHeros();
+                for (Heros heros1 : list) {
+                    if (heros.getName().equals(heros1.getName())) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
     }
 }

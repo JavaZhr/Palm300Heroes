@@ -31,8 +31,10 @@ public class Palm300HerosOpenHelper extends SQLiteOpenHelper {
             + "id integer primary key autoincrement, "
             + "hero_name text, "
             + "hero_type text, "
-            + "hero_background text,"
-            + "hero_data text )";
+            + "hero_background text, "
+            + "hero_avatar_url text, "
+            + "hero_coins_price text, "
+            + "hero_diamond_price text )";
 
     public static final String CREATE_SKILL = "create table Skill("
             + "id integer primary key autoincrement, "

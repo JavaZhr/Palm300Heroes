@@ -9,15 +9,21 @@ public class Heros {
     private String name;
     private String type;
     private String background;
+    private String avatarUrl;
+    private String coinsPrice;
+    private String diamondPrice;
     private String data;
 
     public Heros() {
     }
 
-    public Heros(String type, String name, String background, String data) {
-        this.type = type;
+    public Heros(String name, String type, String background, String avatarUrl, String heros_coins_price, String heros_diamond_prive, String data) {
         this.name = name;
+        this.type = type;
         this.background = background;
+        this.avatarUrl = avatarUrl;
+        this.coinsPrice = heros_coins_price;
+        this.diamondPrice = heros_diamond_prive;
         this.data = data;
     }
 
@@ -35,6 +41,14 @@ public class Heros {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getName() {
@@ -59,5 +73,21 @@ public class Heros {
 
     public void setBackground(String background) {
         this.background = background;
+    }
+
+    public String getCoinsPrice() {
+        return coinsPrice;
+    }
+
+    public void setCoinsPrice(String coinsPrice) {
+        this.coinsPrice = coinsPrice;
+    }
+
+    public String getDiamondPrice() {
+        return diamondPrice;
+    }
+
+    public void setDiamondPrice(String diamondPrice) {
+        this.diamondPrice = diamondPrice;
     }
 }

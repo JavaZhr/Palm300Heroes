@@ -16,7 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import activity.WebViewActivity;
+import activity.NewsWebViewActivity;
 import adapter.NewsAdapter;
 import cn.nicolite.palm300heros.R;
 import database.Palm300herosDB;
@@ -68,7 +68,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedNews = newsList.get(position);
                 String content = selectedNews.getContent();
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                Intent intent = new Intent(getActivity(), NewsWebViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("content", content);
                 intent.putExtras(bundle);
@@ -76,7 +76,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         });
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.news_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -93,7 +93,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 Utilty.handleNewsResponse(palm300herosDB, response);
                 queryNews();
             }
-
             @Override
             public void onError(Exception e) {
                 LogUtil.d("initNewDate", "返回数据错误");

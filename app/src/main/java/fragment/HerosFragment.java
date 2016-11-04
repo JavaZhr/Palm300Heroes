@@ -21,7 +21,7 @@ import cn.nicolite.palm300heros.R;
  * Created by NICOLITE on 2016/10/11 0011.
  */
 
-public class HerosFragment extends Fragment implements View.OnClickListener{
+public class HerosFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
     private Button buttonAll;
     private Button buttonAssassin;
     private Button buttonWarrior;
@@ -29,8 +29,9 @@ public class HerosFragment extends Fragment implements View.OnClickListener{
     private Button buttonShooter;
     private Button buttonMaster;
     private Button buttonAssist;
-
     private ViewPager viewPager;
+
+    private int selectedPositon; //记录Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,76 +64,49 @@ public class HerosFragment extends Fragment implements View.OnClickListener{
         viewPager.setAdapter(adapter);
         //默认选择第一个，改变第一个fragment的状态
         buttonAll.setTextColor(getResources().getColor(R.color.orange));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                resetButtonColor();
-                switch (position) {
-                    case 0 :
-                        buttonAll.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    case 1 :
-                        buttonAssassin.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    case 2 :
-                        buttonWarrior.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    case 3 :
-                        buttonTank.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    case 4 :
-                        buttonShooter.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    case 5 :
-                        buttonMaster.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    case 6 :
-                        buttonAssist.setTextColor(getResources().getColor(R.color.orange));
-                        break;
-                    default: break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        viewPager.addOnPageChangeListener(this);
         return view;
     }
 
+    /**
+     * 按钮点击监听器
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         resetButtonColor();
         switch (v.getId()) {
             case R.id.all_heros :
                 buttonAll.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 0;
                 break;
             case R.id.assassin_heros :
                 buttonAssassin.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 1;
                 break;
             case R.id.warrior_heros :
                 buttonWarrior.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 2;
                 break;
             case R.id.tank_heros :
                 buttonTank.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 3;
                 break;
             case R.id.shooter_heros :
                 buttonShooter.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 4;
                 break;
             case R.id.master_heros :
                 buttonMaster.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 5;
                 break;
             case R.id.assist_heros :
                 buttonAssist.setTextColor(getResources().getColor(R.color.orange));
+                selectedPositon = 6;
                 break;
             default: break;
         }
+        viewPager.setCurrentItem(selectedPositon);
     }
 
     private void resetButtonColor() {
@@ -143,5 +117,51 @@ public class HerosFragment extends Fragment implements View.OnClickListener{
         buttonShooter.setTextColor(getResources().getColor(R.color.white));
         buttonMaster.setTextColor(getResources().getColor(R.color.white));
         buttonAssist.setTextColor(getResources().getColor(R.color.white));
+    }
+
+    /**
+     * viewPager活动监听
+     * @param position
+     * @param positionOffset
+     * @param positionOffsetPixels
+     */
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        resetButtonColor();
+        switch (position) {
+            case 0:
+                buttonAll.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            case 1:
+                buttonAssassin.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            case 2:
+                buttonWarrior.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            case 3:
+                buttonTank.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            case 4:
+                buttonShooter.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            case 5:
+                buttonMaster.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            case 6:
+                buttonAssist.setTextColor(getResources().getColor(R.color.orange));
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

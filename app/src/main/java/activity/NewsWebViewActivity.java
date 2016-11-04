@@ -18,7 +18,7 @@ import utilty.LogUtil;
  * Created by NICOLITE on 2016/10/15 0015.
  */
 
-public class WebViewActivity extends AppCompatActivity {
+public class NewsWebViewActivity extends AppCompatActivity {
     private WebView webView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class WebViewActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        actionBar.setTitle("资讯详情");
+        //actionBar.setTitle("资讯详情");
         setContentView(R.layout.webview);
 
         webView = (WebView) findViewById(R.id.webview);
@@ -55,7 +55,7 @@ public class WebViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String content = bundle.getString("content");
-        LogUtil.d("WebViewActivity", content);
+        LogUtil.d("NewsWebViewActivity", content);
         String head = "<head><style>img{max-width: 100%; width: auto; height: auto; }</style></head>";
         String html = "<html>" + head + "<body>" + content + "</body>" + "</html>";
         return html;

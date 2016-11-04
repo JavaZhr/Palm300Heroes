@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="DisableBaselineAlignment">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_weight="2">
+        <ImageView
+            android:id="@+id/heros_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_alignParentStart="true"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_weight="5">
+        <TextView
+            android:id="@+id/heros_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="15sp"
+            android:textColor="@color/dark"
+            android:padding="1dp"/>
+        <TextView
+            android:id="@+id/heros_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/heros_name"
+            android:textSize="13sp"
+            android:textColor="@color/dark"
+            android:padding="1dp"/>
+        <TextView
+            android:id="@+id/heros_coins_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/heros_type"
+            android:textSize="13sp"
+            android:textColor="@color/dark"
+            android:padding="1dp"/>
+        <TextView
+            android:id="@+id/heros_diamond_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/heros_coins_price"
+            android:textSize="13sp"
+            android:textColor="@color/dark"
+            android:padding="1dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/heros_detail_pic"
+            android:layout_centerInParent="true"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+</LinearLayout>

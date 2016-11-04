@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         if (newsFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
             newsFragment = new NewsFragment();
-            actionBar.setTitle("资讯");
+            //actionBar.setTitle("资讯");
             transaction.add(R.id.content, newsFragment);
         }else {
                     /*如果不为空，则直接显示出来*/
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 0 :
                 /*点击资讯*/
                 LogUtil.d("BottomNavigationBar", "点击了资讯");
-                actionBar.setTitle("资讯");
+                //actionBar.setTitle("资讯");
                 if (newsFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
                     newsFragment = new NewsFragment();
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 1 :
                 /*点击英雄*/
                 LogUtil.d("BottomNavigationBar", "点击了英雄");
-                actionBar.setTitle("英雄");
+               // actionBar.setTitle("英雄");
                 if (herosFragment == null) {
                     //如果HerosFragment为空，则创建一个*/
                     herosFragment = new HerosFragment();
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 2 :
                 /*点击装备*/
                 LogUtil.d("BottomNavigationBar", "点击了装备");
-                actionBar.setTitle("装备");
+                //actionBar.setTitle("装备");
                 if (equipmentFragment == null) {
                     /*如果EquipmentFragment为空，则创建一个*/
                     equipmentFragment = new EquipmentFragment();
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             case 3 :
                 /*点击游戏*/
                 LogUtil.d("BottomNavigationBar", "点击了游戏");
-                actionBar.setTitle("游戏");
+                //actionBar.setTitle("游戏");
                 if (gameFragment == null) {
                    /*如果GameFragment为空，则创建一个*/
                     gameFragment = new GameFragment();

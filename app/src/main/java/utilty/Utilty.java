@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import database.Palm300herosDB;
+import model.Heros;
 import model.News;
 
 /**
@@ -84,6 +85,52 @@ public class Utilty {
         return true;
     }
 
+
+    public synchronized static boolean handleHerosResponse(Palm300herosDB palm300herosDB, String response) {
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                LogUtil.d("handleHerosResponse", "Hero staus : " + status);
+                int count = jsonObject.getInt("count");
+
+                JSONArray info = jsonObject.getJSONArray("info");
+
+                for (int i = 0; i < info.length(); i++) {
+                    JSONObject heroInfo = info.getJSONObject(i);
+
+                    String heroName = heroInfo.getString("heroName");
+                    String heroType = heroInfo.getString("heroType");
+                    String background = heroInfo.getString("background");
+                    String avatarUrl = heroInfo.getString("avatarUrl");
+                    String coinsPrice = heroInfo.getString("coinsPrice");
+                    String diamondPrice = heroInfo.getString("diamondPrice");
+
+                    Heros heros = new Heros();
+                    heros.setName(heroName);
+                    heros.setType(heroType);
+                    heros.setBackground(background);
+                    heros.setAvatarUrl(avatarUrl);
+                    heros.setCoinsPrice(coinsPrice);
+                    heros.setDiamondPrice(diamondPrice);
+                    LogUtil.d("handleHerosResponse", "HeroName : " + heros.getName());
+                    LogUtil.d("handleHerosResponse", "AvatarUrl : " + heros.getAvatarUrl());
+                    if (!palm300herosDB.isExistence(heros)) {
+                        palm300herosDB.saveHeros(heros);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 按时间排序
+     */
     public static Date stringToDate(String date) {
         ParsePosition position = new ParsePosition(0);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -106,4 +153,5 @@ public class Utilty {
         });
         return newList;
     }
+
 }
