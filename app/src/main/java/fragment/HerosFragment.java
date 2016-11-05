@@ -1,5 +1,6 @@
 package fragment;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,8 +31,8 @@ public class HerosFragment extends Fragment implements View.OnClickListener, Vie
     private Button buttonMaster;
     private Button buttonAssist;
     private ViewPager viewPager;
-
     private int selectedPositon; //记录Fragment
+    private FloatingActionButton floatingActionButton;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +66,9 @@ public class HerosFragment extends Fragment implements View.OnClickListener, Vie
         //默认选择第一个，改变第一个fragment的状态
         buttonAll.setTextColor(getResources().getColor(R.color.orange));
         viewPager.addOnPageChangeListener(this);
+
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.heros_floating_action_button);
+        floatingActionButton.setOnClickListener(this);
         return view;
     }
 
@@ -103,6 +107,8 @@ public class HerosFragment extends Fragment implements View.OnClickListener, Vie
             case R.id.assist_heros :
                 buttonAssist.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 6;
+                break;
+            case R.id.heros_floating_action_button :
                 break;
             default: break;
         }

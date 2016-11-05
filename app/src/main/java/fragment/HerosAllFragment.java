@@ -1,6 +1,9 @@
 package fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import activity.HerosDetailActivity;
 import adapter.RecyclerViewAdapter;
 import cn.nicolite.palm300heros.R;
 import database.Palm300herosDB;
@@ -36,8 +40,21 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private RecyclerViewAdapter recycleAdapter;
+    private static final int REFRESH_COMPLETE_TIME = 2000;
     private List<Heros> dataList = new ArrayList<>() ;
     private final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0 :
+                    swipeRefreshLayout.setRefreshing(false);
+                    break;
+                default:break;
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,6 +87,12 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+                    }
+                }).start();
                 //重新获取数据
                 //获取完成swipeRefreshLayout.setRefreshing(false);
             }
@@ -80,8 +103,13 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recycleAdapter.getItemCount()) {
-                    swipeRefreshLayout.setRefreshing(true);
-                    swipeRefreshLayout.setRefreshing(false);
+                    //swipeRefreshLayout.setRefreshing(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    }).start();
                     //分页获取数据
                     //获取完成swipeRefreshLayout.setRefreshing(false);
                 }
@@ -115,5 +143,8 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(getActivity(), "点击了 " + dataList.get(position).getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), HerosDetailActivity.class);
+        intent.putExtra("heros_data", dataList.get(position));
+        getActivity().startActivity(intent);
     }
 }

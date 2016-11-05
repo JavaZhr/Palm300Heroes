@@ -69,9 +69,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 selectedNews = newsList.get(position);
                 String content = selectedNews.getContent();
                 Intent intent = new Intent(getActivity(), NewsWebViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("content", content);
-                intent.putExtras(bundle);
+                intent.putExtra("content", content);
                 getActivity().startActivity(intent);
             }
         });

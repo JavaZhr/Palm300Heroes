@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Created by NICOLITE on 2016/10/26 0026.
  */
 
-public class Heros {
+public class Heros implements Serializable{
     private int id;
     private String name;
     private String type;
@@ -12,27 +14,17 @@ public class Heros {
     private String avatarUrl;
     private String coinsPrice;
     private String diamondPrice;
-    private String data;
 
     public Heros() {
     }
 
-    public Heros(String name, String type, String background, String avatarUrl, String heros_coins_price, String heros_diamond_prive, String data) {
+    public Heros(String name, String type, String background, String avatarUrl, String heros_coins_price, String heros_diamond_prive) {
         this.name = name;
         this.type = type;
         this.background = background;
         this.avatarUrl = avatarUrl;
         this.coinsPrice = heros_coins_price;
         this.diamondPrice = heros_diamond_prive;
-        this.data = data;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     public int getId() {

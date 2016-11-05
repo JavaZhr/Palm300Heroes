@@ -4,6 +4,9 @@ package activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
@@ -53,11 +56,11 @@ public class NewsWebViewActivity extends AppCompatActivity {
 
     private String getHtmlDate() {
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        String content = bundle.getString("content");
+        String content = intent.getStringExtra("content");
         LogUtil.d("NewsWebViewActivity", content);
         String head = "<head><style>img{max-width: 100%; width: auto; height: auto; }</style></head>";
         String html = "<html>" + head + "<body>" + content + "</body>" + "</html>";
         return html;
     }
+
 }
