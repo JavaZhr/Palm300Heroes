@@ -1,69 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:id="@+id/heros_detail_title"
-        android:layout_width="match_parent"
-        android:layout_height="74dp"
-        android:background="@color/blue"
-        android:layout_alignParentTop="true">
-        <TextView
-            android:id="@+id/heros_detail_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:text="英雄"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="14dp"
-            android:paddingTop="0dp"
-            android:paddingStart="14dp"
-            android:paddingEnd="0dp"/>
-
-        <TextView
-            android:id="@+id/heros_detail_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:text="法师"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="14dp"
-            android:paddingTop="0dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="14dp"
-            tools:ignore="RelativeOverlap" />
-    </RelativeLayout>
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/heros_swipe_refresh_layout"
+        android:id="@+id/heroes_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/heros_detail_title">
+        android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="0dp"
                 android:orientation="vertical">
                 <RelativeLayout
-                    android:id="@+id/heros_image_info"
+                    android:id="@+id/heroes_image_info"
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
                     <ImageView
-                        android:id="@+id/heros_pic"
+                        android:id="@+id/heroes_pic"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         android:src="@drawable/splash"
-                        android:scaleType="centerCrop"
-                        tools:ignore="ContentDescription" />
+                        android:scaleType="centerCrop" />
                 </RelativeLayout>
 
                 <!-- 分割线 -->
@@ -73,7 +34,7 @@
                     android:background="@color/white"/>
 
                 <LinearLayout
-                    android:id="@+id/heros_data_info"
+                    android:id="@+id/heroes_data_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -86,7 +47,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/heros_health_value"
+                            android:id="@+id/heroes_health_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -99,7 +60,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_magic_point_value"
+                            android:id="@+id/heroes_magic_point_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -112,7 +73,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_physical_attack_value"
+                            android:id="@+id/heroes_physical_attack_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -125,7 +86,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_magic_attack_value"
+                            android:id="@+id/heroes_magic_attack_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -138,7 +99,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_physical_defense_value"
+                            android:id="@+id/heroes_physical_defense_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -151,7 +112,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
                         <TextView
-                            android:id="@+id/heros_magic_defense_value"
+                            android:id="@+id/heroes_magic_defense_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -164,7 +125,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_crit_value"
+                            android:id="@+id/heroes_crit_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -177,7 +138,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_attack_speed_value"
+                            android:id="@+id/heroes_attack_speed_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -190,7 +151,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_attack_range_value"
+                            android:id="@+id/heroes_attack_range_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -203,7 +164,7 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/heros_movement_speed_value"
+                            android:id="@+id/heroes_movement_speed_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:textSize="16sp"
@@ -222,11 +183,11 @@
                     android:background="@drawable/widget_shape">
 
                     <TextView
+                        android:id="@+id/heroes_background"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="背景"
-                        android:textSize="16sp"
-                        android:id="@+id/textView" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <!-- 分割线 -->
@@ -234,80 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:background="@color/white"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/widget_shape">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="技能"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true" />
-                </RelativeLayout>
-
-                <!-- 分割线 -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="@color/white"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="85dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:src="@drawable/splash"
-                            android:scaleType="centerCrop" />
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentStart="true"
-                                android:textSize="18sp"
-                                android:paddingTop="14dp"
-                                android:paddingBottom="0dp"
-                                android:paddingStart="14dp"
-                                android:paddingEnd="0dp"
-                                android:text="被动"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentEnd="true"
-                                android:paddingBottom="14dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="快捷键"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="冷却时间"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="技能消耗"/>
-                            </LinearLayout>
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
-
-</RelativeLayout>
+</LinearLayout>

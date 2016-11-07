@@ -1,4 +1,4 @@
-package cn.nicolite.palm300heros;
+package cn.nicolite.palm300heroes;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +19,7 @@ import java.util.List;
 import adapter.FragAdapter;
 import fragment.EquipmentFragment;
 import fragment.GameFragment;
-import fragment.HerosFragment;
+import fragment.HeroesFragment;
 import fragment.NewsFragment;
 import utilty.LogUtil;
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     /*Fragment类*/
     private NewsFragment newsFragment;
-    private HerosFragment herosFragment;
+    private HeroesFragment heroesFragment;
     private EquipmentFragment equipmentFragment;
     private GameFragment gameFragment;
     private ActionBar actionBar;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
       /* List<Fragment> fragments=new ArrayList<Fragment>();
         fragments.add(new NewsFragment());
-        fragments.add(new HerosFragment());
+        fragments.add(new HeroesFragment());
         fragments.add(new GameFragment());
         fragments.add(new EquipmentFragment());
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
@@ -109,13 +109,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 /*点击英雄*/
                 LogUtil.d("BottomNavigationBar", "点击了英雄");
                // actionBar.setTitle("英雄");
-                if (herosFragment == null) {
-                    //如果HerosFragment为空，则创建一个*/
-                    herosFragment = new HerosFragment();
-                    transaction.add(R.id.content, herosFragment);
+                if (heroesFragment == null) {
+                    //如果HeroesFragment为空，则创建一个*/
+                    heroesFragment = new HeroesFragment();
+                    transaction.add(R.id.content, heroesFragment);
                 }else {
                      /*如果不为空，则直接显示出来*/
-                    transaction.show(herosFragment);
+                    transaction.show(heroesFragment);
                 }
                 break;
             case 2 :
@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
        if (newsFragment != null) {
             transaction.hide(newsFragment);
         }
-        if (herosFragment != null) {
-            transaction.hide(herosFragment);
+        if (heroesFragment != null) {
+            transaction.hide(heroesFragment);
         }
         if (equipmentFragment != null) {
             transaction.hide(equipmentFragment);

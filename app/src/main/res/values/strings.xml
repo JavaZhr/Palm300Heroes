@@ -4,7 +4,7 @@
 
     <!--功能标题 -->
     <string name="news">资讯</string>
-    <string name="heros">英雄</string>
+    <string name="heroes">英雄</string>
     <string name="equipment">装备</string>
     <string name="game">游戏</string>
     <string name="setting">设置</string>
@@ -18,4 +18,9 @@
     <string name="master">法师</string>
     <string name="assist">辅助</string>
 
+    <!-- 英雄详情Tab导航-->
+    <string name="data">数据</string>
+    <string name="skill">技能</string>
+    <string name="skin">皮肤</string>
+    <string name="sound">配音</string>
 </resources>

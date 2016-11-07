@@ -9,14 +9,6 @@ public class Skin {
     private String hero;
     private String url;
 
-    public Skin() {
-    }
-
-    public Skin(String hero, String url) {
-        this.hero = hero;
-        this.url = url;
-    }
-
     public int getId() {
         return id;
     }

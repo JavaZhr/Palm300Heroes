@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/heros_fragment">
+    android:id="@+id/heroes_fragment">
 
     <RelativeLayout
-        android:id="@+id/heros_title"
+        android:id="@+id/heroes_title"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
+        android:layout_height="76dp"
         android:background="@color/blue"
         android:layout_alignParentTop="true">
         <LinearLayout
@@ -23,7 +23,7 @@
             tools:ignore="UselessParent">
 
             <Button
-                android:id="@+id/all_heros"
+                android:id="@+id/all_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -33,7 +33,7 @@
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
             <Button
-                android:id="@+id/assassin_heros"
+                android:id="@+id/assassin_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -43,7 +43,7 @@
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
             <Button
-                android:id="@+id/warrior_heros"
+                android:id="@+id/warrior_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -53,7 +53,7 @@
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
             <Button
-                android:id="@+id/tank_heros"
+                android:id="@+id/tank_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/shooter_heros"
+                android:id="@+id/shooter_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -75,7 +75,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/master_heros"
+                android:id="@+id/master_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -86,7 +86,7 @@
                 tools:ignore="ButtonStyle" />
 
             <Button
-                android:id="@+id/assist_heros"
+                android:id="@+id/assist_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -99,26 +99,27 @@
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/heros_floating_action_button"
+        android:id="@+id/heroes_floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_location_on_white_24dp"
         app:fabSize="normal"
-        android:alpha="0.85"
+        android:alpha="0.1"
+        app:backgroundTint="@color/dark"
         app:borderWidth="0dp"
         app:rippleColor="#33728dff"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="15dp"/>
+        android:layout_marginEnd="10dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/heros_title">
+        android:layout_below="@id/heroes_title">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+            android:id="@+id/heroes_viewpager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:flipInterval="30"

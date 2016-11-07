@@ -9,20 +9,37 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
-import cn.nicolite.palm300heros.R;
+import cn.nicolite.palm300heroes.R;
 import utilty.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/10/15 0015.
  */
 
-public class NewsWebViewActivity extends AppCompatActivity {
+public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
     private WebView webView;
+    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private static final int REFRESH_COMPLETE_TIME = 2000;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0 :
+                    swipeRefreshLayout.setRefreshing(false);
+                    webView.loadDataWithBaseURL(null, getHtmlDate(), "text/html", "utf-8", null);
+                    break;
+                default:break;
+            }
+        }
+    };
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +56,31 @@ public class NewsWebViewActivity extends AppCompatActivity {
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         //actionBar.setTitle("资讯详情");
-        setContentView(R.layout.webview);
+        setContentView(R.layout.news_webview);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.news_webview_swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        progressBar = (ProgressBar) findViewById(R.id.news_webview_progressbar);
 
         webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient());
+        //webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                }else {
+                    if (View.GONE == progressBar.getVisibility()) {
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                    progressBar.setProgress(newProgress);
+                }
+                super.onProgressChanged(view, newProgress);
+            }
+        });
         webView.loadDataWithBaseURL(null, getHtmlDate(), "text/html", "utf-8", null);
     }
 
@@ -63,4 +99,14 @@ public class NewsWebViewActivity extends AppCompatActivity {
         return html;
     }
 
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+            }
+        }).start();
+    }
 }

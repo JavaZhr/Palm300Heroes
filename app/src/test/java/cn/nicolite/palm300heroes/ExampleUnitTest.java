@@ -1,4 +1,4 @@
-package cn.nicolite.palm300heros;
+package cn.nicolite.palm300heroes;
 
 import org.junit.Test;
 

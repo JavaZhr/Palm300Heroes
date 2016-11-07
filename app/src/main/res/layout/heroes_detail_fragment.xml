@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/heros_swipe_refresh_layout"
+            android:id="@+id/heroes_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/heros_detail_recyclerview"
+                android:id="@+id/heroes_detail_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>

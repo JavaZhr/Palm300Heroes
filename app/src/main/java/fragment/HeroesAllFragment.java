@@ -14,16 +14,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import activity.HerosDetailActivity;
+import activity.HeroesDetailActivity;
 import adapter.RecyclerViewAdapter;
-import cn.nicolite.palm300heros.R;
-import database.Palm300herosDB;
-import model.Heros;
+import cn.nicolite.palm300heroes.R;
+import database.Palm300heroesDB;
+import model.Heroes;
 import myInterface.HttpCallbackListener;
 import other.DividerItemDecoration;
 import utilty.HttpUtil;
@@ -34,14 +33,14 @@ import utilty.Utilty;
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
+public class HeroesAllFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Palm300herosDB palm300herosDB;
+    private Palm300heroesDB palm300heroesDB;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private RecyclerViewAdapter recycleAdapter;
     private static final int REFRESH_COMPLETE_TIME = 2000;
-    private List<Heros> dataList = new ArrayList<>() ;
+    private List<Heroes> dataList = new ArrayList<>() ;
     private final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
 
     private Handler handler = new Handler() {
@@ -58,13 +57,13 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.heros_detail_fragment, container, false);
+        View view = inflater.inflate(R.layout.heroes_detail_fragment, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.heros_detail_recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recyclerview);
 
-        initHerosData();
+        initHeroesData();
 
-        dataList = palm300herosDB.loadHeros();
+        dataList = palm300heroesDB.loadHeroes();
 
         recycleAdapter = new RecyclerViewAdapter(getActivity(), dataList);
 
@@ -82,7 +81,7 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.heros_swipe_refresh_layout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.heroes_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -125,26 +124,25 @@ public class HerosAllFragment extends Fragment implements RecyclerViewAdapter.On
         return view;
     }
 
-    private void initHerosData() {
-        palm300herosDB = Palm300herosDB.getInstance(getActivity());
+    private void initHeroesData() {
+        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                Utilty.handleHerosResponse(palm300herosDB, response);
+                Utilty.handleHeroesResponse(palm300heroesDB, response);
             }
 
             @Override
             public void onError(Exception e) {
-                LogUtil.d("initHerosData", "返回数据错误");
+                LogUtil.d("initHeroesData", "返回数据错误");
             }
         });
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "点击了 " + dataList.get(position).getName(), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity(), HerosDetailActivity.class);
-        intent.putExtra("heros_data", dataList.get(position));
+        Intent intent = new Intent(getActivity(), HeroesDetailActivity.class);
+        intent.putExtra("heroes_data", dataList.get(position));
         getActivity().startActivity(intent);
     }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FragAdapter;
-import cn.nicolite.palm300heros.R;
+import cn.nicolite.palm300heroes.R;
 
 
 
@@ -22,7 +22,7 @@ import cn.nicolite.palm300heros.R;
  * Created by NICOLITE on 2016/10/11 0011.
  */
 
-public class HerosFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
+public class HeroesFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
     private Button buttonAll;
     private Button buttonAssassin;
     private Button buttonWarrior;
@@ -36,14 +36,14 @@ public class HerosFragment extends Fragment implements View.OnClickListener, Vie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.heros_fragment, container, false);
-        buttonAll = (Button) view.findViewById(R.id.all_heros);
-        buttonAssassin = (Button) view.findViewById(R.id.assassin_heros);
-        buttonWarrior = (Button) view.findViewById(R.id.warrior_heros);
-        buttonTank = (Button) view.findViewById(R.id.tank_heros);
-        buttonShooter = (Button) view.findViewById(R.id.shooter_heros);
-        buttonMaster = (Button) view.findViewById(R.id.master_heros);
-        buttonAssist = (Button) view.findViewById(R.id.assist_heros);
+        View view = inflater.inflate(R.layout.heroes_fragment, container, false);
+        buttonAll = (Button) view.findViewById(R.id.all_heroes);
+        buttonAssassin = (Button) view.findViewById(R.id.assassin_heroes);
+        buttonWarrior = (Button) view.findViewById(R.id.warrior_heroes);
+        buttonTank = (Button) view.findViewById(R.id.tank_heroes);
+        buttonShooter = (Button) view.findViewById(R.id.shooter_heroes);
+        buttonMaster = (Button) view.findViewById(R.id.master_heroes);
+        buttonAssist = (Button) view.findViewById(R.id.assist_heroes);
 
         buttonAll.setOnClickListener(this);
         buttonAssassin.setOnClickListener(this);
@@ -53,21 +53,21 @@ public class HerosFragment extends Fragment implements View.OnClickListener, Vie
         buttonMaster.setOnClickListener(this);
         buttonAssist.setOnClickListener(this);
        List<Fragment> fragments=new ArrayList<Fragment>();
-        fragments.add(new HerosAllFragment());
-        fragments.add(new HerosAssassinFragment());
-        fragments.add(new HerosWarriorFragment());
-        fragments.add(new HerosTankFrament());
-        fragments.add(new HerosShooterFragment());
-        fragments.add(new HerosMasterFragment());
-        fragments.add(new HerosAssistFragment());
+        fragments.add(new HeroesAllFragment());
+        fragments.add(new HeroesAssassinFragment());
+        fragments.add(new HeroesWarriorFragment());
+        fragments.add(new HeroesTankFrament());
+        fragments.add(new HeroesShooterFragment());
+        fragments.add(new HeroesMasterFragment());
+        fragments.add(new HeroesAssistFragment());
         FragAdapter adapter = new FragAdapter(getChildFragmentManager(), fragments);
-        viewPager = (ViewPager)view.findViewById(R.id.viewpager);
+        viewPager = (ViewPager)view.findViewById(R.id.heroes_viewpager);
         viewPager.setAdapter(adapter);
         //默认选择第一个，改变第一个fragment的状态
         buttonAll.setTextColor(getResources().getColor(R.color.orange));
         viewPager.addOnPageChangeListener(this);
 
-        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.heros_floating_action_button);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.heroes_floating_action_button);
         floatingActionButton.setOnClickListener(this);
         return view;
     }
@@ -80,35 +80,35 @@ public class HerosFragment extends Fragment implements View.OnClickListener, Vie
     public void onClick(View v) {
         resetButtonColor();
         switch (v.getId()) {
-            case R.id.all_heros :
+            case R.id.all_heroes :
                 buttonAll.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 0;
                 break;
-            case R.id.assassin_heros :
+            case R.id.assassin_heroes :
                 buttonAssassin.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 1;
                 break;
-            case R.id.warrior_heros :
+            case R.id.warrior_heroes :
                 buttonWarrior.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 2;
                 break;
-            case R.id.tank_heros :
+            case R.id.tank_heroes :
                 buttonTank.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 3;
                 break;
-            case R.id.shooter_heros :
+            case R.id.shooter_heroes :
                 buttonShooter.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 4;
                 break;
-            case R.id.master_heros :
+            case R.id.master_heroes :
                 buttonMaster.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 5;
                 break;
-            case R.id.assist_heros :
+            case R.id.assist_heroes :
                 buttonAssist.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 6;
                 break;
-            case R.id.heros_floating_action_button :
+            case R.id.heroes_floating_action_button :
                 break;
             default: break;
         }

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by NICOLITE on 2016/10/17 0017.
  */
 
-public class Palm300HerosOpenHelper extends SQLiteOpenHelper {
+public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
 
     /**
      * 用于资讯功能
@@ -27,14 +27,24 @@ public class Palm300HerosOpenHelper extends SQLiteOpenHelper {
     /**
      * 以下4个用于英雄功能
      */
-    public static final String CREATE_HEROS = "create table Heros("
+    public static final String CREATE_HEROES = "create table Heroes("
             + "id integer primary key autoincrement, "
             + "hero_name text, "
             + "hero_type text, "
             + "hero_background text, "
             + "hero_avatar_url text, "
             + "hero_coins_price text, "
-            + "hero_diamond_price text )";
+            + "hero_diamond_price text,"
+            + "hero_health_value text, "
+            + "hero_magic_point_value text, "
+            + "hero_physical_attack_value text, "
+            + "hero_magic_attack_value text, "
+            + "hero_physical_defense_value text, "
+            + "hero_magic_defense_value text, "
+            + "hero_crit_value text, "
+            + "hero_attack_speed_value text, "
+            + "hero_attack_range_value text, "
+            + "hero_movement_speed_value text )";
 
     public static final String CREATE_SKILL = "create table Skill("
             + "id integer primary key autoincrement, "
@@ -55,7 +65,7 @@ public class Palm300HerosOpenHelper extends SQLiteOpenHelper {
             + "sound_hero text, "
             + "sound_url text )";
 
-    public Palm300HerosOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public Palm300HeroesOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
@@ -64,7 +74,7 @@ public class Palm300HerosOpenHelper extends SQLiteOpenHelper {
         /*建立资讯数据表*/
         db.execSQL(CREATE_NEWS);  //资讯
         /*建立英雄相关数据表*/
-        db.execSQL(CREATE_HEROS); //英雄
+        db.execSQL(CREATE_HEROES); //英雄
         db.execSQL(CREATE_SKILL); //技能
         db.execSQL(CREATE_SKIN); //皮肤
         db.execSQL(CREATE_SOUND); //配音

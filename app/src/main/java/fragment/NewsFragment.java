@@ -18,8 +18,8 @@ import java.util.List;
 
 import activity.NewsWebViewActivity;
 import adapter.NewsAdapter;
-import cn.nicolite.palm300heros.R;
-import database.Palm300herosDB;
+import cn.nicolite.palm300heroes.R;
+import database.Palm300heroesDB;
 import model.News;
 import myInterface.HttpCallbackListener;
 import utilty.HttpUtil;
@@ -37,10 +37,10 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private News selectedNews;
     private ListView listView;
     private NewsAdapter adapter;
-    private Palm300herosDB palm300herosDB;
+    private Palm300heroesDB palm300heroesDB;
     private SwipeRefreshLayout swipeRefreshLayout = null;
     private static final int REFRESH_COMPLETE_TIME = 2000;
-    private static final String ADDRESS = "http://nicolite.cn/api/get_category_posts/?slug=300heros";
+    private static final String ADDRESS = "http://nicolite.cn/api/get_category_posts/?slug=300heroes";
 
     private Handler handler = new Handler(){
         @Override
@@ -84,11 +84,11 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     /*初始化资讯数据*/
     private void initNewsDate() {
-        palm300herosDB = Palm300herosDB.getInstance(getActivity());
+        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                Utilty.handleNewsResponse(palm300herosDB, response);
+                Utilty.handleNewsResponse(palm300heroesDB, response);
                 queryNews();
             }
             @Override
@@ -100,7 +100,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void queryNews(){
-        newsList = palm300herosDB.loadNews();
+        newsList = palm300heroesDB.loadNews();
         Utilty.sortByDate(newsList);
         if (newsList.size() > 0 && dataList.size() > 0) {
             for (News news : newsList) {

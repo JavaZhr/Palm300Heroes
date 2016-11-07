@@ -7,14 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import cn.nicolite.palm300heros.R;
-import model.Heros;
+import cn.nicolite.palm300heroes.R;
+import model.Heroes;
 import utilty.LogUtil;
 
 /**
@@ -23,56 +22,56 @@ import utilty.LogUtil;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<Heros> dataList;
+    private List<Heroes> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
 
-    public RecyclerViewAdapter(Context context,List<Heros> dataList) {
+    public RecyclerViewAdapter(Context context,List<Heroes> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView herosAvatar;
-        private TextView herosName;
-        private TextView herosType;
-        private TextView herosCoinsPrice;
-        private TextView herosDiamondPrice;
+        private ImageView heroesAvatar;
+        private TextView heroesName;
+        private TextView heroesType;
+        private TextView heroesCoinsPrice;
+        private TextView heroesDiamondPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            herosAvatar = (ImageView) itemView.findViewById(R.id.heros_avatar);
-            herosName = (TextView) itemView.findViewById(R.id.heros_name);
-            herosType = (TextView) itemView.findViewById(R.id.heros_type);
-            herosCoinsPrice = (TextView) itemView.findViewById(R.id.heros_coins_price);
-            herosDiamondPrice = (TextView) itemView.findViewById(R.id.heros_diamond_price);
+            heroesAvatar = (ImageView) itemView.findViewById(R.id.heroes_avatar);
+            heroesName = (TextView) itemView.findViewById(R.id.heroes_name);
+            heroesType = (TextView) itemView.findViewById(R.id.heroes_type);
+            heroesCoinsPrice = (TextView) itemView.findViewById(R.id.heroes_coins_price);
+            heroesDiamondPrice = (TextView) itemView.findViewById(R.id.heroes_diamond_price);
         }
 
-        public ImageView getHerosAvatar() {
-            return herosAvatar;
+        public ImageView getHeroesAvatar() {
+            return heroesAvatar;
         }
 
-        public TextView getHerosName() {
-            return herosName;
+        public TextView getHeroesName() {
+            return heroesName;
         }
 
-        public TextView getHerosType() {
-            return herosType;
+        public TextView getHeroesType() {
+            return heroesType;
         }
 
-        public TextView getHerosCoinsPrice() {
-            return herosCoinsPrice;
+        public TextView getHeroesCoinsPrice() {
+            return heroesCoinsPrice;
         }
 
-        public TextView getHerosDiamondPrice() {
-            return herosDiamondPrice;
+        public TextView getHeroesDiamondPrice() {
+            return heroesDiamondPrice;
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.heros_recyclerview_layout, parent, false);
+        View view = inflater.inflate(R.layout.heroes_recyclerview_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -81,21 +80,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         final ViewHolder viewHolder = (ViewHolder) holder;
-        Heros heros = dataList.get(position);
-        LogUtil.d("onBindViewHolder", "HerosDName : " + heros.getName());
+        Heroes heroes = dataList.get(position);
+        LogUtil.d("onBindViewHolder", "HeroesDName : " + heroes.getName());
         LogUtil.d("onBindViewHolder", "avatarUrl : " + dataList.get(position).getAvatarUrl());
         Glide
                 .with(context)
-                .load(heros.getAvatarUrl())
+                .load(heroes.getAvatarUrl())
                 .thumbnail(0.1f)
                 .skipMemoryCache(true)
                 .dontAnimate()
-                .into(viewHolder.getHerosAvatar());
+                .into(viewHolder.getHeroesAvatar());
 
-        viewHolder.getHerosName().setText(heros.getName());
-        viewHolder.getHerosType().setText("定位：" + heros.getType());
-        viewHolder.getHerosCoinsPrice().setText("金币：" + heros.getCoinsPrice());
-        viewHolder.getHerosDiamondPrice().setText("钻石：" + heros.getDiamondPrice());
+        viewHolder.getHeroesName().setText(heroes.getName());
+        viewHolder.getHeroesType().setText("定位：" + heroes.getType());
+        viewHolder.getHeroesCoinsPrice().setText("金币：" + heroes.getCoinsPrice());
+        viewHolder.getHeroesDiamondPrice().setText("钻石：" + heroes.getDiamondPrice());
 
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -7,17 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.nicolite.palm300heros.R;
+import cn.nicolite.palm300heroes.R;
 
 /**
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class HerosWarriorFragment extends Fragment {
+public class HeroesAssistFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.heros_detail_fragment, container, false);
+        View view = inflater.inflate(R.layout.heroes_detail_fragment, container, false);
         return view;
     }
 }

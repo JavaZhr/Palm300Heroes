@@ -13,17 +13,6 @@ public class Skill {
     private String R;
     private String passive;
 
-    public Skill() {
-    }
-
-    public Skill(String hero, String q, String w, String e, String r, String passive) {
-        this.hero = hero;
-        Q = q;
-        W = w;
-        E = e;
-        R = r;
-        this.passive = passive;
-    }
 
     public int getId() {
         return id;

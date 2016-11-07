@@ -14,8 +14,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import database.Palm300herosDB;
-import model.Heros;
+import database.Palm300heroesDB;
+import model.Heroes;
 import model.News;
 
 /**
@@ -23,12 +23,11 @@ import model.News;
  */
 
 
-//暂时不使用
 public class Utilty {
     /**
      * 解析和处理服务器返回的News数据
      */
-    public synchronized static boolean handleNewsResponse(Palm300herosDB palm300herosDB, String response) {
+    public synchronized static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
 
         if (!TextUtils.isEmpty(response)) {
             try {
@@ -66,8 +65,8 @@ public class Utilty {
                         news.setDate(date);
                         news.setNickName(nickName);
                         news.setImageUrl(imageUrl);
-                        if (!palm300herosDB.isExistence(news)) {
-                            palm300herosDB.saveNews(news);
+                        if (!palm300heroesDB.isExistence(news)) {
+                            palm300heroesDB.saveNews(news);
                         }
                      }
                 }else {
@@ -86,12 +85,12 @@ public class Utilty {
     }
 
 
-    public synchronized static boolean handleHerosResponse(Palm300herosDB palm300herosDB, String response) {
+    public synchronized static boolean handleHeroesResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
-                LogUtil.d("handleHerosResponse", "Hero staus : " + status);
+                LogUtil.d("handleHeroesResponse", "Hero staus : " + status);
                 int count = jsonObject.getInt("count");
 
                 JSONArray info = jsonObject.getJSONArray("info");
@@ -106,17 +105,17 @@ public class Utilty {
                     String coinsPrice = heroInfo.getString("coinsPrice");
                     String diamondPrice = heroInfo.getString("diamondPrice");
 
-                    Heros heros = new Heros();
-                    heros.setName(heroName);
-                    heros.setType(heroType);
-                    heros.setBackground(background);
-                    heros.setAvatarUrl(avatarUrl);
-                    heros.setCoinsPrice(coinsPrice);
-                    heros.setDiamondPrice(diamondPrice);
-                    LogUtil.d("handleHerosResponse", "HeroName : " + heros.getName());
-                    LogUtil.d("handleHerosResponse", "AvatarUrl : " + heros.getAvatarUrl());
-                    if (!palm300herosDB.isExistence(heros)) {
-                        palm300herosDB.saveHeros(heros);
+                    Heroes heroes = new Heroes();
+                    heroes.setName(heroName);
+                    heroes.setType(heroType);
+                    heroes.setBackground(background);
+                    heroes.setAvatarUrl(avatarUrl);
+                    heroes.setCoinsPrice(coinsPrice);
+                    heroes.setDiamondPrice(diamondPrice);
+                    LogUtil.d("handleHeroesResponse", "HeroName : " + heroes.getName());
+                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());
+                    if (!palm300heroesDB.isExistence(heroes)) {
+                        palm300heroesDB.saveHeroes(heroes);
                     }
                 }
             } catch (JSONException e) {

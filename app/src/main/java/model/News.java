@@ -14,18 +14,6 @@ public class News{
     private String nickName;
     private String imageUrl;
 
-    public News() {
-    }
-
-    public News(String category, String url, String title, String content, String date, String nickName, String imageUrl) {
-        this.category = category;
-        this.url = url;
-        this.title = title;
-        this.content = content;
-        this.date = date;
-        this.nickName = nickName;
-        this.imageUrl = imageUrl;
-    }
 
     public int getId() {
         return id;

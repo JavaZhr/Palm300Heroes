@@ -9,13 +9,6 @@ public class Sound {
     private String hero;
     private String url;
 
-    public Sound() {
-    }
-
-    public Sound(String url) {
-        this.url = url;
-    }
-
     public String getHero() {
         return hero;
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.nicolite.palm300heros">
+    package="cn.nicolite.palm300heroes">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name="activity.NewsWebViewActivity"></activity>
-        <activity android:name="activity.HerosDetailActivity"></activity>
+        <activity android:name="activity.HeroesDetailActivity"></activity>
     </application>
 
 </manifest>

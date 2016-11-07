@@ -10,7 +10,7 @@
         android:layout_height="85dp"
         android:layout_weight="2">
         <ImageView
-            android:id="@+id/heros_avatar"
+            android:id="@+id/heroes_avatar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="5dp"
@@ -26,7 +26,7 @@
         android:layout_height="85dp"
         android:layout_weight="5">
         <TextView
-            android:id="@+id/heros_name"
+            android:id="@+id/heroes_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -34,26 +34,26 @@
             android:textColor="@color/dark"
             android:padding="1dp"/>
         <TextView
-            android:id="@+id/heros_type"
+            android:id="@+id/heroes_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/heros_name"
+            android:layout_below="@id/heroes_name"
             android:textSize="13sp"
             android:textColor="@color/dark"
             android:padding="1dp"/>
         <TextView
-            android:id="@+id/heros_coins_price"
+            android:id="@+id/heroes_coins_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/heros_type"
+            android:layout_below="@id/heroes_type"
             android:textSize="13sp"
             android:textColor="@color/dark"
             android:padding="1dp"/>
         <TextView
-            android:id="@+id/heros_diamond_price"
+            android:id="@+id/heroes_diamond_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/heros_coins_price"
+            android:layout_below="@id/heroes_coins_price"
             android:textSize="13sp"
             android:textColor="@color/dark"
             android:padding="1dp"/>
@@ -66,7 +66,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/heros_detail_pic"
+            android:src="@drawable/heroes_detail_pic"
             android:layout_centerInParent="true"
             tools:ignore="ContentDescription" />
     </RelativeLayout>

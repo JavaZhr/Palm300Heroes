@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Heros;
+import model.Heroes;
 import model.News;
 import model.Skill;
 import model.Skin;
@@ -19,13 +19,13 @@ import utilty.LogUtil;
  * Created by NICOLITE on 2016/10/18 0018.
  */
 
-public class Palm300herosDB {
+public class Palm300heroesDB {
 
     /**
      * 数据库名
      */
 
-    public static final String DB_NAME = "palm300heros";
+    public static final String DB_NAME = "palm300heroes";
 
     /**
      * 数据库版本
@@ -33,23 +33,23 @@ public class Palm300herosDB {
 
     public static int VERSION = 1;
 
-    private static Palm300herosDB palm300herosDB;
+    private static Palm300heroesDB palm300heroesDB;
     private SQLiteDatabase db;
 
-    public Palm300herosDB(Context context) {
-        Palm300HerosOpenHelper dbHelper = new Palm300HerosOpenHelper(context, DB_NAME, null, VERSION);
+    public Palm300heroesDB(Context context) {
+        Palm300HeroesOpenHelper dbHelper = new Palm300HeroesOpenHelper(context, DB_NAME, null, VERSION);
         db = dbHelper.getWritableDatabase();
     }
 
     /**
-     * 获取Palm300HerosDB实例
+     * 获取Palm300HeroesDB实例
      */
 
-    public synchronized static Palm300herosDB getInstance(Context context) {
-        if (palm300herosDB == null) {
-            palm300herosDB = new Palm300herosDB(context);
+    public synchronized static Palm300heroesDB getInstance(Context context) {
+        if (palm300heroesDB == null) {
+            palm300heroesDB = new Palm300heroesDB(context);
         }
-        return palm300herosDB;
+        return palm300heroesDB;
     }
 
     /**
@@ -100,36 +100,62 @@ public class Palm300herosDB {
         return list;
     }
 
-    public void saveHeros(Heros heros) {
-        if (heros != null) {
+    public void saveHeroes(Heroes heroes) {
+        if (heroes != null) {
             ContentValues values = new ContentValues();
-            values.put("hero_name", heros.getName());
-            values.put("hero_type", heros.getType());
-            values.put("hero_background", heros.getBackground());
-            values.put("hero_avatar_url", heros.getAvatarUrl());
-            values.put("hero_coins_price", heros.getCoinsPrice());
-            values.put("hero_diamond_price", heros.getDiamondPrice());
-            db.insert("Heros", null, values);
+            values.put("hero_name", heroes.getName());
+            values.put("hero_type", heroes.getType());
+            values.put("hero_background", heroes.getBackground());
+            values.put("hero_avatar_url", heroes.getAvatarUrl());
+            values.put("hero_coins_price", heroes.getCoinsPrice());
+            values.put("hero_diamond_price", heroes.getDiamondPrice());
+
+            /*英雄基础数据*/
+            values.put("hero_health_value", heroes.getDiamondPrice());
+            values.put("hero_magic_point_value", heroes.getDiamondPrice());
+            values.put("hero_physical_attack_value", heroes.getDiamondPrice());
+            values.put("hero_magic_attack_value", heroes.getDiamondPrice());
+            values.put("hero_physical_defense_value", heroes.getDiamondPrice());
+            values.put("hero_magic_defense_value", heroes.getDiamondPrice());
+            values.put("hero_crit_value", heroes.getDiamondPrice());
+            values.put("hero_attack_speed_value", heroes.getDiamondPrice());
+            values.put("hero_attack_range_value", heroes.getDiamondPrice());
+            values.put("hero_movement_speed_value", heroes.getDiamondPrice());
+
+            db.insert("Heroes", null, values);
         }else {
-            LogUtil.d("saveHeros", "heros : null");
+            LogUtil.d("saveHeroes", "heroes : null");
         }
     }
 
 
-    public List<Heros> loadHeros() {
-        List<Heros> list = new ArrayList<Heros>();
-        Cursor cursor = db.query("Heros", null, null, null, null, null, null);
+    public List<Heroes> loadHeroes() {
+        List<Heroes> list = new ArrayList<Heroes>();
+        Cursor cursor = db.query("Heroes", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
-                Heros heros = new Heros();
-                heros.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                heros.setName(cursor.getString(cursor.getColumnIndex("hero_name")));
-                heros.setType(cursor.getString(cursor.getColumnIndex("hero_type")));
-                heros.setBackground(cursor.getString(cursor.getColumnIndex("hero_background")));
-                heros.setAvatarUrl(cursor.getString(cursor.getColumnIndex("hero_avatar_url")));
-                heros.setCoinsPrice(cursor.getString(cursor.getColumnIndex("hero_coins_price")));
-                heros.setDiamondPrice(cursor.getString(cursor.getColumnIndex("hero_diamond_price")));
-                list.add(heros);
+                Heroes heroes = new Heroes();
+                heroes.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                heroes.setName(cursor.getString(cursor.getColumnIndex("hero_name")));
+                heroes.setType(cursor.getString(cursor.getColumnIndex("hero_type")));
+                heroes.setBackground(cursor.getString(cursor.getColumnIndex("hero_background")));
+                heroes.setAvatarUrl(cursor.getString(cursor.getColumnIndex("hero_avatar_url")));
+                heroes.setCoinsPrice(cursor.getString(cursor.getColumnIndex("hero_coins_price")));
+                heroes.setDiamondPrice(cursor.getString(cursor.getColumnIndex("hero_diamond_price")));
+
+                /*英雄基础数据*/
+                heroes.setHealthValue(cursor.getString(cursor.getColumnIndex("hero_health_value")));
+                heroes.setMagicPointValue(cursor.getString(cursor.getColumnIndex("hero_magic_point_value")));
+                heroes.setPhysicalAttackValue(cursor.getString(cursor.getColumnIndex("hero_physical_attack_value")));
+                heroes.setMagicAttackValue(cursor.getString(cursor.getColumnIndex("hero_magic_attack_value")));
+                heroes.setPhysicalDefenseValue(cursor.getString(cursor.getColumnIndex("hero_physical_defense_value")));
+                heroes.setMagicDefenseValue(cursor.getString(cursor.getColumnIndex("hero_magic_defense_value")));
+                heroes.setCritValue(cursor.getString(cursor.getColumnIndex("hero_crit_value")));
+                heroes.setAttackSpeedValue(cursor.getString(cursor.getColumnIndex("hero_attack_speed_value")));
+                heroes.setAttackRangeValue(cursor.getString(cursor.getColumnIndex("hero_attack_range_value")));
+                heroes.setAttackRangeValue(cursor.getString(cursor.getColumnIndex("hero_movement_speed_value")));
+
+                list.add(heroes);
             }while (cursor.moveToNext());
         }
         if (cursor != null) {
@@ -240,8 +266,8 @@ public class Palm300herosDB {
     public static boolean isExistence(Object object){
         if (object instanceof News) {
             News news = (News) object;
-            if (news != null && palm300herosDB != null) {
-                List<News> list = palm300herosDB.loadNews();
+            if (news != null && palm300heroesDB != null) {
+                List<News> list = palm300heroesDB.loadNews();
                 for (News news1 : list) {
                     if (news.getTitle().equals(news1.getTitle())) {
                         return true;
@@ -251,12 +277,12 @@ public class Palm300herosDB {
             }
         }
 
-        if (object instanceof Heros) {
-            Heros heros = (Heros) object;
-            if (heros != null && palm300herosDB != null) {
-                List<Heros> list = palm300herosDB.loadHeros();
-                for (Heros heros1 : list) {
-                    if (heros.getName().equals(heros1.getName())) {
+        if (object instanceof Heroes) {
+            Heroes heroes = (Heroes) object;
+            if (heroes != null && palm300heroesDB != null) {
+                List<Heroes> list = palm300heroesDB.loadHeroes();
+                for (Heroes heroes1 : list) {
+                    if (heroes.getName().equals(heroes1.getName())) {
                         return true;
                     }
                 }

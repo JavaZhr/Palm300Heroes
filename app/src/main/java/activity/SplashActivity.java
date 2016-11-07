@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import cn.nicolite.palm300heros.MainActivity;
-import cn.nicolite.palm300heros.R;
+import cn.nicolite.palm300heroes.MainActivity;
+import cn.nicolite.palm300heroes.R;
 
 /**
  * Created by NICOLITE on 2016/10/11 0011.

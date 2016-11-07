@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.nicolite.palm300heros.R;
+import cn.nicolite.palm300heroes.R;
 
 
 /**
