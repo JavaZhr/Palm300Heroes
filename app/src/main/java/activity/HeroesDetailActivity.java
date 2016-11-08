@@ -61,7 +61,7 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.heroes_detail_activity);
 
         heroes = (Heroes) getIntent().getSerializableExtra("heroes_data");
-        LogUtil.d("heroesDaetailActivity", heroes.getName());
+        LogUtil.d("heroesDetailActivity", heroes.getName());
 
         heroesDetailName = (TextView) findViewById(R.id.heroes_detail_name);
         heroesDetailType = (TextView) findViewById(R.id.heroes_detail_type);
@@ -78,7 +78,7 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         heroesSkinButton.setOnClickListener(this);
         heroesSoundButton.setOnClickListener(this);
 
-        List<Fragment> fragments=new ArrayList<Fragment>();
+        List<Fragment> fragments=new ArrayList<>();
         fragments.add(new HeroesDataFragment());
         fragments.add(new HeroesSkillFragment());
         fragments.add(new HeroesSkinFragment());

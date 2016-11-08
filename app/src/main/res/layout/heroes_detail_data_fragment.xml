@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/heroes_swipe_refresh_layout"
+        android:id="@+id/heroes_detail_data_wipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ScrollView
@@ -24,7 +26,8 @@
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         android:src="@drawable/splash"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        tools:ignore="ContentDescription" />
                 </RelativeLayout>
 
                 <!-- 分割线 -->
@@ -50,60 +53,33 @@
                             android:id="@+id/heroes_health_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="生命值" />
+                            android:textSize="16sp" />
 
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
 
                         <TextView
                             android:id="@+id/heroes_magic_point_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="魔法值"/>
+                            android:textSize="16sp" />
 
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
 
                         <TextView
                             android:id="@+id/heroes_physical_attack_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="物理攻击"/>
-
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/heroes_magic_attack_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="法术强度"/>
-
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/heroes_physical_defense_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="物理防御"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -115,60 +91,31 @@
                             android:id="@+id/heroes_magic_defense_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="魔法抗性"/>
-
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/heroes_crit_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="暴击"/>
-
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/heroes_attack_speed_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="攻击速度"/>
-
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/heroes_attack_range_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="攻击范围"/>
-
-                        <!-- 分割线 -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/white"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/heroes_movement_speed_value"
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:textSize="16sp"
-                            android:text="移动速度"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
                 <!-- 分割线 -->
@@ -186,7 +133,6 @@
                         android:id="@+id/heroes_background"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="背景"
                         android:textSize="16sp" />
                 </LinearLayout>
 

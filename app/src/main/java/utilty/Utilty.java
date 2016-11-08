@@ -104,6 +104,19 @@ public class Utilty {
                     String avatarUrl = heroInfo.getString("avatarUrl");
                     String coinsPrice = heroInfo.getString("coinsPrice");
                     String diamondPrice = heroInfo.getString("diamondPrice");
+                    String pictureUrl = heroInfo.getString("pictureUrl");
+
+                    JSONObject baseData = heroInfo.getJSONObject("baseData");
+                    String healthValue = baseData.getString("healthValue");
+                    String magicPointValue = baseData.getString("magicPointValue");
+                    String physicalAttackValue = baseData.getString("physicalAttackValue");
+                    String magicAttackValue = baseData.getString("magicAttackValue");
+                    String physicalDefenseValue = baseData.getString("physicalDefenseValue");
+                    String magicDefenseValue = baseData.getString("magicDefenseValue");
+                    String critValue = baseData.getString("critValue");
+                    String attackSpeedValue = baseData.getString("attackSpeedValue");
+                    String attackRangeValue = baseData.getString("attackRangeValue");
+                    String movementSpeedValue = baseData.getString("movementSpeedValue");
 
                     Heroes heroes = new Heroes();
                     heroes.setName(heroName);
@@ -112,8 +125,21 @@ public class Utilty {
                     heroes.setAvatarUrl(avatarUrl);
                     heroes.setCoinsPrice(coinsPrice);
                     heroes.setDiamondPrice(diamondPrice);
+
+                    heroes.setHealthValue(healthValue);
+                    heroes.setMagicPointValue(magicPointValue);
+                    heroes.setPhysicalAttackValue(physicalAttackValue);
+                    heroes.setMagicAttackValue(magicAttackValue);
+                    heroes.setPhysicalDefenseValue(physicalDefenseValue);
+                    heroes.setMagicDefenseValue(magicDefenseValue);
+                    heroes.setCritValue(critValue);
+                    heroes.setAttackSpeedValue(attackSpeedValue);
+                    heroes.setAttackRangeValue(attackRangeValue);
+                    heroes.setMovementSpeedValue(movementSpeedValue);
+
                     LogUtil.d("handleHeroesResponse", "HeroName : " + heroes.getName());
                     LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());
+                    LogUtil.d("handleHeroesResponse", "healthValue : " + heroes.getHealthValue());
                     if (!palm300heroesDB.isExistence(heroes)) {
                         palm300heroesDB.saveHeroes(heroes);
                     }

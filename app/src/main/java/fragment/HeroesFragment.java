@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,7 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
                 selectedPositon = 6;
                 break;
             case R.id.heroes_floating_action_button :
+                Toast.makeText(getActivity(), "点击了悬浮按钮" , Toast.LENGTH_SHORT).show();
                 break;
             default: break;
         }

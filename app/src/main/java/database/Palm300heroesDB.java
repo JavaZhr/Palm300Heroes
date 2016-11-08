@@ -107,20 +107,21 @@ public class Palm300heroesDB {
             values.put("hero_type", heroes.getType());
             values.put("hero_background", heroes.getBackground());
             values.put("hero_avatar_url", heroes.getAvatarUrl());
+            values.put("hero_picture_url", heroes.getPictureUrl());
             values.put("hero_coins_price", heroes.getCoinsPrice());
             values.put("hero_diamond_price", heroes.getDiamondPrice());
 
             /*英雄基础数据*/
-            values.put("hero_health_value", heroes.getDiamondPrice());
-            values.put("hero_magic_point_value", heroes.getDiamondPrice());
-            values.put("hero_physical_attack_value", heroes.getDiamondPrice());
-            values.put("hero_magic_attack_value", heroes.getDiamondPrice());
-            values.put("hero_physical_defense_value", heroes.getDiamondPrice());
-            values.put("hero_magic_defense_value", heroes.getDiamondPrice());
-            values.put("hero_crit_value", heroes.getDiamondPrice());
-            values.put("hero_attack_speed_value", heroes.getDiamondPrice());
-            values.put("hero_attack_range_value", heroes.getDiamondPrice());
-            values.put("hero_movement_speed_value", heroes.getDiamondPrice());
+            values.put("hero_health_value", heroes.getHealthValue());
+            values.put("hero_magic_point_value", heroes.getMagicPointValue());
+            values.put("hero_physical_attack_value", heroes.getPhysicalAttackValue());
+            values.put("hero_magic_attack_value", heroes.getMagicAttackValue());
+            values.put("hero_physical_defense_value", heroes.getPhysicalDefenseValue());
+            values.put("hero_magic_defense_value", heroes.getMagicDefenseValue());
+            values.put("hero_crit_value", heroes.getCritValue());
+            values.put("hero_attack_speed_value", heroes.getAttackSpeedValue());
+            values.put("hero_attack_range_value", heroes.getAttackRangeValue());
+            values.put("hero_movement_speed_value", heroes.getMovementSpeedValue());
 
             db.insert("Heroes", null, values);
         }else {
@@ -140,6 +141,7 @@ public class Palm300heroesDB {
                 heroes.setType(cursor.getString(cursor.getColumnIndex("hero_type")));
                 heroes.setBackground(cursor.getString(cursor.getColumnIndex("hero_background")));
                 heroes.setAvatarUrl(cursor.getString(cursor.getColumnIndex("hero_avatar_url")));
+                heroes.setPictureUrl(cursor.getString(cursor.getColumnIndex("hero_picture_url")));
                 heroes.setCoinsPrice(cursor.getString(cursor.getColumnIndex("hero_coins_price")));
                 heroes.setDiamondPrice(cursor.getString(cursor.getColumnIndex("hero_diamond_price")));
 
@@ -153,7 +155,7 @@ public class Palm300heroesDB {
                 heroes.setCritValue(cursor.getString(cursor.getColumnIndex("hero_crit_value")));
                 heroes.setAttackSpeedValue(cursor.getString(cursor.getColumnIndex("hero_attack_speed_value")));
                 heroes.setAttackRangeValue(cursor.getString(cursor.getColumnIndex("hero_attack_range_value")));
-                heroes.setAttackRangeValue(cursor.getString(cursor.getColumnIndex("hero_movement_speed_value")));
+                heroes.setMovementSpeedValue(cursor.getString(cursor.getColumnIndex("hero_movement_speed_value")));
 
                 list.add(heroes);
             }while (cursor.moveToNext());

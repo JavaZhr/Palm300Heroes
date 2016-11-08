@@ -33,6 +33,7 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "hero_type text, "
             + "hero_background text, "
             + "hero_avatar_url text, "
+            + "hero_picture text, "
             + "hero_coins_price text, "
             + "hero_diamond_price text,"
             + "hero_health_value text, "

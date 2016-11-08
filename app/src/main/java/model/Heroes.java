@@ -12,6 +12,7 @@ public class Heroes implements Serializable{
     private String type;
     private String background;
     private String avatarUrl;
+    private String pictureUrl;
     private String coinsPrice;
     private String diamondPrice;
 
@@ -20,7 +21,7 @@ public class Heroes implements Serializable{
     private String physicalAttackValue;
     private String magicAttackValue;
     private String physicalDefenseValue;
-    private String magicDefenseValue;
+    private String magicDefenseValue ;
     private String critValue;
     private String attackSpeedValue;
     private String attackRangeValue;
@@ -64,6 +65,14 @@ public class Heroes implements Serializable{
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     public String getCoinsPrice() {
