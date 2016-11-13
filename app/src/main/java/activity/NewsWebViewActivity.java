@@ -102,11 +102,6 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-            }
-        }).start();
+        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

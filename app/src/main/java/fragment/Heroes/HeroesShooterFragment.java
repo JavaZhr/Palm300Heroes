@@ -1,4 +1,4 @@
-package fragment;
+package fragment.Heroes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +33,7 @@ import utilty.Utilty;
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class HeroesAllFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener {
+public class HeroesShooterFragment extends Fragment implements RecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout swipeRefreshLayout;
     private Palm300heroesDB palm300heroesDB;
     private RecyclerView recyclerView;
@@ -49,6 +49,7 @@ public class HeroesAllFragment extends Fragment implements RecyclerViewAdapter.O
             switch (msg.what) {
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
+                    recycleAdapter.notifyDataSetChanged();
                     break;
                 default:break;
             }
@@ -59,11 +60,14 @@ public class HeroesAllFragment extends Fragment implements RecyclerViewAdapter.O
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.heroes_detail_fragment, container, false);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.heroes_swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
+        dataList = Palm300heroesDB.getHeroesTypeDate("射手");
+
         recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recyclerview);
-
-        initHeroesData();
-
-        dataList = palm300heroesDB.loadHeroes();
 
         recycleAdapter = new RecyclerViewAdapter(getActivity(), dataList);
 
@@ -81,21 +85,7 @@ public class HeroesAllFragment extends Fragment implements RecyclerViewAdapter.O
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.heroes_swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-                    }
-                }).start();
-                //重新获取数据
-                //获取完成swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem;
             @Override
@@ -144,5 +134,14 @@ public class HeroesAllFragment extends Fragment implements RecyclerViewAdapter.O
         Intent intent = new Intent(getActivity(), HeroesDetailActivity.class);
         intent.putExtra("heroes_data", dataList.get(position));
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onRefresh() {
+        initHeroesData();
+        dataList = Palm300heroesDB.getHeroesTypeDate("射手");
+        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+        //重新获取数据
+        //获取完成swipeRefreshLayout.setRefreshing(false);
     }
 }

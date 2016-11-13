@@ -123,6 +123,7 @@ public class Utilty {
                     heroes.setType(heroType);
                     heroes.setBackground(background);
                     heroes.setAvatarUrl(avatarUrl);
+                    heroes.setPictureUrl(pictureUrl);
                     heroes.setCoinsPrice(coinsPrice);
                     heroes.setDiamondPrice(diamondPrice);
 
@@ -138,8 +139,7 @@ public class Utilty {
                     heroes.setMovementSpeedValue(movementSpeedValue);
 
                     LogUtil.d("handleHeroesResponse", "HeroName : " + heroes.getName());
-                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());
-                    LogUtil.d("handleHeroesResponse", "healthValue : " + heroes.getHealthValue());
+                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());;
                     if (!palm300heroesDB.isExistence(heroes)) {
                         palm300heroesDB.saveHeroes(heroes);
                     }

@@ -4,6 +4,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,13 @@ import java.util.List;
 
 import adapter.FragAdapter;
 import cn.nicolite.palm300heroes.R;
-
+import fragment.Heroes.HeroesAllFragment;
+import fragment.Heroes.HeroesAssassinFragment;
+import fragment.Heroes.HeroesAssistFragment;
+import fragment.Heroes.HeroesMasterFragment;
+import fragment.Heroes.HeroesShooterFragment;
+import fragment.Heroes.HeroesTankFrament;
+import fragment.Heroes.HeroesWarriorFragment;
 
 
 /**
@@ -34,6 +42,15 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
     private ViewPager viewPager;
     private int selectedPositon; //记录Fragment
     private FloatingActionButton floatingActionButton;
+
+    private HeroesAllFragment heroesAllFragment;
+    private HeroesAssassinFragment heroesAssassinFragment;
+    private HeroesWarriorFragment heroesWarriorFragment;
+    private HeroesTankFrament heroesTankFrament;
+    private HeroesShooterFragment heroesShooterFragment;
+    private HeroesMasterFragment heroesMasterFragment;
+    private HeroesAssistFragment heroesAssistFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +70,8 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
         buttonShooter.setOnClickListener(this);
         buttonMaster.setOnClickListener(this);
         buttonAssist.setOnClickListener(this);
-       List<Fragment> fragments=new ArrayList<Fragment>();
-        fragments.add(new HeroesAllFragment());
-        fragments.add(new HeroesAssassinFragment());
-        fragments.add(new HeroesWarriorFragment());
-        fragments.add(new HeroesTankFrament());
-        fragments.add(new HeroesShooterFragment());
-        fragments.add(new HeroesMasterFragment());
-        fragments.add(new HeroesAssistFragment());
-        FragAdapter adapter = new FragAdapter(getChildFragmentManager(), fragments);
+
+        FragAdapter adapter = new FragAdapter(getChildFragmentManager(), getFragments());
         viewPager = (ViewPager)view.findViewById(R.id.heroes_viewpager);
         viewPager.setAdapter(adapter);
         //默认选择第一个，改变第一个fragment的状态
@@ -71,6 +81,69 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.heroes_floating_action_button);
         floatingActionButton.setOnClickListener(this);
         return view;
+    }
+
+
+    private List<Fragment> getFragments() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+
+        /*开启一个Fragment事务*/
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        List<Fragment> fragments=new ArrayList<>();
+
+        if (heroesAllFragment == null) {
+           heroesAllFragment = new HeroesAllFragment();
+        }else {
+            transaction.show(heroesAllFragment);
+        }
+
+        if (heroesAssassinFragment == null) {
+            heroesAssassinFragment = new HeroesAssassinFragment();
+        }else {
+            transaction.show(heroesAssassinFragment);
+        }
+
+        if (heroesWarriorFragment == null) {
+            heroesWarriorFragment = new HeroesWarriorFragment();
+        }else {
+            transaction.show(heroesWarriorFragment);
+        }
+
+        if (heroesTankFrament == null) {
+            heroesTankFrament = new HeroesTankFrament();
+        }else {
+            transaction.show(heroesTankFrament);
+        }
+
+        if (heroesShooterFragment == null) {
+            heroesShooterFragment = new HeroesShooterFragment();
+        }else {
+            transaction.show(heroesShooterFragment);
+        }
+
+        if (heroesMasterFragment == null) {
+            heroesMasterFragment = new HeroesMasterFragment();
+        }else {
+            transaction.show(heroesMasterFragment);
+        }
+
+        if (heroesAssistFragment == null) {
+            heroesAssistFragment = new HeroesAssistFragment();
+        }else {
+            transaction.show(heroesAssistFragment);
+        }
+
+        transaction.commit();
+
+        fragments.add(heroesAllFragment);
+        fragments.add(heroesAssassinFragment);
+        fragments.add(heroesWarriorFragment);
+        fragments.add(heroesTankFrament);
+        fragments.add(heroesShooterFragment);
+        fragments.add(heroesMasterFragment);
+        fragments.add(heroesAssistFragment);
+
+        return fragments;
     }
 
     /**

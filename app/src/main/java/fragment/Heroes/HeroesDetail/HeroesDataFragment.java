@@ -1,4 +1,4 @@
-package fragment;
+package fragment.Heroes.HeroesDetail;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +9,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import cn.nicolite.palm300heroes.R;
 import model.Heroes;
@@ -30,6 +33,8 @@ public class HeroesDataFragment extends Fragment implements SwipeRefreshLayout.O
     private TextView heroesAttackRangeValue;
     private TextView heroesMovementSpeedValue;
     private TextView heroesBackground;
+
+    private ImageView heroesImageView;
 
     private Heroes heroes;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -67,7 +72,7 @@ public class HeroesDataFragment extends Fragment implements SwipeRefreshLayout.O
         heroesAttackRangeValue = (TextView) view.findViewById(R.id.heroes_attack_range_value);
         heroesMovementSpeedValue = (TextView) view.findViewById(R.id.heroes_movement_speed_value);
         heroesBackground = (TextView) view.findViewById(R.id.heroes_background);
-
+        heroesImageView = (ImageView) view.findViewById(R.id.heroes_pic);
         initView();
         return view;
     }
@@ -86,17 +91,19 @@ public class HeroesDataFragment extends Fragment implements SwipeRefreshLayout.O
         heroesAttackRangeValue.setText("攻击范围：" + heroes.getAttackRangeValue());
         heroesMovementSpeedValue.setText("移动速度：" + heroes.getMovementSpeedValue());
         heroesBackground.setText(heroes.getBackground());
+
+        Glide
+                .with(getActivity())
+                .load(heroes.getPictureUrl())
+                .thumbnail(0.1f)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .into(heroesImageView);
     }
 
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-            }
-        }).start();
+        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

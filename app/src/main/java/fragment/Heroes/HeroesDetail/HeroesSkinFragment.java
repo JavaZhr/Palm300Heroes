@@ -1,4 +1,4 @@
-package fragment;
+package fragment.Heroes.HeroesDetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

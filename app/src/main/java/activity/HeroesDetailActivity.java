@@ -17,10 +17,10 @@ import java.util.List;
 
 import adapter.FragAdapter;
 import cn.nicolite.palm300heroes.R;
-import fragment.HeroesDataFragment;
-import fragment.HeroesSkillFragment;
-import fragment.HeroesSkinFragment;
-import fragment.HeroesSoundFragment;
+import fragment.Heroes.HeroesDetail.HeroesDataFragment;
+import fragment.Heroes.HeroesDetail.HeroesSkillFragment;
+import fragment.Heroes.HeroesDetail.HeroesSkinFragment;
+import fragment.Heroes.HeroesDetail.HeroesSoundFragment;
 import model.Heroes;
 import utilty.LogUtil;
 

@@ -120,14 +120,9 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initNewsDate();
-                queryNews();
-                handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-            }
-        }).start();
+        initNewsDate();
+        queryNews();
+        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }
 
