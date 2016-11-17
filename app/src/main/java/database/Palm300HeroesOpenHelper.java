@@ -50,11 +50,10 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
     public static final String CREATE_SKILL = "create table Skill("
             + "id integer primary key autoincrement, "
             + "skill_hero text, "
-            + "skill_Q text, "
-            + "skill_W text, "
-            + "skill_E text, "
-            + "skill_R text, "
-            + "skill_passive text )";
+            + "skill_name text, "
+            + "skill_operation text, "
+            + "skill_describe text, "
+            + "skill_pictureUrl text )";
 
     public static final String CREATE_SKIN = "create table Skin("
             + "id integer primary key autoincrement, "

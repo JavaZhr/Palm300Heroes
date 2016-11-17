@@ -17,6 +17,7 @@ import java.util.List;
 import database.Palm300heroesDB;
 import model.Heroes;
 import model.News;
+import model.Skill;
 
 /**
  * Created by NICOLITE on 2016/10/15 0015.
@@ -96,6 +97,7 @@ public class Utilty {
                 JSONArray info = jsonObject.getJSONArray("info");
 
                 for (int i = 0; i < info.length(); i++) {
+                    /*英雄信息部分*/
                     JSONObject heroInfo = info.getJSONObject(i);
 
                     String heroName = heroInfo.getString("heroName");
@@ -139,10 +141,35 @@ public class Utilty {
                     heroes.setMovementSpeedValue(movementSpeedValue);
 
                     LogUtil.d("handleHeroesResponse", "HeroName : " + heroes.getName());
-                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());;
+                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());
                     if (!palm300heroesDB.isExistence(heroes)) {
                         palm300heroesDB.saveHeroes(heroes);
                     }
+
+                    /*技能部分*/
+                    JSONArray skill = heroInfo.getJSONArray("skill");
+
+                    for (int j = 0; j < skill.length(); j++) {
+                        JSONObject skillInfo = skill.getJSONObject(j);
+                        String skillPictureUrl = skillInfo .getString("pictureUrl");
+                        String skillName = skillInfo .getString("name");
+                        String skillOperation = skillInfo .getString("operation");
+                        String skillDescribe = skillInfo .getString("describe");
+
+                        Skill skills = new Skill();
+                        skills.setPictureUrl(skillPictureUrl);
+                        skills.setName(skillName);
+                        skills.setOperation(skillOperation);
+                        skills.setDescribe(skillDescribe);
+                        skills.setHero(heroName);
+
+                        LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getHero());
+                        LogUtil.d("handleHeroesResponse", "skillPictureUrl : " + skills.getPictureUrl());;
+                        if (!palm300heroesDB.isExistence(skills)) {
+                            palm300heroesDB.saveSkill(skills);
+                        }
+                    }
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

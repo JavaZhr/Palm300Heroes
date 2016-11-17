@@ -7,12 +7,10 @@ package model;
 public class Skill {
     private int id;
     private String hero;
-    private String Q;
-    private String W;
-    private String E;
-    private String R;
-    private String passive;
-
+    private String pictureUrl;
+    private String name;
+    private String operation;
+    private String describe;
 
     public int getId() {
         return id;
@@ -30,43 +28,35 @@ public class Skill {
         this.hero = hero;
     }
 
-    public String getQ() {
-        return Q;
+    public String getPictureUrl() {
+        return pictureUrl;
     }
 
-    public void setQ(String q) {
-        Q = q;
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
-    public String getW() {
-        return W;
+    public String getName() {
+        return name;
     }
 
-    public void setW(String w) {
-        W = w;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getE() {
-        return E;
+    public String getOperation() {
+        return operation;
     }
 
-    public void setE(String e) {
-        E = e;
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
-    public String getR() {
-        return R;
+    public String getDescribe() {
+        return describe;
     }
 
-    public void setR(String r) {
-        R = r;
-    }
-
-    public String getPassive() {
-        return passive;
-    }
-
-    public void setPassive(String passive) {
-        this.passive = passive;
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 }

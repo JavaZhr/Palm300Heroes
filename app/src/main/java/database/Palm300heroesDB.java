@@ -255,13 +255,25 @@ public class Palm300heroesDB {
         if (skill != null) {
             ContentValues values = new ContentValues();
             values.put("skill_hero", skill.getHero());
-            values.put("skill_Q", skill.getQ());
-            values.put("skill_W", skill.getW());
-            values.put("skill_E", skill.getE());
-            values.put("skill_R", skill.getR());
-            values.put("skill_passive", skill.getPassive());
-
+            values.put("skill_name", skill.getName());
+            values.put("skill_operation", skill.getOperation());
+            values.put("skill_describe", skill.getDescribe());
+            values.put("skill_pictureUrl", skill.getPictureUrl());
             db.insert("Skill", null, values);
+        }else {
+            LogUtil.d("saveSkill", "skill : null");
+        }
+    }
+
+    public void updateSkill(Skill skill) {
+        if (skill != null) {
+            ContentValues values = new ContentValues();
+            values.put("skill_hero", skill.getHero());
+            values.put("skill_name", skill.getName());
+            values.put("skill_operation", skill.getOperation());
+            values.put("skill_describe", skill.getDescribe());
+            values.put("skill_pictureUrl", skill.getPictureUrl());
+            db.update("Skill", values, "skill_name=?", new String[]{skill.getName()});
         }else {
             LogUtil.d("saveSkill", "skill : null");
         }
@@ -275,12 +287,10 @@ public class Palm300heroesDB {
                 Skill skill = new Skill();
                 skill.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 skill.setHero(cursor.getString(cursor.getColumnIndex("skill_hero")));
-                skill.setQ(cursor.getString(cursor.getColumnIndex("skill_Q")));
-                skill.setW(cursor.getString(cursor.getColumnIndex("skill_W")));
-                skill.setE(cursor.getString(cursor.getColumnIndex("skill_E")));
-                skill.setR(cursor.getString(cursor.getColumnIndex("skill_R")));
-                skill.setPassive(cursor.getString(cursor.getColumnIndex("skill_passive")));
-
+                skill.setName(cursor.getString(cursor.getColumnIndex("skill_name")));
+                skill.setOperation(cursor.getString(cursor.getColumnIndex("skill_operation")));
+                skill.setDescribe(cursor.getString(cursor.getColumnIndex("skill_describe")));
+                skill.setPictureUrl(cursor.getString(cursor.getColumnIndex("skill_pictureUrl")));
                 list.add(skill);
             }while (cursor.moveToNext());
         }
@@ -376,6 +386,23 @@ public class Palm300heroesDB {
                         if (!heroes.equals(heroes1)) {
                             //如果有部分数据被改变，更新数据库相应的行
                             updateHeroes(heroes);
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        if (object instanceof Skill) {
+            Skill skill = (Skill) object;
+            if (skill != null && palm300heroesDB != null) {
+                List<Skill> list = palm300heroesDB.loadSkill();
+
+                for (Skill skill2 : list) {
+                    if (skill.getName().equals(skill2.getName())) {
+                        if (!skill.equals(skill2)) {
+                            updateSkill(skill);
                         }
                         return true;
                     }
