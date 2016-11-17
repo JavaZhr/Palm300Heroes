@@ -8,34 +8,34 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/heroes_skill_pic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/splash"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_alignParentStart="true"
+                android:layout_margin="3dp"
                 tools:ignore="ContentDescription"
                 android:scaleType="centerCrop" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="3">
+            android:layout_height="60dp"
+            android:layout_weight="5">
             <TextView
                 android:id="@+id/heroes_skill_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textSize="15sp"
-                android:text="被动印记"
                 android:textColor="@color/dark"
-                android:padding="10dp"/>
+                android:padding="5dp"/>
 
             <TextView
                 android:id="@+id/heroes_skill_operation"
@@ -43,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:text="快捷键:被动 冷却时间:无 技能消耗:无"
                 android:textSize="13sp"
                 android:textColor="@color/orange"
                 android:layout_marginEnd="2dp"/>
@@ -53,7 +52,6 @@
         android:id="@+id/heroes_skill_describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="在潜行状态下可获得自身周围1500码地方英雄视野，每次普通攻击会给目标单位添加一层暗杀印记，最多5层，每层印记增加4%的伤害加深，持续5秒"
         android:textSize="13sp"
         android:textColor="@color/dark"
         android:padding="10dp"/>

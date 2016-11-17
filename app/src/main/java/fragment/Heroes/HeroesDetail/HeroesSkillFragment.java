@@ -111,7 +111,8 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
 
     @Override
     public void onRefresh() {
-
+        swipeRefreshLayout.setRefreshing(true);
+        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 
     private void initSkillDate(){
