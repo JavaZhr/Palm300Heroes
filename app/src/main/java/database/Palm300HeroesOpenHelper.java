@@ -58,12 +58,14 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
     public static final String CREATE_SKIN = "create table Skin("
             + "id integer primary key autoincrement, "
             + "skin_hero text, "
-            + "skin_url text )";
+            + "skin_url text, "
+            + "skin_name text )";
 
     public static final String CREATE_SOUND = "create table Sound("
             + "id integer primary key autoincrement, "
             + "sound_hero text, "
-            + "sound_url text )";
+            + "sound_url text, "
+            + "sound_name text )";
 
     public Palm300HeroesOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

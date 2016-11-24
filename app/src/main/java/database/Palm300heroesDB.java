@@ -306,7 +306,20 @@ public class Palm300heroesDB {
             ContentValues values = new ContentValues();
             values.put("skin_hero", skin.getHero());
             values.put("skin_url", skin.getUrl());
+            values.put("skin_name", skin.getName());
             db.insert("Skin", null, values);
+        }else {
+            LogUtil.d("saveSkin", "skin : null");
+        }
+    }
+
+    public void updateSkin(Skin skin) {
+        if (skin != null) {
+            ContentValues values = new ContentValues();
+            values.put("skin_hero", skin.getHero());
+            values.put("skin_url", skin.getUrl());
+            values.put("skin_name", skin.getName());
+            db.update("Skin", values, "skin_name=?", new String[]{skin.getName()});
         }else {
             LogUtil.d("saveSkin", "skin : null");
         }
@@ -321,6 +334,7 @@ public class Palm300heroesDB {
                 skin.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 skin.setHero(cursor.getString(cursor.getColumnIndex("skin_hero")));
                 skin.setUrl(cursor.getString(cursor.getColumnIndex("skin_url")));
+                skin.setName(cursor.getString(cursor.getColumnIndex("skin_name")));
                 list.add(skin);
             }while (cursor.moveToNext());
         }
@@ -336,7 +350,20 @@ public class Palm300heroesDB {
             ContentValues values = new ContentValues();
             values.put("sound_hero", sound.getHero());
             values.put("sound_url", sound.getUrl());
+            values.put("sound_name", sound.getName());
             db.insert("Sound", null, values);
+        }else {
+            LogUtil.d("saveSound", "skin : null");
+        }
+    }
+
+    public void updateSound(Sound sound) {
+        if (sound != null) {
+            ContentValues values = new ContentValues();
+            values.put("sound_hero", sound.getHero());
+            values.put("sound_url", sound.getUrl());
+            values.put("sound_name", sound.getName());
+            db.update("Sound", values, "sound_name=?", new String[]{sound.getName()});
         }else {
             LogUtil.d("saveSound", "skin : null");
         }
@@ -351,6 +378,7 @@ public class Palm300heroesDB {
                 sound.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 sound.setHero(cursor.getString(cursor.getColumnIndex("sound_hero")));
                 sound.setUrl(cursor.getString(cursor.getColumnIndex("sound_url")));
+                sound.setName(cursor.getString(cursor.getColumnIndex("sound_name")));
                 list.add(sound);
             }while (cursor.moveToNext());
         }
@@ -379,7 +407,7 @@ public class Palm300heroesDB {
 
         if (object instanceof Heroes) {
             Heroes heroes = (Heroes) object;
-            if (heroes != null && palm300heroesDB != null) {
+            if (palm300heroesDB != null) {
                 List<Heroes> list = palm300heroesDB.loadHeroes();
                 for (Heroes heroes1 : list) {
                     if (heroes.getName().equals(heroes1.getName())) {
@@ -396,7 +424,7 @@ public class Palm300heroesDB {
 
         if (object instanceof Skill) {
             Skill skill = (Skill) object;
-            if (skill != null && palm300heroesDB != null) {
+            if (palm300heroesDB != null) {
                 List<Skill> list = palm300heroesDB.loadSkill();
 
                 for (Skill skill2 : list) {
@@ -410,6 +438,39 @@ public class Palm300heroesDB {
                 return false;
             }
         }
+
+        if (object instanceof  Skin) {
+            Skin skin = (Skin) object;
+            if (palm300heroesDB != null) {
+                List<Skin> list = palm300heroesDB.loadSkin();
+
+                for (Skin skin1 : list) {
+                    if (skin.getName().equals(skin1.getName())) {
+                        if (!skin.equals(skin1)) {
+                            updateSkin(skin);
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        if (object instanceof  Sound) {
+            Sound sound = (Sound) object;
+            if (palm300heroesDB != null){
+                List<Sound> list = palm300heroesDB.loadSound();
+                for (Sound sound1 : list) {
+                    if (sound.getName().equals(sound1.getName())) {
+                        if (!sound.equals(sound1)) {
+                            updateSound(sound);
+                        }
+                    return true;
+                }
+        }
+        return false;
+    }
+}
         return false;
     }
 }

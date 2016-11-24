@@ -18,6 +18,8 @@ import database.Palm300heroesDB;
 import model.Heroes;
 import model.News;
 import model.Skill;
+import model.Skin;
+import model.Sound;
 
 /**
  * Created by NICOLITE on 2016/10/15 0015.
@@ -163,13 +165,52 @@ public class Utilty {
                         skills.setDescribe(skillDescribe);
                         skills.setHero(heroName);
 
-                        LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getHero());
-                        LogUtil.d("handleHeroesResponse", "skillPictureUrl : " + skills.getPictureUrl());;
+                        LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getName());
+                        LogUtil.d("handleHeroesResponse", "skillPictureUrl : " + skills.getPictureUrl());
                         if (!palm300heroesDB.isExistence(skills)) {
                             palm300heroesDB.saveSkill(skills);
                         }
                     }
 
+                    /*皮肤部分*/
+                    JSONArray skin = heroInfo.getJSONArray("skin");
+
+                    for (int k = 0; k < skin.length(); k++) {
+                        JSONObject skinInfo = skin.getJSONObject(k);
+                        String skinUrl = skinInfo.getString("url");
+                        String skinName = skinInfo.getString("name");
+
+                        Skin skins = new Skin();
+                        skins.setHero(heroName);
+                        skins.setUrl(skinUrl);
+                        skins.setName(skinName);
+
+                        LogUtil.d("handleHeroesResponse", "skinName : " + skins.getName());
+                        LogUtil.d("handleHeroesResponse", "SkinUrl: " + skins.getUrl());
+                        if (!palm300heroesDB.isExistence(skins)) {
+                            palm300heroesDB.saveSkin(skins);
+                        }
+                    }
+
+                    /*配音部分*/
+                    JSONArray sound = heroInfo.getJSONArray("sound");
+
+                    for (int l = 0; l < sound.length(); l++) {
+                        JSONObject soundInfo = sound.getJSONObject(l);
+                        String soundUrl = soundInfo.getString("url");
+                        String soundName = soundInfo.getString("name");
+
+                        Sound sounds = new Sound();
+                        sounds.setHero(heroName);
+                        sounds.setUrl(soundUrl);
+                        sounds.setName(soundName);
+
+                        LogUtil.d("handleHeroesResponse", "soundName : " + sounds.getName());
+                        LogUtil.d("handleHeroesResponse", "soundUrl: " + sounds.getUrl());
+                        if (!palm300heroesDB.isExistence(sounds)) {
+                            palm300heroesDB.saveSound(sounds);
+                        }
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
