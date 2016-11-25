@@ -66,7 +66,7 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "id integer primary key autoincrement, "
             + "sound_hero text, "
             + "sound_url text, "
-            + "sound_name text )";
+            + "sound_content text )";
 
     public Palm300HeroesOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

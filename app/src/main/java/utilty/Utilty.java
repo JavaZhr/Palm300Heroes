@@ -200,14 +200,14 @@ public class Utilty {
                     for (int l = 0; l < sound.length(); l++) {
                         JSONObject soundInfo = sound.getJSONObject(l);
                         String soundUrl = soundInfo.getString("url");
-                        String soundName = soundInfo.getString("name");
+                        String soundContent = soundInfo.getString("content");
 
                         Sound sounds = new Sound();
                         sounds.setHero(heroName);
                         sounds.setUrl(soundUrl);
-                        sounds.setName(soundName);
+                        sounds.setContent(soundContent);
 
-                        LogUtil.d("handleHeroesResponse", "soundName : " + sounds.getName());
+                        LogUtil.d("handleHeroesResponse", "soundContent : " + sounds.getContent());
                         LogUtil.d("handleHeroesResponse", "soundUrl: " + sounds.getUrl());
                         if (!palm300heroesDB.isExistence(sounds)) {
                             palm300heroesDB.saveSound(sounds);

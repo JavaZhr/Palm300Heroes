@@ -353,7 +353,7 @@ public class Palm300heroesDB {
             ContentValues values = new ContentValues();
             values.put("sound_hero", sound.getHero());
             values.put("sound_url", sound.getUrl());
-            values.put("sound_name", sound.getName());
+            values.put("sound_content", sound.getContent());
             db.insert("Sound", null, values);
         }else {
             LogUtil.d("saveSound", "skin : null");
@@ -365,8 +365,8 @@ public class Palm300heroesDB {
             ContentValues values = new ContentValues();
             values.put("sound_hero", sound.getHero());
             values.put("sound_url", sound.getUrl());
-            values.put("sound_name", sound.getName());
-            db.update("Sound", values, "sound_name=?", new String[]{sound.getName()});
+            values.put("sound_content", sound.getContent());
+            db.update("Sound", values, "sound_content=?", new String[]{sound.getContent()});
         }else {
             LogUtil.d("saveSound", "skin : null");
         }
@@ -381,7 +381,7 @@ public class Palm300heroesDB {
                 sound.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 sound.setHero(cursor.getString(cursor.getColumnIndex("sound_hero")));
                 sound.setUrl(cursor.getString(cursor.getColumnIndex("sound_url")));
-                sound.setName(cursor.getString(cursor.getColumnIndex("sound_name")));
+                sound.setContent(cursor.getString(cursor.getColumnIndex("sound_content")));
                 list.add(sound);
             }while (cursor.moveToNext());
         }
@@ -464,7 +464,7 @@ public class Palm300heroesDB {
             if (palm300heroesDB != null){
                 List<Sound> list = palm300heroesDB.loadSound();
                 for (Sound sound1 : list) {
-                    if (sound.getName().equals(sound1.getName())) {
+                    if (sound.getContent().equals(sound1.getContent())) {
                         if (!sound.equals(sound1)) {
                             updateSound(sound);
                         }

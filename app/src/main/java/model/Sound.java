@@ -8,7 +8,7 @@ public class Sound {
     private int id;
     private String hero;
     private String url;
-    private String name;
+    private String content;
 
     public int getId() {
         return id;
@@ -34,11 +34,11 @@ public class Sound {
         this.url = url;
     }
 
-    public String getName() {
-        return name;
+    public String getContent() {
+        return content;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setContent(String content) {
+        this.content = content;
     }
 }
