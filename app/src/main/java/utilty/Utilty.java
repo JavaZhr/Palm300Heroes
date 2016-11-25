@@ -179,11 +179,13 @@ public class Utilty {
                         JSONObject skinInfo = skin.getJSONObject(k);
                         String skinUrl = skinInfo.getString("url");
                         String skinName = skinInfo.getString("name");
+                        String skinPrice = skinInfo.getString("price");
 
                         Skin skins = new Skin();
                         skins.setHero(heroName);
                         skins.setUrl(skinUrl);
                         skins.setName(skinName);
+                        skins.setPrice(skinPrice);
 
                         LogUtil.d("handleHeroesResponse", "skinName : " + skins.getName());
                         LogUtil.d("handleHeroesResponse", "SkinUrl: " + skins.getUrl());

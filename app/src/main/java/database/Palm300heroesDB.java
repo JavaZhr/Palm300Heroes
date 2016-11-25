@@ -307,6 +307,7 @@ public class Palm300heroesDB {
             values.put("skin_hero", skin.getHero());
             values.put("skin_url", skin.getUrl());
             values.put("skin_name", skin.getName());
+            values.put("skin_price", skin.getPrice());
             db.insert("Skin", null, values);
         }else {
             LogUtil.d("saveSkin", "skin : null");
@@ -319,6 +320,7 @@ public class Palm300heroesDB {
             values.put("skin_hero", skin.getHero());
             values.put("skin_url", skin.getUrl());
             values.put("skin_name", skin.getName());
+            values.put("skin_price", skin.getPrice());
             db.update("Skin", values, "skin_name=?", new String[]{skin.getName()});
         }else {
             LogUtil.d("saveSkin", "skin : null");
@@ -335,6 +337,7 @@ public class Palm300heroesDB {
                 skin.setHero(cursor.getString(cursor.getColumnIndex("skin_hero")));
                 skin.setUrl(cursor.getString(cursor.getColumnIndex("skin_url")));
                 skin.setName(cursor.getString(cursor.getColumnIndex("skin_name")));
+                skin.setPrice(cursor.getString(cursor.getColumnIndex("skin_price")));
                 list.add(skin);
             }while (cursor.moveToNext());
         }

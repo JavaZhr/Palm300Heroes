@@ -59,7 +59,8 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "id integer primary key autoincrement, "
             + "skin_hero text, "
             + "skin_url text, "
-            + "skin_name text )";
+            + "skin_name text, "
+            + "skin_price text )";
 
     public static final String CREATE_SOUND = "create table Sound("
             + "id integer primary key autoincrement, "

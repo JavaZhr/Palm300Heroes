@@ -81,7 +81,7 @@ public class HeroesAssassinFragment extends Fragment implements RecyclerViewAdap
         //设置Adapter
         recyclerView.setAdapter(recycleAdapter);
         //设置分隔线
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

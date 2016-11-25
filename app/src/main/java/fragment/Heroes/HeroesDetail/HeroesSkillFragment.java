@@ -59,7 +59,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
 
         initSkillDate();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.hereos_skill_recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skill_recycler_view);
 
         recycleAdapter = new SkillRecyclerViewAdapter(getActivity(), dataList);
 
@@ -73,7 +73,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
         //设置Adapter
         recyclerView.setAdapter(recycleAdapter);
         //设置分隔线
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

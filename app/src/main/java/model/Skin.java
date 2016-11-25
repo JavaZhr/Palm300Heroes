@@ -9,6 +9,7 @@ public class Skin {
     private String hero;
     private String url;
     private String name;
+    private String price;
 
     public int getId() {
         return id;
@@ -40,5 +41,13 @@ public class Skin {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

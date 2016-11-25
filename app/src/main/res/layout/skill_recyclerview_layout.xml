@@ -53,7 +53,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:textSize="13sp"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/dark"
                     android:layout_marginEnd="2dp"/>
             </RelativeLayout>
         </LinearLayout>
