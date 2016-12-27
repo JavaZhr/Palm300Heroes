@@ -321,7 +321,7 @@ public class Palm300heroesDB {
             values.put("skin_url", skin.getUrl());
             values.put("skin_name", skin.getName());
             values.put("skin_price", skin.getPrice());
-            db.update("Skin", values, "skin_name=?", new String[]{skin.getName()});
+            db.update("Skin", values, "skin_name=? and skin_hero=?", new String[]{skin.getName(),skin.getHero()});
         }else {
             LogUtil.d("saveSkin", "skin : null");
         }
@@ -444,11 +444,12 @@ public class Palm300heroesDB {
 
         if (object instanceof  Skin) {
             Skin skin = (Skin) object;
+            int flag = 0;
             if (palm300heroesDB != null) {
                 List<Skin> list = palm300heroesDB.loadSkin();
 
                 for (Skin skin1 : list) {
-                    if (skin.getName().equals(skin1.getName())) {
+                    if (skin.getName().equals(skin1.getName()) && skin.getHero().equals(skin1.getHero())) {
                         if (!skin.equals(skin1)) {
                             updateSkin(skin);
                         }

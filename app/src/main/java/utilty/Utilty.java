@@ -187,8 +187,10 @@ public class Utilty {
                         skins.setName(skinName);
                         skins.setPrice(skinPrice);
 
+                        LogUtil.d("handleHeroesResponse", "skinHero : " + skins.getHero());
                         LogUtil.d("handleHeroesResponse", "skinName : " + skins.getName());
                         LogUtil.d("handleHeroesResponse", "SkinUrl: " + skins.getUrl());
+
                         if (!palm300heroesDB.isExistence(skins)) {
                             palm300heroesDB.saveSkin(skins);
                         }

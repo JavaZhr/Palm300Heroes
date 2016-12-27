@@ -20,13 +20,13 @@ import utilty.LogUtil;
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter {
+public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
     private List<Heroes> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
 
-    public RecyclerViewAdapter(Context context,List<Heroes> dataList) {
+    public HeroesRecyclerViewAdapter(Context context, List<Heroes> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);

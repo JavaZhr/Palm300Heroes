@@ -121,7 +121,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
         dataList.clear();
         Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
         for (Skill skill : list) {
-            if (skill.getHero().contains(heroes.getName())) {
+            if (skill.getHero().contains(heroes.getName()) && skill.getName() != null) {
                 dataList.add(skill);
             }
         }

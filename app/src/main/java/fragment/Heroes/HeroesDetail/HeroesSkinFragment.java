@@ -19,6 +19,7 @@ import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.Heroes;
 import model.Skin;
+import utilty.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
@@ -94,7 +95,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
         dataList.clear();
         Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
         for (Skin skin : list) {
-            if (skin.getHero().contains(heroes.getName())) {
+            if (skin.getHero().contains(heroes.getName()) && skin.getName() != null) {
                 dataList.add(skin);
             }
         }

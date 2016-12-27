@@ -36,15 +36,23 @@ public class NewsAdapter extends ArrayAdapter<News> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         News news = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
+        View view;
+        if (convertView == null){
+            view = LayoutInflater.from(getContext()).inflate(resourceId, null);
+        }else {
+            view = convertView;
+        }
         TextView newsTitle = (TextView) view.findViewById(R.id.news_title_listview);
         TextView newsCategory = (TextView) view.findViewById(R.id.news_author_listview);
         TextView newsDate = (TextView) view.findViewById(R.id.news_date_listview);
         ImageView newsImage = (ImageView) view.findViewById(R.id.news_image_listview);
+
         newsCategory.setText(news.getNickName());
         newsTitle.setText(news.getTitle());
         newsDate.setText(news.getDate());
+
         LogUtil.d("NewsAdapter", "imageUrl: " + news.getImageUrl());
+
         Glide
                 .with(context)
                 .load(news.getImageUrl())

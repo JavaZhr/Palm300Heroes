@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import activity.HeroesDetailActivity;
-import adapter.RecyclerViewAdapter;
+import adapter.HeroesRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.Heroes;
 import myInterface.HttpCallbackListener;
-import other.DividerItemDecoration;
 import utilty.HttpUtil;
 import utilty.LogUtil;
 import utilty.Utilty;
@@ -33,12 +32,12 @@ import utilty.Utilty;
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class HeroesTankFrament extends Fragment implements RecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class HeroesTankFrament extends Fragment implements HeroesRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout swipeRefreshLayout;
     private Palm300heroesDB palm300heroesDB;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private RecyclerViewAdapter recycleAdapter;
+    private HeroesRecyclerViewAdapter recycleAdapter;
     private static final int REFRESH_COMPLETE_TIME = 2000;
     private List<Heroes> dataList = new ArrayList<>() ;
     private final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
@@ -69,7 +68,7 @@ public class HeroesTankFrament extends Fragment implements RecyclerViewAdapter.O
 
         recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recyclerview);
 
-        recycleAdapter = new RecyclerViewAdapter(getActivity(), dataList);
+        recycleAdapter = new HeroesRecyclerViewAdapter(getActivity(), dataList);
 
         recycleAdapter.setOnItemClickListener(this);
 
