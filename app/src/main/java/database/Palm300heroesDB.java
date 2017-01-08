@@ -444,7 +444,6 @@ public class Palm300heroesDB {
 
         if (object instanceof  Skin) {
             Skin skin = (Skin) object;
-            int flag = 0;
             if (palm300heroesDB != null) {
                 List<Skin> list = palm300heroesDB.loadSkin();
 

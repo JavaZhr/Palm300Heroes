@@ -95,7 +95,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
         dataList.clear();
         Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
         for (Skin skin : list) {
-            if (skin.getHero().contains(heroes.getName()) && skin.getName() != null) {
+            if (skin.getHero().contains(heroes.getName())) {
                 dataList.add(skin);
             }
         }

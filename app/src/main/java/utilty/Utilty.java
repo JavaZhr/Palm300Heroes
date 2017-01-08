@@ -94,7 +94,6 @@ public class Utilty {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 LogUtil.d("handleHeroesResponse", "Hero staus : " + status);
-                int count = jsonObject.getInt("count");
 
                 JSONArray info = jsonObject.getJSONArray("info");
 
