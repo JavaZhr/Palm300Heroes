@@ -41,7 +41,6 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
     private Button buttonAssist;
     private ViewPager viewPager;
     private int selectedPositon; //记录Fragment
-    private FloatingActionButton floatingActionButton;
 
     private HeroesAllFragment heroesAllFragment;
     private HeroesAssassinFragment heroesAssassinFragment;
@@ -78,8 +77,6 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
         buttonAll.setTextColor(getResources().getColor(R.color.orange));
         viewPager.addOnPageChangeListener(this);
 
-        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.heroes_floating_action_button);
-        floatingActionButton.setOnClickListener(this);
         return view;
     }
 
@@ -181,9 +178,6 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
             case R.id.assist_heroes :
                 buttonAssist.setTextColor(getResources().getColor(R.color.orange));
                 selectedPositon = 6;
-                break;
-            case R.id.heroes_floating_action_button :
-                Toast.makeText(getActivity(), "点击了悬浮按钮" , Toast.LENGTH_SHORT).show();
                 break;
             default: break;
         }

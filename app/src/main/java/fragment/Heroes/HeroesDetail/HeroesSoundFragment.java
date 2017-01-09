@@ -1,5 +1,7 @@
 package fragment.Heroes.HeroesDetail;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,13 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.SoundRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
+import model.Heroes;
 import model.Sound;
 
 /**
@@ -30,12 +35,17 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     private SoundRecyclerViewAdapter recycleAdapter;
     private List<Sound> dataList = new ArrayList<>();
 
+    private ImageView playSound;
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private boolean click = true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_sound_fragment, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.heroes_sound_recycler_view);
+
+        initSoundDate();
 
         recycleAdapter = new SoundRecyclerViewAdapter(getActivity(), dataList);
 
@@ -83,6 +93,44 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
 
     @Override
     public void onItemClick(View view, int position) {
+        if (click){
+            click = false;
+            playSound = (ImageView) view.findViewById(R.id.play_sound);
+            Uri uri = Uri.parse(dataList.get(position).getUrl());
+            playSound.setImageResource(R.drawable.ic_media_pause);
+            try {
+                mediaPlayer.setDataSource(getActivity(),uri);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    playSound.setImageResource(R.drawable.ic_media_play);
+                    mediaPlayer.release();
+                }
+            });
+        }
+    }
 
+    public void initSoundDate(){
+        palm300heroesDB = palm300heroesDB.getInstance(getActivity());
+        List<Sound> list = palm300heroesDB.loadSound();
+        dataList.clear();
+        Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
+        for (Sound sound : list) {
+            if (sound.getHero().contains(heroes.getName())) {
+                dataList.add(sound);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.stop();
+        mediaPlayer.release();
     }
 }

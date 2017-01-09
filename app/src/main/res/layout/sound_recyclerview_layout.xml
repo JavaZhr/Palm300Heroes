@@ -13,11 +13,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:layout_gravity="center"
             android:padding="5dp"/>
         <ImageView
+            android:id="@+id/play_sound"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/play_pic"/>
+            android:src="@drawable/ic_media_play"/>
     </LinearLayout>
 </LinearLayout>
