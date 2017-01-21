@@ -28,34 +28,17 @@ import other.DividerItemDecoration;
  * Created by NICOLITE on 2016/11/7 0007.
  */
 
-public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
-    private SwipeRefreshLayout swipeRefreshLayout;
+public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAdapter.OnItemClickListener{
     private Palm300heroesDB palm300heroesDB;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private SkillRecyclerViewAdapter recycleAdapter;
-    private static final int REFRESH_COMPLETE_TIME = 2000;
     private List<Skill> dataList = new ArrayList<>();
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0 :
-                    swipeRefreshLayout.setRefreshing(false);
-                    recycleAdapter.notifyDataSetChanged();
-                    break;
-                default:break;
-            }
-        }
-    };
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_skill_fragment, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.heroes_skill_swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
-        swipeRefreshLayout.setOnRefreshListener(this);
 
         initSkillDate();
 
@@ -77,30 +60,6 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(){
-            int lastVisibleItem;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recycleAdapter.getItemCount()) {
-                    //swipeRefreshLayout.setRefreshing(true);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }).start();
-                    //分页获取数据
-                    //获取完成swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
         return view;
     }
 
@@ -109,19 +68,13 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
 
     }
 
-    @Override
-    public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
-        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-    }
-
     private void initSkillDate(){
         palm300heroesDB = palm300heroesDB.getInstance(getActivity());
         List<Skill> list = palm300heroesDB.loadSkill();
         dataList.clear();
         Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
         for (Skill skill : list) {
-            if (skill.getHero().contains(heroes.getName())) {
+            if (skill.getHero().equals(heroes.getName())) {
                 dataList.add(skill);
             }
         }

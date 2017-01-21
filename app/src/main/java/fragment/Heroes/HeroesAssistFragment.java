@@ -84,32 +84,6 @@ public class HeroesAssistFragment extends Fragment implements HeroesRecyclerView
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recycleAdapter.getItemCount()) {
-                    //swipeRefreshLayout.setRefreshing(true);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }).start();
-                    //分页获取数据
-                    //获取完成swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
-
         return view;
     }
 

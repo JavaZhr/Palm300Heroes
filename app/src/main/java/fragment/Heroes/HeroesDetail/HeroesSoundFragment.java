@@ -36,7 +36,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     private List<Sound> dataList = new ArrayList<>();
 
     private ImageView playSound;
-    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private MediaPlayer mediaPlayer = null;
     private boolean click = true;
     @Nullable
     @Override
@@ -63,41 +63,19 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(){
-            int lastVisibleItem;
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == recycleAdapter.getItemCount()) {
-                    //swipeRefreshLayout.setRefreshing(true);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }).start();
-                    //分页获取数据
-                    //获取完成swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-            }
-        });
-
         return view;
     }
 
     @Override
     public void onItemClick(View view, int position) {
+        playSound = (ImageView) view.findViewById(R.id.play_sound);
         if (click){
+            if (mediaPlayer == null) {
+                mediaPlayer = new MediaPlayer();
+            }
             click = false;
-            playSound = (ImageView) view.findViewById(R.id.play_sound);
-            Uri uri = Uri.parse(dataList.get(position).getUrl());
             playSound.setImageResource(R.drawable.ic_media_pause);
+            Uri uri = Uri.parse(dataList.get(position).getUrl());
             try {
                 mediaPlayer.setDataSource(getActivity(),uri);
                 mediaPlayer.prepare();
@@ -109,9 +87,17 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     playSound.setImageResource(R.drawable.ic_media_play);
+                    mediaPlayer.reset();
                     mediaPlayer.release();
+                    mediaPlayer = null;
                 }
             });
+        }else {
+            playSound.setImageResource(R.drawable.ic_media_play);
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            click = true;
         }
     }
 
@@ -121,16 +107,24 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         dataList.clear();
         Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
         for (Sound sound : list) {
-            if (sound.getHero().contains(heroes.getName())) {
+            if (sound.getHero().equals(heroes.getName())) {
                 dataList.add(sound);
             }
+        }
+    }
+
+    void destoryMediaPlay(){
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.stop();
-        mediaPlayer.release();
+        destoryMediaPlay();
     }
 }

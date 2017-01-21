@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,10 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            FragmentManager manager = getChildFragmentManager();
+            manager.popBackStackImmediate(null, 1);
+        }
         View view = inflater.inflate(R.layout.news_fragment, container, false);
         listView = (ListView) view.findViewById(R.id.news_listview);
         adapter = new NewsAdapter(getActivity(), R.layout.news_listview_layout, dataList);

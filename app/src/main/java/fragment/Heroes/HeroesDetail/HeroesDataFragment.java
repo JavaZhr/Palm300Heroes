@@ -21,7 +21,7 @@ import model.Heroes;
  * Created by NICOLITE on 2016/11/7 0007.
  */
 
-public class HeroesDataFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class HeroesDataFragment extends Fragment{
     private TextView heroesHealthValue;
     private TextView heroesMagicPointValue;
     private TextView heroesPhysicalAttackValue;
@@ -37,29 +37,11 @@ public class HeroesDataFragment extends Fragment implements SwipeRefreshLayout.O
     private ImageView heroesImageView;
 
     private Heroes heroes;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private static final int REFRESH_COMPLETE_TIME = 2000;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0 :
-                    swipeRefreshLayout.setRefreshing(false);
-                    initView();
-                    break;
-                default:break;
-            }
-        }
-    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.heroes_detail_data_fragment, container, false);
-
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.heroes_detail_data_wipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
-        swipeRefreshLayout.setOnRefreshListener(this);
 
         heroesHealthValue = (TextView) view.findViewById(R.id.heroes_health_value);
         heroesMagicPointValue = (TextView) view.findViewById(R.id.heroes_magic_point_value);
@@ -99,11 +81,5 @@ public class HeroesDataFragment extends Fragment implements SwipeRefreshLayout.O
                 .skipMemoryCache(true)
                 .dontAnimate()
                 .into(heroesImageView);
-    }
-
-    @Override
-    public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
-        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

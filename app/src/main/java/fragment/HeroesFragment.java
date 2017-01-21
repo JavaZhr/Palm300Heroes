@@ -53,6 +53,11 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            FragmentManager manager = getChildFragmentManager();
+            manager.popBackStackImmediate(null, 1);
+        }
+
         View view = inflater.inflate(R.layout.heroes_fragment, container, false);
         buttonAll = (Button) view.findViewById(R.id.all_heroes);
         buttonAssassin = (Button) view.findViewById(R.id.assassin_heroes);
@@ -129,7 +134,6 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
         }else {
             transaction.show(heroesAssistFragment);
         }
-
         transaction.commit();
 
         fragments.add(heroesAllFragment);
