@@ -4,10 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/heroes_detail_data_wipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -143,5 +139,4 @@
                     android:background="@color/white"/>
             </LinearLayout>
         </ScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

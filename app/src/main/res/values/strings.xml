@@ -23,4 +23,8 @@
     <string name="skill">技能</string>
     <string name="skin">皮肤</string>
     <string name="sound">语音</string>
+
+    <!-- 装备分类选项 -->
+    <string name="battlefield_equipment">战场装备</string>
+    <string name="arena_gear">竞技场装备</string>
 </resources>
