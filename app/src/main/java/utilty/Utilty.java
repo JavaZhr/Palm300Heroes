@@ -141,8 +141,8 @@ public class Utilty {
                     heroes.setAttackRangeValue(attackRangeValue);
                     heroes.setMovementSpeedValue(movementSpeedValue);
 
-                    LogUtil.d("handleHeroesResponse", "HeroName : " + heroes.getName());
-                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());
+                    /*LogUtil.d("handleHeroesResponse", "HeroName : " + heroes.getName());
+                    LogUtil.d("handleHeroesResponse", "AvatarUrl : " + heroes.getAvatarUrl());*/
                     if (!palm300heroesDB.isExistence(heroes)) {
                         palm300heroesDB.saveHeroes(heroes);
                     }
@@ -164,8 +164,8 @@ public class Utilty {
                         skills.setDescribe(skillDescribe);
                         skills.setHero(heroName);
 
-                        LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getName());
-                        LogUtil.d("handleHeroesResponse", "skillPictureUrl : " + skills.getPictureUrl());
+                       /* LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getName());
+                        LogUtil.d("handleHeroesResponse", "skillPictureUrl : " + skills.getPictureUrl());*/
                         if (!palm300heroesDB.isExistence(skills)) {
                             palm300heroesDB.saveSkill(skills);
                         }
@@ -186,9 +186,9 @@ public class Utilty {
                         skins.setName(skinName);
                         skins.setPrice(skinPrice);
 
-                        LogUtil.d("handleHeroesResponse", "skinHero : " + skins.getHero());
+                      /*  LogUtil.d("handleHeroesResponse", "skinHero : " + skins.getHero());
                         LogUtil.d("handleHeroesResponse", "skinName : " + skins.getName());
-                        LogUtil.d("handleHeroesResponse", "SkinUrl: " + skins.getUrl());
+                        LogUtil.d("handleHeroesResponse", "SkinUrl: " + skins.getUrl());*/
 
                         if (!palm300heroesDB.isExistence(skins)) {
                             palm300heroesDB.saveSkin(skins);
@@ -208,8 +208,8 @@ public class Utilty {
                         sounds.setUrl(soundUrl);
                         sounds.setContent(soundContent);
 
-                        LogUtil.d("handleHeroesResponse", "soundContent : " + sounds.getContent());
-                        LogUtil.d("handleHeroesResponse", "soundUrl: " + sounds.getUrl());
+                       /* LogUtil.d("handleHeroesResponse", "soundContent : " + sounds.getContent());
+                        LogUtil.d("handleHeroesResponse", "soundUrl: " + sounds.getUrl());*/
                         if (!palm300heroesDB.isExistence(sounds)) {
                             palm300heroesDB.saveSound(sounds);
                         }

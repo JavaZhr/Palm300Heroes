@@ -36,8 +36,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     private List<Sound> dataList = new ArrayList<>();
 
     private ImageView playSound;
-    private MediaPlayer mediaPlayer = null;
-    private boolean click = true;
+    private MediaPlayer mediaPlayer;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,36 +68,28 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     @Override
     public void onItemClick(View view, int position) {
         playSound = (ImageView) view.findViewById(R.id.play_sound);
-        if (click){
-            if (mediaPlayer == null) {
-                mediaPlayer = new MediaPlayer();
-            }
-            click = false;
-            playSound.setImageResource(R.drawable.ic_media_pause);
-            Uri uri = Uri.parse(dataList.get(position).getUrl());
-            try {
-                mediaPlayer.setDataSource(getActivity(),uri);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    playSound.setImageResource(R.drawable.ic_media_play);
-                    mediaPlayer.reset();
-                    mediaPlayer.release();
-                    mediaPlayer = null;
-                }
-            });
-        }else {
-            playSound.setImageResource(R.drawable.ic_media_play);
-            mediaPlayer.reset();
-            mediaPlayer.release();
-            mediaPlayer = null;
-            click = true;
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer();
         }
+        playSound.setImageResource(R.drawable.ic_media_pause);
+        Uri uri = Uri.parse(dataList.get(position).getUrl());
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(getActivity(),uri);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playSound.setImageResource(R.drawable.ic_media_play);
+                mediaPlayer.reset();
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+        });
     }
 
     public void initSoundDate(){
