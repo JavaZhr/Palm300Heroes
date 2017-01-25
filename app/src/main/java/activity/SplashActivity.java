@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import cn.nicolite.palm300heroes.MainActivity;
 import cn.nicolite.palm300heroes.R;
+import utilty.Utilty;
 
 /**
  * Created by NICOLITE on 2016/10/11 0011.
@@ -17,7 +18,7 @@ import cn.nicolite.palm300heroes.R;
 public class SplashActivity extends Activity {
     private TextView splashCountDown;
     private MyCountDownTImer myCountDownTImer;
-    private final int SPLASH_DISPLAY_TIME = 3000;
+    private final int SPLASH_DISPLAY_TIME = 4000;
     /*Splash展示时间*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,9 @@ public class SplashActivity extends Activity {
 
         myCountDownTImer = new MyCountDownTImer(SPLASH_DISPLAY_TIME, 1000);
         myCountDownTImer.start();
+
+        /*初始化所有数据*/
+        Utilty.initAllDate(this);
 
         new Handler().postDelayed(new Runnable() {
             @Override

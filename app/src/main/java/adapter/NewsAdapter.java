@@ -51,7 +51,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         newsTitle.setText(news.getTitle());
         newsDate.setText(news.getDate());
 
-        LogUtil.d("NewsAdapter", "imageUrl: " + news.getImageUrl());
+        //LogUtil.d("NewsAdapter", "imageUrl: " + news.getImageUrl());
 
         Glide
                 .with(context)

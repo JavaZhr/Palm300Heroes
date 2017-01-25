@@ -74,8 +74,8 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
         final ViewHolder viewHolder = (ViewHolder) holder;
         Skill skill = dataList.get(position);
 
-        LogUtil.d("onBindViewHolder", "HeroesDName : " + skill.getName());
-        LogUtil.d("onBindViewHolder", "SkillPictureUrl : " + dataList.get(position).getPictureUrl());
+       /* LogUtil.d("onBindViewHolder", "HeroesDName : " + skill.getName());
+        LogUtil.d("onBindViewHolder", "SkillPictureUrl : " + dataList.get(position).getPictureUrl());*/
 
         Glide
                 .with(context)

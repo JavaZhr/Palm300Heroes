@@ -81,8 +81,8 @@ public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
 
         final ViewHolder viewHolder = (ViewHolder) holder;
         Heroes heroes = dataList.get(position);
-        LogUtil.d("onBindViewHolder", "HeroesDName : " + heroes.getName());
-        LogUtil.d("onBindViewHolder", "avatarUrl : " + dataList.get(position).getAvatarUrl());
+       /* LogUtil.d("onBindViewHolder", "HeroesDName : " + heroes.getName());
+        LogUtil.d("onBindViewHolder", "avatarUrl : " + dataList.get(position).getAvatarUrl());*/
         Glide
                 .with(context)
                 .load(heroes.getAvatarUrl())

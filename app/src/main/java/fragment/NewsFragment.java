@@ -38,10 +38,8 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private News selectedNews;
     private ListView listView;
     private NewsAdapter adapter;
-    private Palm300heroesDB palm300heroesDB;
-    private SwipeRefreshLayout swipeRefreshLayout = null;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private static final int REFRESH_COMPLETE_TIME = 2000;
-    private static final String ADDRESS = "http://nicolite.cn/api/get_category_posts/?slug=300heroes";
 
     private Handler handler = new Handler(){
         @Override
@@ -60,14 +58,12 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            FragmentManager manager = getChildFragmentManager();
-            manager.popBackStackImmediate(null, 1);
-        }
         View view = inflater.inflate(R.layout.news_fragment, container, false);
+
         listView = (ListView) view.findViewById(R.id.news_listview);
         adapter = new NewsAdapter(getActivity(), R.layout.news_listview_layout, dataList);
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,27 +80,13 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout.setOnRefreshListener(this);
 
         onRefresh();
+
         return view;
     }
 
-    /*初始化资讯数据*/
-    private void initNewsDate() {
-        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Utilty.handleNewsResponse(palm300heroesDB, response);
-                queryNews();
-            }
-            @Override
-            public void onError(Exception e) {
-                LogUtil.d("initNewDate", "返回数据错误");
-            }
-        });
 
-    }
-
-    private void queryNews(){
+    private void readNewsDate(){
+        Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
         newsList = palm300heroesDB.loadNews();
         Utilty.sortByDate(newsList);
         if (newsList.size() > 0 && dataList.size() > 0) {
@@ -116,7 +98,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }else {
                  dataList.clear();
                  for (News news : newsList) {
-                     LogUtil.d("queryNews", "NewsDate: " + news.getDate());
+                    /* LogUtil.d("queryNews", "NewsDate: " + news.getDate());*/
                     dataList.add(news);
                  }
         }
@@ -124,9 +106,9 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        //swipeRefreshLayout.setRefreshing(true);
-        initNewsDate();
-        queryNews();
+        swipeRefreshLayout.setRefreshing(true);
+        Utilty.initNewsDate(getActivity());
+        readNewsDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

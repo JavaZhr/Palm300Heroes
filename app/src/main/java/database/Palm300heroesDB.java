@@ -20,17 +20,10 @@ import utilty.LogUtil;
  */
 
 public class Palm300heroesDB {
-
-    /**
-     * 数据库名
-     */
-
+    /*数据库名*/
     public static final String DB_NAME = "palm300heroes";
 
-    /**
-     * 数据库版本
-     */
-
+    /*数据库版本*/
     public static int VERSION = 1;
 
     private static Palm300heroesDB palm300heroesDB;
@@ -41,10 +34,7 @@ public class Palm300heroesDB {
         db = dbHelper.getWritableDatabase();
     }
 
-    /**
-     * 获取Palm300HeroesDB实例
-     */
-
+    /* 获取Palm300HeroesDB实例*/
     public synchronized static Palm300heroesDB getInstance(Context context) {
         if (palm300heroesDB == null) {
             palm300heroesDB = new Palm300heroesDB(context);
@@ -52,10 +42,7 @@ public class Palm300heroesDB {
         return palm300heroesDB;
     }
 
-    /**
-     * 将News实例存储到数据库
-     */
-
+    /*将News实例存储到数据库 */
     public void saveNews(News news) {
         if (news != null) {
             ContentValues values = new ContentValues();
@@ -90,10 +77,7 @@ public class Palm300heroesDB {
     }
 
 
-    /**
-     * 从数据库中读取News数据
-     */
-
+    /* 从数据库中读取News数据 */
     public List<News> loadNews() {
         List<News> list = new ArrayList<News>();
         Cursor cursor = db.query("News", null, null, null, null, null, null);
@@ -178,7 +162,7 @@ public class Palm300heroesDB {
     }
 
     public List<Heroes> loadHeroes() {
-        List<Heroes> list = new ArrayList<Heroes>();
+        List<Heroes> list = new ArrayList<>();
         Cursor cursor = db.query("Heroes", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -214,39 +198,12 @@ public class Palm300heroesDB {
     }
 
     public static List<Heroes> getHeroesTypeDate(String heroesType){
+        List<Heroes> dataList = palm300heroesDB.loadHeroes();
         List<Heroes> list = new ArrayList<>();
-        Cursor cursor = db.query("Heroes", null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                Heroes heroes = new Heroes();
-                heroes.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                heroes.setName(cursor.getString(cursor.getColumnIndex("hero_name")));
-                heroes.setType(cursor.getString(cursor.getColumnIndex("hero_type")));
-                heroes.setBackground(cursor.getString(cursor.getColumnIndex("hero_background")));
-                heroes.setAvatarUrl(cursor.getString(cursor.getColumnIndex("hero_avatar_url")));
-                heroes.setPictureUrl(cursor.getString(cursor.getColumnIndex("hero_picture_url")));
-                heroes.setCoinsPrice(cursor.getString(cursor.getColumnIndex("hero_coins_price")));
-                heroes.setDiamondPrice(cursor.getString(cursor.getColumnIndex("hero_diamond_price")));
-
-                /*英雄基础数据*/
-                heroes.setHealthValue(cursor.getString(cursor.getColumnIndex("hero_health_value")));
-                heroes.setMagicPointValue(cursor.getString(cursor.getColumnIndex("hero_magic_point_value")));
-                heroes.setPhysicalAttackValue(cursor.getString(cursor.getColumnIndex("hero_physical_attack_value")));
-                heroes.setMagicAttackValue(cursor.getString(cursor.getColumnIndex("hero_magic_attack_value")));
-                heroes.setPhysicalDefenseValue(cursor.getString(cursor.getColumnIndex("hero_physical_defense_value")));
-                heroes.setMagicDefenseValue(cursor.getString(cursor.getColumnIndex("hero_magic_defense_value")));
-                heroes.setCritValue(cursor.getString(cursor.getColumnIndex("hero_crit_value")));
-                heroes.setAttackSpeedValue(cursor.getString(cursor.getColumnIndex("hero_attack_speed_value")));
-                heroes.setAttackRangeValue(cursor.getString(cursor.getColumnIndex("hero_attack_range_value")));
-                heroes.setMovementSpeedValue(cursor.getString(cursor.getColumnIndex("hero_movement_speed_value")));
-
-                if (heroes.getType().contains(heroesType)) {
-                    list.add(heroes);
-                }
-            }while (cursor.moveToNext());
-        }
-        if (cursor != null) {
-            cursor.close();
+        for (Heroes heroes : dataList) {
+            if (heroes.getType().contains(heroesType)) {
+                list.add(heroes);
+            }
         }
         return list;
     }

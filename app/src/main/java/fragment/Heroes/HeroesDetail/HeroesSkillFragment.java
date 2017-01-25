@@ -22,33 +22,53 @@ import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.Heroes;
 import model.Skill;
+import myInterface.HttpCallbackListener;
 import other.DividerItemDecoration;
+import utilty.HttpUtil;
+import utilty.LogUtil;
+import utilty.Utilty;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
  */
 
-public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAdapter.OnItemClickListener{
-    private Palm300heroesDB palm300heroesDB;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
-    private SkillRecyclerViewAdapter recycleAdapter;
+public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
     private List<Skill> dataList = new ArrayList<>();
+    private SkillRecyclerViewAdapter recycleAdapter;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private static final int REFRESH_COMPLETE_TIME = 2000;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0 :
+                    swipeRefreshLayout.setRefreshing(false);
+                    recycleAdapter.notifyDataSetChanged();
+                    break;
+                default:break;
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_skill_fragment, container, false);
 
-        initSkillDate();
+        readSkillDate();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skill_recycler_view);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.skill_swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skill_recycler_view);
 
         recycleAdapter = new SkillRecyclerViewAdapter(getActivity(), dataList);
 
         recycleAdapter.setOnItemClickListener(this);
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
@@ -68,8 +88,8 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
 
     }
 
-    private void initSkillDate(){
-        palm300heroesDB = palm300heroesDB.getInstance(getActivity());
+    private void readSkillDate(){
+        Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
         List<Skill> list = palm300heroesDB.loadSkill();
         dataList.clear();
         Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
@@ -78,5 +98,12 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
                 dataList.add(skill);
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        Utilty.initSkillDate(getActivity());
+        readSkillDate();
+        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

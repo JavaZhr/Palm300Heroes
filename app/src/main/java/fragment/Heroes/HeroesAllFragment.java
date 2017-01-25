@@ -40,7 +40,6 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
     private HeroesRecyclerViewAdapter recycleAdapter;
     private static final int REFRESH_COMPLETE_TIME = 2000;
     private List<Heroes> dataList = new ArrayList<>() ;
-    private final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
 
     private Handler handler = new Handler() {
         @Override
@@ -62,10 +61,10 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        initHeroesData();
+        readHeroesData();
         dataList = palm300heroesDB.loadHeroes();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recycler_view);
 
         recycleAdapter = new HeroesRecyclerViewAdapter(getActivity(), dataList);
 
@@ -86,19 +85,10 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
         return view;
     }
 
-    private void initHeroesData() {
+    /*读取英雄数据*/
+    private void readHeroesData() {
         palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Utilty.handleHeroesResponse(palm300heroesDB, response);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                LogUtil.d("initHeroesData", "返回数据错误");
-            }
-        });
+        dataList = palm300heroesDB.loadHeroes();
     }
 
     @Override
@@ -110,8 +100,8 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
 
     @Override
     public void onRefresh() {
-        initHeroesData();
-        dataList = palm300heroesDB.loadHeroes();
+        Utilty.initHeroDate(getActivity());
+        readHeroesData();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
         //重新获取数据
         //获取完成swipeRefreshLayout.setRefreshing(false);

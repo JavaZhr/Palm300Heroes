@@ -34,13 +34,11 @@ import utilty.Utilty;
 
 public class HeroesMasterFragment extends Fragment implements HeroesRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Palm300heroesDB palm300heroesDB;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private HeroesRecyclerViewAdapter recycleAdapter;
     private static final int REFRESH_COMPLETE_TIME = 2000;
     private List<Heroes> dataList = new ArrayList<>() ;
-    private final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
 
     private Handler handler = new Handler() {
         @Override
@@ -63,10 +61,9 @@ public class HeroesMasterFragment extends Fragment implements HeroesRecyclerView
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
-        dataList = Palm300heroesDB.getHeroesTypeDate("法师");
+       readHeroDate();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_detail_recycler_view);
 
         recycleAdapter = new HeroesRecyclerViewAdapter(getActivity(), dataList);
 
@@ -87,21 +84,6 @@ public class HeroesMasterFragment extends Fragment implements HeroesRecyclerView
         return view;
     }
 
-    private void initHeroesData() {
-        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Utilty.handleHeroesResponse(palm300heroesDB, response);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                LogUtil.d("initHeroesData", "返回数据错误");
-            }
-        });
-    }
-
     @Override
     public void onItemClick(View view, int position) {
         Intent intent = new Intent(getActivity(), HeroesDetailActivity.class);
@@ -109,12 +91,15 @@ public class HeroesMasterFragment extends Fragment implements HeroesRecyclerView
         getActivity().startActivity(intent);
     }
 
+    public void readHeroDate() {
+        dataList = Palm300heroesDB.getHeroesTypeDate("法师");
+    }
+
     @Override
     public void onRefresh() {
-        initHeroesData();
-        dataList = Palm300heroesDB.getHeroesTypeDate("法师");
+        Utilty.initHeroDate(getActivity());
+        readHeroDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-
         //重新获取数据
         //获取完成swipeRefreshLayout.setRefreshing(false);
     }

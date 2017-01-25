@@ -46,11 +46,6 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            FragmentManager manager = getSupportFragmentManager();
-            manager.popBackStackImmediate(null, 1);
-        }
-
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏

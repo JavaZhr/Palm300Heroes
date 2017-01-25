@@ -45,11 +45,6 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            FragmentManager manager = getSupportFragmentManager();
-            manager.popBackStackImmediate(null, 1);
-        }
-
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏

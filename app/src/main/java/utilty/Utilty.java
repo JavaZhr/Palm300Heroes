@@ -1,5 +1,6 @@
 package utilty;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import model.News;
 import model.Skill;
 import model.Skin;
 import model.Sound;
+import myInterface.HttpCallbackListener;
 
 /**
  * Created by NICOLITE on 2016/10/15 0015.
@@ -27,17 +29,19 @@ import model.Sound;
 
 
 public class Utilty {
+    private static Palm300heroesDB palm300heroesDB;
     /**
      * 解析和处理服务器返回的News数据
      */
-    public synchronized static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
 
+    /*资讯信息部分*/
+    public synchronized static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
 
-                Log.d("handleNewsResponse", "JSON status : " + status  );
+                Log.d("handleNewsResponse", "News status : " + status  );
                 if (status.equals("ok")) {
                     JSONObject category = jsonObject.getJSONObject("category");
                     String categoryTitle = category.getString("title");
@@ -73,7 +77,6 @@ public class Utilty {
                         }
                      }
                 }else {
-
                     return false;
                 }
 
@@ -87,18 +90,18 @@ public class Utilty {
         return true;
     }
 
-
+    /*英雄信息部分*/
     public synchronized static boolean handleHeroesResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
-                LogUtil.d("handleHeroesResponse", "Hero staus : " + status);
+                LogUtil.d("handleHeroesResponse", "Hero status : " + status);
 
                 JSONArray info = jsonObject.getJSONArray("info");
 
                 for (int i = 0; i < info.length(); i++) {
-                    /*英雄信息部分*/
+
                     JSONObject heroInfo = info.getJSONObject(i);
 
                     String heroName = heroInfo.getString("heroName");
@@ -146,47 +149,93 @@ public class Utilty {
                     if (!palm300heroesDB.isExistence(heroes)) {
                         palm300heroesDB.saveHeroes(heroes);
                     }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
 
-                    /*技能部分*/
-                    JSONArray skill = heroInfo.getJSONArray("skill");
+    /*技能部分*/
+    public synchronized static boolean handleSkillResponse(Palm300heroesDB palm300heroesDB, String response) {
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                LogUtil.d("handleHeroesResponse", "Skill status : " + status);
+
+                JSONArray info = jsonObject.getJSONArray("info");
+
+                for (int i = 0; i < info .length(); i++) {
+
+                    JSONObject skillInfo = info.getJSONObject(i);
+                    String hero = skillInfo.getString("hero");
+
+                    JSONArray skill = skillInfo.getJSONArray("skill");
 
                     for (int j = 0; j < skill.length(); j++) {
-                        JSONObject skillInfo = skill.getJSONObject(j);
-                        String skillPictureUrl = skillInfo .getString("pictureUrl");
-                        String skillName = skillInfo .getString("name");
-                        String skillOperation = skillInfo .getString("operation");
-                        String skillDescribe = skillInfo .getString("describe");
+                        JSONObject skillContent = skill.getJSONObject(j);
+                        String skillPictureUrl = skillContent.getString("pictureUrl");
+                        String skillName = skillContent.getString("name");
+                        String skillOperation = skillContent.getString("operation");
+                        String skillDescribe = skillContent.getString("describe");
 
                         Skill skills = new Skill();
                         skills.setPictureUrl(skillPictureUrl);
                         skills.setName(skillName);
                         skills.setOperation(skillOperation);
                         skills.setDescribe(skillDescribe);
-                        skills.setHero(heroName);
+                        skills.setHero(hero);
 
-                       /* LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getName());
+                        /*LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getName());
                         LogUtil.d("handleHeroesResponse", "skillPictureUrl : " + skills.getPictureUrl());*/
                         if (!palm300heroesDB.isExistence(skills)) {
                             palm300heroesDB.saveSkill(skills);
                         }
                     }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
 
-                    /*皮肤部分*/
-                    JSONArray skin = heroInfo.getJSONArray("skin");
+    /*皮肤部分*/
+    public synchronized static  boolean handleSkinResponse(Palm300heroesDB palm300heroesDB, String response) {
+        if (!TextUtils.isEmpty(response)){
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                LogUtil.d("handleHeroesResponse", "Skin status : " + status);
 
-                    for (int k = 0; k < skin.length(); k++) {
-                        JSONObject skinInfo = skin.getJSONObject(k);
-                        String skinUrl = skinInfo.getString("url");
-                        String skinName = skinInfo.getString("name");
-                        String skinPrice = skinInfo.getString("price");
+                JSONArray info = jsonObject.getJSONArray("info");
+
+                for (int i = 0; i < info.length(); i++ ) {
+                    JSONObject skinInfo = info.getJSONObject(i);
+                    String hero = skinInfo.getString("hero");
+
+                    JSONArray skin = skinInfo.getJSONArray("skin");
+
+                    for (int j = 0; j < skin.length(); j++) {
+                        JSONObject skinContent = skin.getJSONObject(j);
+                        String skinUrl = skinContent.getString("url");
+                        String skinName = skinContent.getString("name");
+                        String skinPrice = skinContent.getString("price");
 
                         Skin skins = new Skin();
-                        skins.setHero(heroName);
+                        skins.setHero(hero);
                         skins.setUrl(skinUrl);
                         skins.setName(skinName);
                         skins.setPrice(skinPrice);
 
-                      /*  LogUtil.d("handleHeroesResponse", "skinHero : " + skins.getHero());
+                       /* LogUtil.d("handleHeroesResponse", "skinHero : " + skins.getHero());
                         LogUtil.d("handleHeroesResponse", "skinName : " + skins.getName());
                         LogUtil.d("handleHeroesResponse", "SkinUrl: " + skins.getUrl());*/
 
@@ -194,17 +243,40 @@ public class Utilty {
                             palm300heroesDB.saveSkin(skins);
                         }
                     }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
 
-                    /*配音部分*/
-                    JSONArray sound = heroInfo.getJSONArray("sound");
+    /*配音部分*/
+    public synchronized static boolean handlerSoundResponse(Palm300heroesDB palm300heroesDB, String response) {
+        if (!TextUtils.isEmpty(response)) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(response);
+                String status = jsonObject.getString("status");
+                LogUtil.d("handleHeroesResponse", "Sound status : " + status);
 
-                    for (int l = 0; l < sound.length(); l++) {
-                        JSONObject soundInfo = sound.getJSONObject(l);
-                        String soundUrl = soundInfo.getString("url");
-                        String soundContent = soundInfo.getString("content");
+                JSONArray info = jsonObject.getJSONArray("info");
+
+                for (int i = 0; i < info.length(); i++) {
+                    JSONObject soundInfo = info.getJSONObject(i);
+                    String hero = soundInfo.getString("hero");
+
+                    JSONArray sound = soundInfo.getJSONArray("sound");
+
+                    for (int j = 0; j < sound.length(); j++) {
+                        JSONObject  soundIn= sound.getJSONObject(j);
+                        String soundUrl = soundIn.getString("url");
+                        String soundContent = soundIn.getString("content");
 
                         Sound sounds = new Sound();
-                        sounds.setHero(heroName);
+                        sounds.setHero(hero);
                         sounds.setUrl(soundUrl);
                         sounds.setContent(soundContent);
 
@@ -224,6 +296,99 @@ public class Utilty {
         return true;
     }
 
+
+    /*************************************数据初始化********************************/
+
+    /*初始化资讯数据*/
+    public static void initNewsDate(Context context) {
+        final String ADDRESS = "http://nicolite.cn/api/get_category_posts/?slug=300heroes";
+        palm300heroesDB = Palm300heroesDB.getInstance(context);
+        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Utilty.handleNewsResponse(palm300heroesDB, response);
+            }
+            @Override
+            public void onError(Exception e) {
+                LogUtil.d("initNewsDate", "返回数据错误");
+            }
+        });
+    }
+
+    /*初始化英雄基础数据*/
+    public static void initHeroDate(Context context) {
+        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
+        palm300heroesDB = Palm300heroesDB.getInstance(context);
+        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Utilty.handleHeroesResponse(palm300heroesDB, response);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                LogUtil.d("initHerolData", "返回数据错误");
+            }
+        });
+    }
+
+    /*初始化技能数据*/
+    public static void initSkillDate(Context context) {
+        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/skill.json";
+        palm300heroesDB = Palm300heroesDB.getInstance(context);
+        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Utilty.handleSkillResponse(palm300heroesDB, response);
+            }
+            @Override
+            public void onError(Exception e) {
+                LogUtil.d("initSkillData", "返回数据错误");
+            }
+        });
+    }
+
+    /*初始化皮肤数据*/
+    public static void initSkinDate(Context context) {
+        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/skin.json";
+        palm300heroesDB = Palm300heroesDB.getInstance(context);
+        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Utilty.handleSkinResponse(palm300heroesDB, response);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                LogUtil.d("initSkinData", "返回数据错误");
+            }
+        });
+    }
+
+    /*初始化配音数据*/
+    public static void initSoundDate(Context context) {
+        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/sound.json";
+        palm300heroesDB = Palm300heroesDB.getInstance(context);
+        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Utilty.handlerSoundResponse(palm300heroesDB, response);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                LogUtil.d("initSoundData", "返回数据错误");
+            }
+        });
+    }
+
+    public static void initAllDate(Context context) {
+        //initNewsDate(context);
+        initHeroDate(context);
+        initSkillDate(context);
+        initSkinDate(context);
+        initSoundDate(context);
+    }
     /**
      * 按时间排序
      */
