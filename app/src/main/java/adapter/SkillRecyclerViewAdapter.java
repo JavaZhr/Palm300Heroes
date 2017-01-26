@@ -35,14 +35,19 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
     class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView skillPicture;
         private TextView skillName;
-        private TextView skillOperation;
-        private TextView skillDescribe;
+        private TextView skillConsumption;
+        private TextView skillChilldown;
+        private TextView skillShortCut;
+        private TextView skillEffectiveness;
+
         public ViewHolder(View itemView) {
             super(itemView);
             skillPicture = (ImageView) itemView.findViewById(R.id.heroes_skill_pic);
             skillName = (TextView) itemView.findViewById(R.id.heroes_skill_name);
-            skillOperation = (TextView) itemView.findViewById(R.id.heroes_skill_operation);
-            skillDescribe = (TextView) itemView.findViewById(R.id.heroes_skill_describe);
+            skillConsumption = (TextView) itemView.findViewById(R.id.heroes_skill_consumption);
+            skillChilldown = (TextView) itemView.findViewById(R.id.heroes_skill_chilldown);
+            skillShortCut = (TextView) itemView.findViewById(R.id.heroes_skill_shortcut);
+            skillEffectiveness = (TextView) itemView.findViewById(R.id.heroes_skill_effectiveness);
         }
 
         public ImageView getSkillPicture() {
@@ -53,12 +58,20 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
             return skillName;
         }
 
-        public TextView getSkillOperation() {
-            return skillOperation;
+        public TextView getSkillConsumption() {
+            return skillConsumption;
         }
 
-        public TextView getSkillDescribe() {
-            return skillDescribe;
+        public TextView getSkillChilldown() {
+            return skillChilldown;
+        }
+
+        public TextView getSkillShortCut() {
+            return skillShortCut;
+        }
+
+        public TextView getSkillEffectiveness() {
+            return skillEffectiveness;
         }
     }
 
@@ -86,8 +99,10 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
                 .into(viewHolder.getSkillPicture());
 
         viewHolder.getSkillName().setText(skill.getName());
-        viewHolder.getSkillOperation().setText(skill.getOperation());
-        viewHolder.getSkillDescribe().setText(skill.getDescribe());
+        viewHolder.getSkillConsumption().setText(skill.getConsumption());
+        viewHolder.getSkillChilldown().setText(skill.getChilldown());
+        viewHolder.getSkillShortCut().setText(skill.getShortcut());
+        viewHolder.getSkillEffectiveness().setText(skill.getEffectiveness());
 
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

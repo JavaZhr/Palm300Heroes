@@ -22,10 +22,6 @@ import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.Heroes;
 import model.Skill;
-import myInterface.HttpCallbackListener;
-import other.DividerItemDecoration;
-import utilty.HttpUtil;
-import utilty.LogUtil;
 import utilty.Utilty;
 
 /**
@@ -37,7 +33,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
     private SkillRecyclerViewAdapter recycleAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private static final int REFRESH_COMPLETE_TIME = 2000;
+    private static final int REFRESH_COMPLETE_TIME = 4000;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

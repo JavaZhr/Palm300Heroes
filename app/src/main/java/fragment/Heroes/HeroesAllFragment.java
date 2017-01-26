@@ -38,7 +38,7 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private HeroesRecyclerViewAdapter recycleAdapter;
-    private static final int REFRESH_COMPLETE_TIME = 2000;
+    private static final int REFRESH_COMPLETE_TIME = 4000;
     private List<Heroes> dataList = new ArrayList<>() ;
 
     private Handler handler = new Handler() {

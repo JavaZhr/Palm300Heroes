@@ -212,10 +212,12 @@ public class Palm300heroesDB {
         if (skill != null) {
             ContentValues values = new ContentValues();
             values.put("skill_hero", skill.getHero());
-            values.put("skill_name", skill.getName());
-            values.put("skill_operation", skill.getOperation());
-            values.put("skill_describe", skill.getDescribe());
             values.put("skill_pictureUrl", skill.getPictureUrl());
+            values.put("skill_name", skill.getName());
+            values.put("skill_consumption", skill.getConsumption());
+            values.put("skill_chilldown", skill.getChilldown());
+            values.put("skill_shortcut", skill.getShortcut());
+            values.put("skill_effectiveness", skill.getEffectiveness());
             db.insert("Skill", null, values);
         }else {
             LogUtil.d("saveSkill", "skill : null");
@@ -226,10 +228,12 @@ public class Palm300heroesDB {
         if (skill != null) {
             ContentValues values = new ContentValues();
             values.put("skill_hero", skill.getHero());
-            values.put("skill_name", skill.getName());
-            values.put("skill_operation", skill.getOperation());
-            values.put("skill_describe", skill.getDescribe());
             values.put("skill_pictureUrl", skill.getPictureUrl());
+            values.put("skill_name", skill.getName());
+            values.put("skill_consumption", skill.getConsumption());
+            values.put("skill_chilldown", skill.getChilldown());
+            values.put("skill_shortcut", skill.getShortcut());
+            values.put("skill_effectiveness", skill.getEffectiveness());
             db.update("Skill", values, "skill_name=?", new String[]{skill.getName()});
         }else {
             LogUtil.d("saveSkill", "skill : null");
@@ -244,10 +248,12 @@ public class Palm300heroesDB {
                 Skill skill = new Skill();
                 skill.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 skill.setHero(cursor.getString(cursor.getColumnIndex("skill_hero")));
-                skill.setName(cursor.getString(cursor.getColumnIndex("skill_name")));
-                skill.setOperation(cursor.getString(cursor.getColumnIndex("skill_operation")));
-                skill.setDescribe(cursor.getString(cursor.getColumnIndex("skill_describe")));
                 skill.setPictureUrl(cursor.getString(cursor.getColumnIndex("skill_pictureUrl")));
+                skill.setName(cursor.getString(cursor.getColumnIndex("skill_name")));
+                skill.setConsumption(cursor.getString(cursor.getColumnIndex("skill_consumption")));
+                skill.setChilldown(cursor.getString(cursor.getColumnIndex("skill_chilldown")));
+                skill.setShortcut(cursor.getString(cursor.getColumnIndex("skill_shortcut")));
+                skill.setEffectiveness(cursor.getString(cursor.getColumnIndex("skill_effectiveness")));
                 list.add(skill);
             }while (cursor.moveToNext());
         }

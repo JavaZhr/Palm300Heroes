@@ -9,8 +9,10 @@ public class Skill {
     private String hero;
     private String pictureUrl;
     private String name;
-    private String operation;
-    private String describe;
+    private String consumption;
+    private String chilldown;
+    private String shortcut;
+    private String effectiveness;
 
     public int getId() {
         return id;
@@ -44,19 +46,35 @@ public class Skill {
         this.name = name;
     }
 
-    public String getOperation() {
-        return operation;
+    public String getConsumption() {
+        return consumption;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
+    public void setConsumption(String consumption) {
+        this.consumption = consumption;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getChilldown() {
+        return chilldown;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setChilldown(String chilldown) {
+        this.chilldown = chilldown;
+    }
+
+    public String getShortcut() {
+        return shortcut;
+    }
+
+    public void setShortcut(String shortcut) {
+        this.shortcut = shortcut;
+    }
+
+    public String getEffectiveness() {
+        return effectiveness;
+    }
+
+    public void setEffectiveness(String effectiveness) {
+        this.effectiveness = effectiveness;
     }
 }

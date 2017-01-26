@@ -35,7 +35,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
     private List<Skin> dataList = new ArrayList<>();
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private static final int REFRESH_COMPLETE_TIME = 2000;
+    private static final int REFRESH_COMPLETE_TIME = 4000;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

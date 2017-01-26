@@ -177,17 +177,21 @@ public class Utilty {
                     JSONArray skill = skillInfo.getJSONArray("skill");
 
                     for (int j = 0; j < skill.length(); j++) {
-                        JSONObject skillContent = skill.getJSONObject(j);
-                        String skillPictureUrl = skillContent.getString("pictureUrl");
-                        String skillName = skillContent.getString("name");
-                        String skillOperation = skillContent.getString("operation");
-                        String skillDescribe = skillContent.getString("describe");
+                        JSONObject content = skill.getJSONObject(j);
+                        String pictureUrl = content.getString("pictureUrl");
+                        String name = content.getString("name");
+                        String consumption = content.getString("consumption");
+                        String chilldown = content.getString("chilldown");
+                        String shortcut = content.getString("shortcut");
+                        String effectiveness = content.getString("effectiveness");
 
                         Skill skills = new Skill();
-                        skills.setPictureUrl(skillPictureUrl);
-                        skills.setName(skillName);
-                        skills.setOperation(skillOperation);
-                        skills.setDescribe(skillDescribe);
+                        skills.setPictureUrl(pictureUrl);
+                        skills.setName(name);
+                        skills.setConsumption(consumption);
+                        skills.setChilldown(chilldown);
+                        skills.setShortcut(shortcut);
+                        skills.setEffectiveness(effectiveness);
                         skills.setHero(hero);
 
                         /*LogUtil.d("handleHeroesResponse", "SkillName : " + skills.getName());
@@ -382,6 +386,7 @@ public class Utilty {
         });
     }
 
+    /*初始化所有数据*/
     public static void initAllDate(Context context) {
         //initNewsDate(context);
         initHeroDate(context);
@@ -389,9 +394,8 @@ public class Utilty {
         initSkinDate(context);
         initSoundDate(context);
     }
-    /**
-     * 按时间排序
-     */
+
+    /* 按时间排序*/
     public static Date stringToDate(String date) {
         ParsePosition position = new ParsePosition(0);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

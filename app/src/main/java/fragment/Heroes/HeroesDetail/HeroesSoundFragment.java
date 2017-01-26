@@ -43,7 +43,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     private MediaPlayer mediaPlayer;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private static final int REFRESH_COMPLETE_TIME = 2000;
+    private static final int REFRESH_COMPLETE_TIME = 4000;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
