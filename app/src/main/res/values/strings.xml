@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">掌上300英雄</string>
-    <string name="copyright">Copyright© 2016</string>
-
+    <string name="copyright">Copyright© 2016 - 2017</string>
+    <string name="author">NICOLITE</string>
     <!--功能标题 -->
     <string name="news">资讯</string>
     <string name="heroes">英雄</string>
@@ -9,6 +9,7 @@
     <string name="game">游戏</string>
     <string name="setting">设置</string>
     <string name="news_detail">资讯详情</string>
+    <string name="about">关于</string>
     <!-- 英雄分类菜单 -->
     <string name="all">全部</string>
     <string name="assassin">刺客</string>

@@ -1,6 +1,5 @@
 package cn.nicolite.palm300heroes;
 
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -51,8 +50,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "资讯"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "英雄"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp, "装备"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
+               // .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp, "装备"))
+               // .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "关于"))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
