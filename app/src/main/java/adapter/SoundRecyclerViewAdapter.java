@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,21 +22,28 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
     private List<Sound> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener;
+
     public SoundRecyclerViewAdapter(Context context, List<Sound> dataList) {
         this.context = context;
         this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+   public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView soundContent;
+        private ImageView playSound;
         public ViewHolder(View itemView) {
             super(itemView);
             soundContent = (TextView) itemView.findViewById(R.id.heroes_sound_content);
+            playSound = (ImageView) itemView.findViewById(R.id.play_sound);
         }
 
         public TextView getSoundContent() {
             return soundContent;
+        }
+
+        public ImageView getPlaySound() {
+            return playSound;
         }
     }
     @Override
@@ -50,13 +58,14 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
         final ViewHolder viewHolder = (ViewHolder) holder;
         Sound sound = dataList.get(position);
 
+        viewHolder.itemView.setTag(position);
         viewHolder.getSoundContent().setText(sound.getContent());
 
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(viewHolder.itemView, position);
+                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder, position);
                 }
             });
         }
@@ -69,10 +78,11 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
 
     /*item点击实践接口*/
     public interface OnItemClickListener{
-        void onItemClick(View view,int position);
+        void onItemClick(View view, ViewHolder viewHolder, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
+
 }

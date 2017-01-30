@@ -60,6 +60,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_fragment, container, false);
 
+        readNewsDate();
         listView = (ListView) view.findViewById(R.id.news_listview);
         adapter = new NewsAdapter(getActivity(), R.layout.news_listview_layout, dataList);
         listView.setAdapter(adapter);
@@ -78,8 +79,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.news_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        onRefresh();
 
         return view;
     }
@@ -106,7 +105,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
+        //swipeRefreshLayout.setRefreshing(true);
         Utilty.initNewsDate(getActivity());
         readNewsDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);

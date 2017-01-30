@@ -35,7 +35,7 @@ public class Utilty {
      */
 
     /*资讯信息部分*/
-    public synchronized static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
+    public static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -91,7 +91,7 @@ public class Utilty {
     }
 
     /*英雄信息部分*/
-    public synchronized static boolean handleHeroesResponse(Palm300heroesDB palm300heroesDB, String response) {
+    public static boolean handleHeroesResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -160,7 +160,7 @@ public class Utilty {
     }
 
     /*技能部分*/
-    public synchronized static boolean handleSkillResponse(Palm300heroesDB palm300heroesDB, String response) {
+    public static boolean handleSkillResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -211,7 +211,7 @@ public class Utilty {
     }
 
     /*皮肤部分*/
-    public synchronized static  boolean handleSkinResponse(Palm300heroesDB palm300heroesDB, String response) {
+    public static  boolean handleSkinResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)){
             JSONObject jsonObject = null;
             try {
@@ -258,7 +258,7 @@ public class Utilty {
     }
 
     /*配音部分*/
-    public synchronized static boolean handlerSoundResponse(Palm300heroesDB palm300heroesDB, String response) {
+    public static boolean handlerSoundResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             JSONObject jsonObject = null;
             try {
@@ -388,7 +388,7 @@ public class Utilty {
 
     /*初始化所有数据*/
     public static void initAllDate(Context context) {
-        //initNewsDate(context);
+        initNewsDate(context);
         initHeroDate(context);
         initSkillDate(context);
         initSkinDate(context);
