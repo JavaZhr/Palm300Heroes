@@ -1,5 +1,6 @@
 package cn.nicolite.palm300heroes;
 
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private EquipmentFragment equipmentFragment;
     private GameFragment gameFragment;
     private ActionBar actionBar;
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction transaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +56,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
+        hideFragments(transaction);
         setDefaultFragment();
     }
     private void setDefaultFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        fragmentManager = getSupportFragmentManager();
+        transaction = fragmentManager.beginTransaction();
         if (newsFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
             newsFragment = new NewsFragment();
@@ -70,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     }
     @Override
     public void onTabSelected(int position) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         /*开启一个Fragment事务*/
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction = fragmentManager.beginTransaction();
         /*先隐藏所有的Fragment，防止多个Fragment显示在界面上*/
         hideFragments(transaction);
         switch (position) {
