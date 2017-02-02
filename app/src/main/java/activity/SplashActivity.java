@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 import cn.nicolite.palm300heroes.MainActivity;
 import cn.nicolite.palm300heroes.R;
 import utilty.Utilty;
@@ -24,6 +26,9 @@ public class SplashActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+
+        //蒲公英Crash捕获注册
+        PgyCrashManager.register(this);
 
         splashCountDown = (TextView) findViewById(R.id.splash_count_down_timer);
 

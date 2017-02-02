@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏
@@ -61,6 +63,8 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
 
         setContentView(R.layout.heroes_detail_activity);
 
+        //蒲公英Crash捕获注册
+        PgyCrashManager.register(this);
         heroes = (Heroes) getIntent().getSerializableExtra("heroes_data");
         LogUtil.d("heroesDetailActivity", heroes.getName());
 

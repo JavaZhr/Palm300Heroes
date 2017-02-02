@@ -17,6 +17,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 import cn.nicolite.palm300heroes.R;
 import utilty.LogUtil;
 
@@ -59,6 +61,9 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         //actionBar.setTitle("资讯详情");
         setContentView(R.layout.news_webview);
+
+        //蒲公英Crash捕获注册
+        PgyCrashManager.register(this);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.news_webview_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));

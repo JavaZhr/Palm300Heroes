@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 
 import fragment.EquipmentFragment;
 import fragment.GameFragment;
@@ -172,5 +173,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         if (gameFragment != null) {
             transaction.hide(gameFragment);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
+        PgyFeedbackShakeManager.setShakingThreshold(1000);
+
+        // 以对话框的形式弹出
+        PgyFeedbackShakeManager.register(MainActivity.this);
+
+        // 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
+        // 打开沉浸式,默认为false
+        // FeedbackActivity.setBarImmersive(true);
+        PgyFeedbackShakeManager.register(MainActivity.this, false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PgyFeedbackShakeManager.unregister();
     }
 }
