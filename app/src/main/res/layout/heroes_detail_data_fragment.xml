@@ -21,7 +21,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/splash"
+                        android:src="@drawable/ffffff_hero"
                         android:scaleType="centerCrop"
                         tools:ignore="ContentDescription" />
                 </RelativeLayout>

@@ -79,7 +79,7 @@ public class Palm300heroesDB {
 
     /* 从数据库中读取News数据 */
     public List<News> loadNews() {
-        List<News> list = new ArrayList<News>();
+        List<News> list = new ArrayList<>();
         Cursor cursor = db.query("News", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -96,9 +96,7 @@ public class Palm300heroesDB {
                 list.add(news);
             }while (cursor.moveToNext());
         }
-        if (cursor != null) {
-            cursor.close();
-        }
+        cursor.close();
         return list;
     }
 
@@ -191,9 +189,7 @@ public class Palm300heroesDB {
                 list.add(heroes);
             }while (cursor.moveToNext());
         }
-        if (cursor != null) {
-            cursor.close();
-        }
+        cursor.close();
         return list;
     }
 
@@ -241,7 +237,7 @@ public class Palm300heroesDB {
     }
 
     public List<Skill> loadSkill(){
-        List<Skill> list = new ArrayList<Skill>();
+        List<Skill> list = new ArrayList<>();
         Cursor cursor = db.query("Skill", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -257,9 +253,7 @@ public class Palm300heroesDB {
                 list.add(skill);
             }while (cursor.moveToNext());
         }
-        if (cursor != null) {
-            cursor.close();
-        }
+        cursor.close();
         return list;
     }
 
@@ -291,7 +285,7 @@ public class Palm300heroesDB {
     }
 
     public List<Skin> loadSkin(){
-        List<Skin> list = new ArrayList<Skin>();
+        List<Skin> list = new ArrayList<>();
         Cursor cursor = db.query("Skin", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -304,9 +298,7 @@ public class Palm300heroesDB {
                 list.add(skin);
             }while (cursor.moveToNext());
         }
-        if (cursor != null) {
-            cursor.close();
-        }
+        cursor.close();
         return list;
     }
 
@@ -336,7 +328,7 @@ public class Palm300heroesDB {
     }
 
     public List<Sound> loadSound(){
-        List<Sound> list = new ArrayList<Sound>();
+        List<Sound> list = new ArrayList<>();
         Cursor cursor = db.query("Sound", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
@@ -348,16 +340,14 @@ public class Palm300heroesDB {
                 list.add(sound);
             }while (cursor.moveToNext());
         }
-        if (cursor != null) {
-            cursor.close();
-        }
+        cursor.close();
         return list;
     }
 
     public boolean isExistence(Object object){
         if (object instanceof News) {
             News news = (News) object;
-            if (news != null && palm300heroesDB != null) {
+            if (palm300heroesDB != null) {
                 List<News> list = palm300heroesDB.loadNews();
                 for (News news1 : list) {
                     if (news.getTitle().equals(news1.getTitle())) {

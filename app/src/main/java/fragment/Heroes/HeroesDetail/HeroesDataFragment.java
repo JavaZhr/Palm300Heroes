@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 
 import cn.nicolite.palm300heroes.R;
 import model.Heroes;
+import utilty.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
@@ -74,12 +75,16 @@ public class HeroesDataFragment extends Fragment{
         heroesMovementSpeedValue.setText("移动速度：" + heroes.getMovementSpeedValue());
         heroesBackground.setText(heroes.getBackground());
 
-        Glide
-                .with(getActivity())
-                .load(heroes.getPictureUrl())
-                .thumbnail(0.1f)
-                .skipMemoryCache(true)
-                .dontAnimate()
-                .into(heroesImageView);
+        LogUtil.d("heroes_pic", heroes.getPictureUrl());
+        if (!heroes.getPictureUrl().equals("")) {
+            Glide
+                    .with(getActivity())
+                    .load(heroes.getPictureUrl())
+                    .thumbnail(0.1f)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .into(heroesImageView);
+        }
+
     }
 }

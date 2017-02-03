@@ -72,8 +72,7 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
         progressBar = (ProgressBar) findViewById(R.id.news_webview_progressbar);
 
         webView = (WebView) findViewById(R.id.webview);
-        webView.getSettings().setJavaScriptEnabled(true);
-        //webView.setWebViewClient(new WebViewClient());
+        //webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -102,8 +101,8 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
         String content = intent.getStringExtra("content");
         LogUtil.d("NewsWebViewActivity", content);
         String head = "<head><style>img{max-width: 100%; width: auto; height: auto; }</style></head>";
-        String html = "<html>" + head + "<body>" + content + "</body>" + "</html>";
-        return html;
+
+        return "<html>" + head + "<body>" + content + "</body>" + "</html>";
     }
 
     @Override

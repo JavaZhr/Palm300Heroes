@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
     private TextView splashCountDown;
     private MyCountDownTImer myCountDownTImer;
     private final int SPLASH_DISPLAY_TIME = 4000;
-    /*Splash展示时间*/
+    //Splash展示时间
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

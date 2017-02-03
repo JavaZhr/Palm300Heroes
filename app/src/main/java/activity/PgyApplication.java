@@ -12,6 +12,7 @@ public class PgyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //蒲公英Crash捕获注册
         PgyCrashManager.register(this);
     }
 }
