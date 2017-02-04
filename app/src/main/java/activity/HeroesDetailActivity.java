@@ -168,4 +168,11 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //解除蒲公英Crash捕获注册
+        PgyCrashManager.unregister();
+    }
 }

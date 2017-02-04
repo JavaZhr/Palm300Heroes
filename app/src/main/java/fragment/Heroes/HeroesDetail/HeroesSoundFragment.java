@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -53,7 +52,6 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
                     swipeRefreshLayout.setRefreshing(false);
                     recycleAdapter.notifyDataSetChanged();
                     break;
-                default:break;
             }
         }
     };
@@ -91,6 +89,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
 
     @Override
     public void onItemClick(View view, final SoundRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
         }
@@ -105,8 +104,17 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
             mediaPlayer.stop();
             mediaPlayer.reset();
             mediaPlayer.setDataSource(getActivity(),uri);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mediaPlayer.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mediaPlayer.start();
+                }
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }

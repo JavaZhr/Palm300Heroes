@@ -10,7 +10,9 @@ import android.view.WindowManager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import fragment.EquipmentFragment;
 import fragment.GameFragment;
@@ -45,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
         setContentView(R.layout.bottom_navigation_bar);
+
+        //蒲公英Crash捕获注册
+        PgyCrashManager.register(this);
+        //新版本检查
+        PgyUpdateManager.register(this);
+
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
@@ -195,5 +203,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     protected void onPause() {
         super.onPause();
         PgyFeedbackShakeManager.unregister();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //解除蒲公英Crash捕获注册
+        PgyCrashManager.unregister();
     }
 }

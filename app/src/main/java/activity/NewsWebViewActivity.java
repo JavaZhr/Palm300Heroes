@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.pgyersdk.crash.PgyCrashManager;
@@ -109,5 +107,12 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //解除蒲公英Crash捕获注册
+        PgyCrashManager.unregister();
     }
 }
