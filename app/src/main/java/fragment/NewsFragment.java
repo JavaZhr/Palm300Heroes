@@ -33,7 +33,7 @@ import utilty.Utilty;
  */
 
 public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private List<News> dataList = new ArrayList<News>();
+    private List<News> dataList = new ArrayList<>();
     private List<News> newsList;
     private News selectedNews;
     private ListView listView;

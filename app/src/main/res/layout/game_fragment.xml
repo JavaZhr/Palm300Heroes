@@ -22,11 +22,13 @@
             android:paddingBottom="14dp"
             android:paddingTop="0dp"/>
     </RelativeLayout>
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/game_fragment_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:text="敬请期待"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/game_title"
+        android:layout_marginTop="1dp">
+
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

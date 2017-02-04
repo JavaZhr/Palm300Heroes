@@ -14,7 +14,7 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.update.PgyUpdateManager;
 
-import fragment.EquipmentFragment;
+import fragment.AboutFragment;
 import fragment.GameFragment;
 import fragment.HeroesFragment;
 import fragment.NewsFragment;
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     /*Fragment类*/
     private NewsFragment newsFragment;
     private HeroesFragment heroesFragment;
-    private EquipmentFragment equipmentFragment;
     private GameFragment gameFragment;
+    private AboutFragment aboutFragment;
     private ActionBar actionBar;
 
     private FragmentManager fragmentManager;
@@ -59,9 +59,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "资讯"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "英雄"))
-               // .addItem(new BottomNavigationItem(R.drawable.ic_tv_white_24dp, "装备"))
-               // .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "关于"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_favorite_white_24dp, "关于"))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
@@ -118,19 +117,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 }
                 break;
             case 2 :
-                /*点击装备*/
-                LogUtil.d("BottomNavigationBar", "点击了装备");
-                //actionBar.setTitle("装备");
-                if (equipmentFragment == null) {
-                    /*如果EquipmentFragment为空，则创建一个*/
-                    equipmentFragment = new EquipmentFragment();
-                    transaction.add(R.id.content, equipmentFragment);
-                }else {
-                    /*如果不为空，则直接显示出来*/
-                    transaction.show(equipmentFragment);
-                }
-                break;
-            case 3 :
                 /*点击游戏*/
                 LogUtil.d("BottomNavigationBar", "点击了游戏");
                 //actionBar.setTitle("游戏");
@@ -141,6 +127,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 }else {
                     /*如果不为空，则直接显示出来*/
                     transaction.show(gameFragment);
+                }
+                break;
+            case 3 :
+                /*点击关于*/
+                LogUtil.d("BottomNavigationBar", "点击了关于");
+                //actionBar.setTitle("关于");
+                if (aboutFragment== null) {
+                   /*如果AboutFragment为空，则创建一个*/
+                    aboutFragment = new AboutFragment();
+                    transaction.add(R.id.content, aboutFragment);
+                }else {
+                    /*如果不为空，则直接显示出来*/
+                    transaction.show(aboutFragment);
                 }
                 break;
             default:break;
@@ -175,11 +174,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         if (heroesFragment != null) {
             transaction.hide(heroesFragment);
         }
-        if (equipmentFragment != null) {
-            transaction.hide(equipmentFragment);
-        }
         if (gameFragment != null) {
             transaction.hide(gameFragment);
+        }
+        if (aboutFragment != null) {
+            transaction.hide(aboutFragment);
         }
     }
 

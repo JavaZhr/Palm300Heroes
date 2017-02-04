@@ -18,14 +18,14 @@ import cn.nicolite.palm300heroes.R;
  * Created by NICOLITE on 2016/10/11 0011.
  */
 
-public class EquipmentFragment extends Fragment implements View.OnClickListener {
+public class AboutFragment extends Fragment implements View.OnClickListener {
     private TextView feedback;
     private TextView update;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //View view = inflater.inflate(R.layout.equipment_fragment, container, false);
-        View view = inflater.inflate(R.layout.about, container, false);
+        View view = inflater.inflate(R.layout.about_fragment, container, false);
 
         feedback = (TextView) view.findViewById(R.id.feedback);
         update = (TextView) view.findViewById(R.id.update);
