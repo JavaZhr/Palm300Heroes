@@ -29,6 +29,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/game_title"
         android:layout_marginTop="1dp">
-
     </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

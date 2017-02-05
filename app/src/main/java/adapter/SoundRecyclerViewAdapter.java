@@ -58,7 +58,6 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
         final ViewHolder viewHolder = (ViewHolder) holder;
         Sound sound = dataList.get(position);
 
-        viewHolder.itemView.setTag(position);
         viewHolder.getSoundContent().setText(sound.getContent());
 
         if (onItemClickListener != null) {

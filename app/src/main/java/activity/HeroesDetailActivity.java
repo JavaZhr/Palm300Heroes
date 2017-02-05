@@ -4,6 +4,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,11 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
     private ViewPager viewPager;
     private int selectedPositon; //用来记住导航的位置
 
+    List<Fragment> fragments = new ArrayList<>();
+    private HeroesDataFragment heroesDataFragment;
+    private HeroesSkillFragment heroesSkillFragment;
+    private HeroesSkinFragment heroesSkinFragment;
+    private HeroesSoundFragment heroesSoundFragment;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,18 +89,41 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         heroesSkinButton.setOnClickListener(this);
         heroesSoundButton.setOnClickListener(this);
 
-        List<Fragment> fragments=new ArrayList<>();
-        fragments.add(new HeroesDataFragment());
-        fragments.add(new HeroesSkillFragment());
-        fragments.add(new HeroesSkinFragment());
-        fragments.add(new HeroesSoundFragment());
-
-        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
+        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), getFragments());
         viewPager = (ViewPager) findViewById(R.id.heroes_detail_viewpager);
         viewPager.setAdapter(adapter);
         //默认选择第一个，改变第一个fragment的状态
         heroesDataButton.setTextColor(getResources().getColor(R.color.orange));
         viewPager.addOnPageChangeListener(this);
+    }
+
+    private List<Fragment> getFragments() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        /*开启一个Fragment事务*/
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        fragments.clear();
+        if (heroesDataFragment == null) {
+            heroesDataFragment = new HeroesDataFragment();
+        }
+        if (heroesSkillFragment == null) {
+            heroesSkillFragment = new HeroesSkillFragment();
+        }
+        if (heroesSkinFragment == null) {
+            heroesSkinFragment = new HeroesSkinFragment();
+        }
+        if (heroesSoundFragment == null) {
+            heroesSoundFragment = new HeroesSoundFragment();
+        }
+
+        transaction.commit();
+
+        fragments.add(heroesDataFragment);
+        fragments.add(heroesSkillFragment);
+        fragments.add(heroesSkinFragment);
+        fragments.add(heroesSoundFragment);
+
+        return fragments;
     }
 
     @Override

@@ -32,7 +32,7 @@ import utilty.Utilty;
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class HeroesTankFrament extends Fragment implements HeroesRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class HeroesTankFragment extends Fragment implements HeroesRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;

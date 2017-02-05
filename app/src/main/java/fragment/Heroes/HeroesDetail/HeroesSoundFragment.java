@@ -1,7 +1,6 @@
 package fragment.Heroes.HeroesDetail;
 
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +26,8 @@ import database.Palm300heroesDB;
 import model.Heroes;
 import model.Sound;
 import utilty.Utilty;
+
+import static android.media.AudioManager.STREAM_MUSIC;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
@@ -93,39 +94,35 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
         }
-        Uri uri = Uri.parse(dataList.get(position).getUrl());
+        String url = dataList.get(position).getUrl();
 
         if (oldViewHolder != viewHolder && oldViewHolder != null) {
             oldViewHolder.getPlaySound().setImageResource(R.drawable.ic_media_play);
         }
         oldViewHolder = viewHolder;
         try {
-            oldViewHolder.getPlaySound().setImageResource(R.drawable.ic_media_pause);
+            viewHolder.getPlaySound().setImageResource(R.drawable.ic_media_pause);
             mediaPlayer.stop();
             mediaPlayer.reset();
-            mediaPlayer.setDataSource(getActivity(),uri);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mediaPlayer.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mediaPlayer.start();
-                }
-            }).start();
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.setAudioStreamType(STREAM_MUSIC);
+            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 viewHolder.getPlaySound().setImageResource(R.drawable.ic_media_play);
-                mediaPlayer.stop();
-                mediaPlayer.reset();
-                mediaPlayer.release();
-                mediaPlayer = null;
+                mp.stop();
+                mp.reset();
             }
         });
 
@@ -133,8 +130,12 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 viewHolder.getPlaySound().setImageResource(R.drawable.ic_media_play);
+                mp.stop();
+                mp.reset();
+                mp.release();
+                mediaPlayer = null;
                 Toast.makeText(getActivity(),"播放失败",Toast.LENGTH_SHORT).show();
-                return false;
+                return true;
             }
         });
     }

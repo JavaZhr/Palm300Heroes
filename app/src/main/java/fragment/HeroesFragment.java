@@ -1,6 +1,5 @@
 package fragment;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ import fragment.Heroes.HeroesAssassinFragment;
 import fragment.Heroes.HeroesAssistFragment;
 import fragment.Heroes.HeroesMasterFragment;
 import fragment.Heroes.HeroesShooterFragment;
-import fragment.Heroes.HeroesTankFrament;
+import fragment.Heroes.HeroesTankFragment;
 import fragment.Heroes.HeroesWarriorFragment;
 
 
@@ -42,10 +40,11 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
     private ViewPager viewPager;
     private int selectedPositon; //记录Fragment
 
+    List<Fragment> fragments=new ArrayList<>();
     private HeroesAllFragment heroesAllFragment;
     private HeroesAssassinFragment heroesAssassinFragment;
     private HeroesWarriorFragment heroesWarriorFragment;
-    private HeroesTankFrament heroesTankFrament;
+    private HeroesTankFragment heroesTankFrament;
     private HeroesShooterFragment heroesShooterFragment;
     private HeroesMasterFragment heroesMasterFragment;
     private HeroesAssistFragment heroesAssistFragment;
@@ -91,48 +90,28 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
 
         /*开启一个Fragment事务*/
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        List<Fragment> fragments=new ArrayList<>();
 
+        fragments.clear();
         if (heroesAllFragment == null) {
            heroesAllFragment = new HeroesAllFragment();
-        }else {
-            transaction.show(heroesAllFragment);
         }
-
         if (heroesAssassinFragment == null) {
             heroesAssassinFragment = new HeroesAssassinFragment();
-        }else {
-            transaction.show(heroesAssassinFragment);
         }
-
         if (heroesWarriorFragment == null) {
             heroesWarriorFragment = new HeroesWarriorFragment();
-        }else {
-            transaction.show(heroesWarriorFragment);
         }
-
         if (heroesTankFrament == null) {
-            heroesTankFrament = new HeroesTankFrament();
-        }else {
-            transaction.show(heroesTankFrament);
+            heroesTankFrament = new HeroesTankFragment();
         }
-
         if (heroesShooterFragment == null) {
             heroesShooterFragment = new HeroesShooterFragment();
-        }else {
-            transaction.show(heroesShooterFragment);
         }
-
         if (heroesMasterFragment == null) {
             heroesMasterFragment = new HeroesMasterFragment();
-        }else {
-            transaction.show(heroesMasterFragment);
         }
-
         if (heroesAssistFragment == null) {
             heroesAssistFragment = new HeroesAssistFragment();
-        }else {
-            transaction.show(heroesAssistFragment);
         }
         transaction.commit();
 
