@@ -1,15 +1,23 @@
 package utilty;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -17,6 +25,7 @@ import java.util.List;
 
 import database.Palm300heroesDB;
 import model.Heroes;
+import model.MatchList;
 import model.News;
 import model.Skill;
 import model.Skin;
@@ -213,9 +222,8 @@ public class Utilty {
     /*皮肤部分*/
     public static  boolean handleSkinResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)){
-            JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(response);
+                JSONObject jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 LogUtil.d("handleHeroesResponse", "Skin status : " + status);
 
@@ -260,9 +268,8 @@ public class Utilty {
     /*配音部分*/
     public static boolean handlerSoundResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
-            JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(response);
+                JSONObject  jsonObject = new JSONObject(response);
                 String status = jsonObject.getString("status");
                 LogUtil.d("handleHeroesResponse", "Sound status : " + status);
 
@@ -417,6 +424,64 @@ public class Utilty {
             }
         });
         return newList;
+    }
+
+
+    public static List<MatchList> handlerMatchListResponse(String url) {
+        final List<MatchList> dataList = new ArrayList<>();
+        HttpUtil.sendHttpRequest(url, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Document document = Jsoup.parse(response);
+                Elements elements = document.select("table.datatable[width=100%]").select("tr[onClick*=javascript:window.open(]");
+                for (int i = 0; i < elements.size(); i++ ) {
+                    Elements tds = elements.get(i).select("td");
+
+                    String clickUrl = elements.get(i).attr("onClick").replace("javascript:window.open('","");
+                    clickUrl = "http://300report.jumpw.com/" + clickUrl.replace("');", "");
+
+                    String imageUrl = tds.select("img").attr("abs:src");
+                    String[] data = tds.text().split(" ");
+
+                    MatchList matchList = new MatchList();
+                    matchList.setClickUrl(clickUrl);
+                    matchList.setImageUrl(imageUrl);
+                    matchList.setData(data);
+
+                    dataList.add(matchList);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+
+        return dataList;
+    }
+
+    public static List<String> handlerRoleDataResponse(String url){
+        final List<String> dataList = new ArrayList<>();
+        HttpUtil.sendHttpRequest(url, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Document document = Jsoup.parse(response);
+                Elements elements = document.select("table.info").select("tr");
+
+                for (int i = 0; i < elements.size(); i++) {
+                    Elements tds = elements.get(i).select("td");
+                    LogUtil.d("xxx", tds.text());
+                    dataList.add(tds.text());
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        return dataList;
     }
 
 }

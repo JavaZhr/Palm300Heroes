@@ -2,6 +2,8 @@ package activity;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,9 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pgyersdk.crash.PgyCrashManager;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +29,11 @@ import adapter.FragAdapter;
 import cn.nicolite.palm300heroes.R;
 import fragment.Game.MatchListFragment;
 import fragment.Game.ServerRankingFragment;
+import myInterface.HttpCallbackListener;
+import utilty.HttpUtil;
+import utilty.LogUtil;
+import utilty.Utilty;
+
 
 /**
  * Created by NICOLITE on 2017/2/5 0005.
@@ -34,6 +43,7 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     private EditText roleNameInput;
     private Button submit;
 
+    private List<String> dataList = new ArrayList<>();
     private TextView updatingDate;
     private TextView roleName;
     private TextView roleLevel;
@@ -49,11 +59,22 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     private LinearLayout otherDate;
 
     private ViewPager viewPager;
-    private int selectedPositon; //用来记住导航的位置
 
     List<Fragment> fragments = new ArrayList<>();
     private MatchListFragment matchListFragment;
     private ServerRankingFragment serverRankingFragment;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0 :
+                    initView();
+                    break;
+                default: break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +125,7 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
         matchList.setOnClickListener(this);
         serverRanking.setOnClickListener(this);
-        baseDate.setVisibility(View.VISIBLE);
-        otherDate.setVisibility(View.VISIBLE);
+        submit.setOnClickListener(this);
     }
 
     private List<Fragment> getFragments() {
@@ -136,9 +156,23 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        String url = "http://300report.jumpw.com/list.html?name=" + roleNameInput.getText();
         switch (v.getId()) {
             case R.id.record_logger_submit :
+                dataList = Utilty.handlerRoleDataResponse(url);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.sendEmptyMessage(0);
+                    }
+                }, 3000);
+                Toast.makeText(this, "点击了查询", Toast.LENGTH_SHORT).show();
 
+                /*if (roleNameInput.getText().toString().equals("")){
+
+                }else {
+
+                }*/
                 break;
             case R.id.record_logger_match_list :
                 resetSelectColor();
@@ -188,5 +222,29 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     private void resetSelectColor() {
         matchList.setBackgroundColor(getResources().getColor(R.color.white));
         serverRanking.setBackgroundColor(getResources().getColor(R.color.white));
+    }
+
+    private void initView() {
+        LogUtil.d("xxx", " 1 " + dataList.size());
+        if (dataList.size() > 4) {
+            updatingDate.setText(dataList.get(5));
+            roleName.setText(dataList.get(0));
+            roleLevel.setText(dataList.get(1));
+            jiecao.setText(dataList.get(2));
+            totalVictoryTimes.setText(dataList.get(3));
+            totalTimes.setText(dataList.get(4));
+
+            float i = Float.parseFloat(dataList.get(3).replace("总胜场: ", ""));
+            float j = Float.parseFloat(dataList.get(4).replace("总场次: ", ""));
+
+            double rate = i/j;
+            BigDecimal b = new BigDecimal(rate);
+            rate =   b.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+            String rates = "胜率：" + rate * 100 + "%";
+            winningRate.setText(rates);
+        }else {
+            Toast.makeText(this, "找不到角色信息！", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cn.nicolite.palm300heroes.R;
+
 /**
  * Created by NICOLITE on 2017/2/5 0005.
  */
@@ -16,7 +18,8 @@ public class MatchListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.match_list_layout, container, false);
+        return view;
     }
 
 }

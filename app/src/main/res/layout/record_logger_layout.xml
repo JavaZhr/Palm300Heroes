@@ -61,8 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:visibility="gone">
+        android:layout_margin="5dp">
         <TextView
             android:id="@+id/record_logger_updating_date"
             android:layout_width="match_parent"
@@ -73,18 +72,18 @@
             android:textSize="18sp"
             android:textColor="@color/dark"/>
 
+        <TextView
+            android:id="@+id/record_logger_role_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:text="角色名："
+            android:textSize="18sp"
+            android:textColor="@color/dark"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/record_logger_role_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="角色名："
-                android:textSize="18sp"
-                android:textColor="@color/dark"/>
 
             <TextView
                 android:id="@+id/record_logger_role_level"
@@ -141,16 +140,15 @@
     <LinearLayout
         android:id="@+id/record_logger_other_date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/record_logger_match_list"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="比赛列表"
             android:textSize="20sp"
@@ -159,9 +157,9 @@
         <TextView
             android:id="@+id/record_logger_server_ranking"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:gravity="center"
             android:text="服务器排名"
             android:textSize="20sp"
