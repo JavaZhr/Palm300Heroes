@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         //蒲公英Crash捕获注册
         PgyCrashManager.register(this);
+
         //新版本检查
-        PgyUpdateManager.register(this);
+       // PgyUpdateManager.register(this);
 
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);

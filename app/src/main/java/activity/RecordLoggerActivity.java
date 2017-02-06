@@ -5,17 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.FragAdapter;
 import cn.nicolite.palm300heroes.R;
-import fragment.Game.MatchListFragment;
-import fragment.Game.ServerRankingFragment;
-import myInterface.HttpCallbackListener;
-import utilty.HttpUtil;
 import utilty.LogUtil;
 import utilty.Utilty;
 
@@ -39,7 +29,7 @@ import utilty.Utilty;
  * Created by NICOLITE on 2017/2/5 0005.
  */
 
-public class RecordLoggerActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener{
+public class RecordLoggerActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText roleNameInput;
     private Button submit;
 
@@ -52,17 +42,8 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     private TextView totalTimes;
     private TextView winningRate;
 
-    private TextView matchList;
-    private TextView serverRanking;
-
-    private LinearLayout baseDate;
-    private LinearLayout otherDate;
-
-    private ViewPager viewPager;
-
-    List<Fragment> fragments = new ArrayList<>();
-    private MatchListFragment matchListFragment;
-    private ServerRankingFragment serverRankingFragment;
+    private Button matchList;
+    private Button serverRanking;
 
     private Handler handler = new Handler(){
         @Override
@@ -109,43 +90,12 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         totalTimes = (TextView) findViewById(R.id.record_logger_total_times);
         winningRate = (TextView) findViewById(R.id.record_logger_winning_rate);
 
-        matchList = (TextView) findViewById(R.id.record_logger_match_list);
-        serverRanking = (TextView) findViewById(R.id.record_logger_server_ranking);
-
-        baseDate = (LinearLayout) findViewById(R.id.record_logger_base_date);
-        otherDate = (LinearLayout) findViewById(R.id.record_logger_other_date);
-
-        viewPager = (ViewPager) findViewById(R.id.record_logger_viewpager);
-
-        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), getFragments());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
-
-        matchList.setBackgroundColor(getResources().getColor(R.color.orange));
+        matchList = (Button) findViewById(R.id.record_logger_match_list);
+        serverRanking = (Button) findViewById(R.id.record_logger_server_ranking);
 
         matchList.setOnClickListener(this);
         serverRanking.setOnClickListener(this);
         submit.setOnClickListener(this);
-    }
-
-    private List<Fragment> getFragments() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        /*开启一个Fragment事务*/
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        fragments.clear();
-
-        if (matchListFragment == null) {
-            matchListFragment  = new MatchListFragment();
-        }
-        if (serverRankingFragment == null) {
-            serverRankingFragment = new ServerRankingFragment();
-        }
-        transaction.commit();
-
-        fragments.add(matchListFragment);
-        fragments.add(serverRankingFragment);
-
-        return fragments;
     }
 
     @Override
@@ -165,24 +115,12 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
                     public void run() {
                         handler.sendEmptyMessage(0);
                     }
-                }, 3000);
-                Toast.makeText(this, "点击了查询", Toast.LENGTH_SHORT).show();
-
-                /*if (roleNameInput.getText().toString().equals("")){
-
-                }else {
-
-                }*/
+                }, 4000);
+                Toast.makeText(this, "查询中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.record_logger_match_list :
-                resetSelectColor();
-                matchList.setBackgroundColor(getResources().getColor(R.color.orange));
-                viewPager.setCurrentItem(0);
                 break;
-            case  R.id.record_logger_server_ranking :
-                resetSelectColor();
-                serverRanking.setBackgroundColor(getResources().getColor(R.color.orange));
-                viewPager.setCurrentItem(1);
+            case R.id.record_logger_server_ranking :
                 break;
             default: break;
         }
@@ -193,35 +131,6 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         super.onDestroy();
         //解除蒲公英Crash捕获注册
         PgyCrashManager.unregister();
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        resetSelectColor();
-        switch (position) {
-            case 0 :
-                matchList.setBackgroundColor(getResources().getColor(R.color.orange));
-                break;
-            case 1 :
-                serverRanking.setBackgroundColor(getResources().getColor(R.color.orange));
-                break;
-            default: break;
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    private void resetSelectColor() {
-        matchList.setBackgroundColor(getResources().getColor(R.color.white));
-        serverRanking.setBackgroundColor(getResources().getColor(R.color.white));
     }
 
     private void initView() {
@@ -243,6 +152,10 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
             String rates = "胜率：" + rate * 100 + "%";
             winningRate.setText(rates);
+
+            matchList.setVisibility(View.VISIBLE);
+            serverRanking.setVisibility(View.VISIBLE);
+
         }else {
             Toast.makeText(this, "找不到角色信息！", Toast.LENGTH_SHORT).show();
         }

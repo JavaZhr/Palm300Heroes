@@ -27,6 +27,7 @@ import database.Palm300heroesDB;
 import model.Heroes;
 import model.MatchList;
 import model.News;
+import model.ServerRanking;
 import model.Skill;
 import model.Skin;
 import model.Sound;
@@ -484,4 +485,31 @@ public class Utilty {
         return dataList;
     }
 
+    public static List<ServerRanking> handlerServerRankingResponse(String url) {
+        final List<ServerRanking> dataList = new ArrayList<>();
+        HttpUtil.sendHttpRequest(url, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                Document document = Jsoup.parse(response);
+                Elements elements = document.select("table.datatable[width=50%]").select("tr[onClick*=javascript:window.open(']");
+                for (int i = 0; i < elements.size(); i++) {
+                    Elements tds = elements.get(i).select("td");
+                    String clickUrl =  elements.get(i).attr("onClick").replace("javascript:window.open('","");
+                    clickUrl = "http://300report.jumpw.com/" +clickUrl.replace("');", "");
+
+                    ServerRanking serverRanking = new ServerRanking();
+                    serverRanking.setClickUrl(clickUrl);
+                    serverRanking.setInfoR(tds.text());
+
+                    dataList.add(serverRanking);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+        return dataList;
+    }
 }

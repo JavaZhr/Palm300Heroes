@@ -63,10 +63,17 @@
         android:orientation="vertical"
         android:layout_margin="5dp">
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="基本信息"
+            android:textSize="20sp"
+            android:textColor="@color/dark"/>
+
+        <TextView
             android:id="@+id/record_logger_updating_date"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="更新日期："
             android:textSize="18sp"
@@ -75,105 +82,86 @@
         <TextView
             android:id="@+id/record_logger_role_name"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="角色名："
             android:textSize="18sp"
             android:textColor="@color/dark"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/record_logger_role_level"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
                 android:text="角色等级："
                 android:textSize="18sp"
                 android:textColor="@color/dark"/>
 
             <TextView
                 android:id="@+id/record_logger_jiecao"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
                 android:text="节操值："
                 android:textSize="18sp"
                 android:textColor="@color/dark"/>
-        </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/record_logger_total_victory_times"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
                 android:text="总胜场："
                 android:textSize="18sp"
                 android:textColor="@color/dark"/>
 
             <TextView
                 android:id="@+id/record_logger_total_times"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
                 android:text="总场次："
                 android:textSize="18sp"
                 android:textColor="@color/dark"/>
 
             <TextView
                 android:id="@+id/record_logger_winning_rate"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
                 android:text="胜率："
                 android:textSize="18sp"
                 android:textColor="@color/dark"/>
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/record_logger_other_date"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
+
+        <Button
             android:id="@+id/record_logger_match_list"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="比赛列表"
+            android:textColor="@color/dark"
+            android:textSize="16sp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="比赛列表"
-            android:textSize="20sp"
-            android:textColor="@color/dark"/>
+            android:visibility="gone"/>
 
-        <TextView
+        <Button
             android:id="@+id/record_logger_server_ranking"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="服务器排行"
+            android:textColor="@color/dark"
+            android:textSize="16sp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="服务器排名"
-            android:textSize="20sp"
-            android:textColor="@color/dark" />
-    </LinearLayout>
+            android:visibility="gone"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/record_logger_viewpager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:flipInterval="30"
-            android:persistentDrawingCache="animation" />
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

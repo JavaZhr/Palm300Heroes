@@ -7,58 +7,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
+import model.ServerRanking;
 
 /**
- * Created by NICOLITE on 2017/2/5 0005.
+ * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
+public class ServerRankingRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<String> dataList = new ArrayList<>();
-    private OnItemClickListener onItemClickListener = null;
+    private List<ServerRanking> dataList;
     private LayoutInflater inflater;
+    private OnItemClickListener onItemClickListener = null;
 
-    public GameRecyclerViewAdapter(Context context, List<String> dataList) {
+    public ServerRankingRecyclerViewAdapter(Context context, List<ServerRanking> dataList) {
         this.context = context;
         this.dataList = dataList;
-        inflater = inflater.from(context);
+        inflater = LayoutInflater.from(context);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView gameSelectorName;
-        private TextView gameSelectorHint;
-
+        private TextView infoR;
         public ViewHolder(View itemView) {
             super(itemView);
-            gameSelectorName = (TextView) itemView.findViewById(R.id.game_selector_name);
-            gameSelectorHint = (TextView) itemView.findViewById(R.id.game_selector_hint);
+            infoR = (TextView) itemView.findViewById(R.id.server_ranking_info);
         }
 
-        public TextView getGameSelectorName() {
-            return gameSelectorName;
-        }
-
-        public TextView getGameSelectorHint() {
-            return gameSelectorHint;
+        public TextView getInfoR() {
+            return infoR;
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.game_recyclerview_layout, parent, false);
+        View view = inflater.inflate(R.layout.server_ranking_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
+        ServerRanking serverRanking = dataList.get(position);
 
-        viewHolder.getGameSelectorName().setText(dataList.get(position));
-        viewHolder.getGameSelectorHint().setText("");
+        viewHolder.getInfoR().setText(serverRanking.getInfoR());
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,7 +67,8 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
         return dataList.size();
     }
 
-    public interface OnItemClickListener {
+    /*item点击实践接口*/
+    public interface OnItemClickListener{
         void onItemClick(View view, int position);
     }
 
