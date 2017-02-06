@@ -6,9 +6,9 @@ import java.io.Serializable;
  * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class ServerRanking implements Serializable{
+public class ServerRanking implements Serializable {
     private String clickUrl;
-    private String infoR;
+    private String[] infoR;
 
     public String getClickUrl() {
         return clickUrl;
@@ -18,11 +18,11 @@ public class ServerRanking implements Serializable{
         this.clickUrl = clickUrl;
     }
 
-    public String getInfoR() {
+    public String[] getInfoR() {
         return infoR;
     }
 
-    public void setInfoR(String infoR) {
+    public void setInfoR(String[] infoR) {
         this.infoR = infoR;
     }
 }

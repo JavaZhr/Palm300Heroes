@@ -33,7 +33,8 @@
         <activity android:name="activity.NewsWebViewActivity"/>
         <activity android:name="activity.HeroesDetailActivity"/>
         <activity android:name="activity.RecordLoggerActivity"/>
-
+        <activity android:name="activity.MatchListActivity"/>
+        <activity android:name="activity.ServerRankingActivity"/>
         <!-- 可选-->
         <activity android:name="com.pgyersdk.activity.FeedbackActivity"/>
         <!-- 必选-->

@@ -1,6 +1,7 @@
 package utilty;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import database.Palm300heroesDB;
 import model.Heroes;
 import model.MatchList;
 import model.News;
+import model.Record;
 import model.ServerRanking;
 import model.Skill;
 import model.Skin;
@@ -428,28 +430,62 @@ public class Utilty {
     }
 
 
-    public static List<MatchList> handlerMatchListResponse(String url) {
-        final List<MatchList> dataList = new ArrayList<>();
+    public static List<Record> handlerRecordLoggerResponse(String url, final int type) {
+        final List<Record> list = new ArrayList<>();
+        final  List<String> dataList = new ArrayList<>();
+        final  List<ServerRanking> sDataList = new ArrayList<>();
+        final List<MatchList> mDataList = new ArrayList<>();
         HttpUtil.sendHttpRequest(url, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 Document document = Jsoup.parse(response);
-                Elements elements = document.select("table.datatable[width=100%]").select("tr[onClick*=javascript:window.open(]");
-                for (int i = 0; i < elements.size(); i++ ) {
-                    Elements tds = elements.get(i).select("td");
+                if (type == 1 || type == 0) {
 
-                    String clickUrl = elements.get(i).attr("onClick").replace("javascript:window.open('","");
-                    clickUrl = "http://300report.jumpw.com/" + clickUrl.replace("');", "");
+                    Elements elements = document.select("table.info").select("tr");
 
-                    String imageUrl = tds.select("img").attr("abs:src");
-                    String[] data = tds.text().split(" ");
+                    for (int i = 0; i < elements.size(); i++) {
+                        Elements tds = elements.get(i).select("td");
+                        LogUtil.d("handlerRecordLoggerResponse", tds.text());
+                        dataList.add(tds.text());
+                    }
+                }
+                if (type == 2 || type == 0) {
+                    Elements elements = document.select("table.datatable[width=50%]").select("tr[onClick*=javascript:window.open(']");
+                    for (int i = 0; i < elements.size(); i++) {
+                        Elements tds = elements.get(i).select("td");
+                        String clickUrl = elements.get(i).attr("onClick").replace("javascript:window.open('", "");
+                        clickUrl = "http://300report.jumpw.com/" + clickUrl.replace("');", "");
+                        String[] infoR = tds.text().split(" ");
+                        ServerRanking serverRanking = new ServerRanking();
+                        serverRanking.setClickUrl(clickUrl);
+                        serverRanking.setInfoR(infoR);
 
-                    MatchList matchList = new MatchList();
-                    matchList.setClickUrl(clickUrl);
-                    matchList.setImageUrl(imageUrl);
-                    matchList.setData(data);
+                        LogUtil.d("handlerRecordLoggerResponse", tds.text());
+                        sDataList.add(serverRanking);
+                    }
+                }
+                if (type == 3 || type == 0) {
+                    Elements elements = document.select("table.datatable[width=100%]").select("tr[onClick*=javascript:window.open(]");
+                    for (int i = 0; i < elements.size(); i++) {
+                        Elements tds = elements.get(i).select("td");
 
-                    dataList.add(matchList);
+                        String clickUrl = elements.get(i).attr("onClick").replace("javascript:window.open('", "");
+                        clickUrl = "http://300report.jumpw.com/" + clickUrl.replace("');", "");
+
+                        String imageUrl = tds.select("img").attr("abs:src");
+                        String[] data = tds.text().split(" ");
+
+                        MatchList matchList = new MatchList();
+                        matchList.setClickUrl(clickUrl);
+                        matchList.setImageUrl(imageUrl);
+                        matchList.setData(data);
+
+                        LogUtil.d("handlerRecordLoggerResponse", tds.text());
+                        mDataList.add(matchList);
+                    }
+                }
+                if (type < 0 || type > 3){
+                    LogUtil.d("handlerRecordLoggerResponse", "type参数错误: " + type + " 0:获取全部，1：获取oleDate,2：获取ServerRanking，3：获取MatchList");
                 }
             }
 
@@ -459,57 +495,14 @@ public class Utilty {
             }
         });
 
-        return dataList;
+        Record record = new Record();
+        record.setRoleDate(dataList);
+        record.setRankingList(sDataList);
+        record.setMatchLists(mDataList);
+
+        list.clear();
+        list.add(record);
+        return list;
     }
 
-    public static List<String> handlerRoleDataResponse(String url){
-        final List<String> dataList = new ArrayList<>();
-        HttpUtil.sendHttpRequest(url, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Document document = Jsoup.parse(response);
-                Elements elements = document.select("table.info").select("tr");
-
-                for (int i = 0; i < elements.size(); i++) {
-                    Elements tds = elements.get(i).select("td");
-                    LogUtil.d("xxx", tds.text());
-                    dataList.add(tds.text());
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        return dataList;
-    }
-
-    public static List<ServerRanking> handlerServerRankingResponse(String url) {
-        final List<ServerRanking> dataList = new ArrayList<>();
-        HttpUtil.sendHttpRequest(url, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Document document = Jsoup.parse(response);
-                Elements elements = document.select("table.datatable[width=50%]").select("tr[onClick*=javascript:window.open(']");
-                for (int i = 0; i < elements.size(); i++) {
-                    Elements tds = elements.get(i).select("td");
-                    String clickUrl =  elements.get(i).attr("onClick").replace("javascript:window.open('","");
-                    clickUrl = "http://300report.jumpw.com/" +clickUrl.replace("');", "");
-
-                    ServerRanking serverRanking = new ServerRanking();
-                    serverRanking.setClickUrl(clickUrl);
-                    serverRanking.setInfoR(tds.text());
-
-                    dataList.add(serverRanking);
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        return dataList;
-    }
 }

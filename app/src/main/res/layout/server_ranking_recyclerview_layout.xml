@@ -3,10 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
+        android:id="@+id/server_ranking_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="最受欢迎玩家"
+        android:textSize="18sp"
+        android:textColor="@color/dark"/>
+    <TextView
         android:id="@+id/server_ranking_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="最受欢迎玩家 第1名 (↑ 1) 节操值 439362"
+        android:gravity="center_horizontal"
+        android:text="第1名 (↑ 1) 节操值 439362"
         android:textSize="18sp"
         android:textColor="@color/dark"/>
 </LinearLayout>

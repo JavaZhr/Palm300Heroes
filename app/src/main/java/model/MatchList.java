@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Created by NICOLITE on 2017/2/5 0005.
  */
 
-public class MatchList {
+public class MatchList implements Serializable{
     private String clickUrl;
     private String imageUrl;
     private String[] data;

@@ -2,14 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <RelativeLayout
+        android:id="@+id/game_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="敬请期待"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:layout_height="76dp"
+        android:background="@color/blue"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="比赛列表"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="14dp"
+            android:paddingTop="0dp"/>
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/match_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>

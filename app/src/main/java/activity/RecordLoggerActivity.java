@@ -1,5 +1,6 @@
 package activity;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,11 +17,13 @@ import android.widget.Toast;
 
 import com.pgyersdk.crash.PgyCrashManager;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
+import model.Record;
 import utilty.LogUtil;
 import utilty.Utilty;
 
@@ -44,6 +47,8 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
     private Button matchList;
     private Button serverRanking;
+
+    private List<Record> list = new ArrayList<>();
 
     private Handler handler = new Handler(){
         @Override
@@ -107,20 +112,28 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         String url = "http://300report.jumpw.com/list.html?name=" + roleNameInput.getText();
+        Intent intent;
         switch (v.getId()) {
             case R.id.record_logger_submit :
-                dataList = Utilty.handlerRoleDataResponse(url);
+                list = Utilty.handlerRecordLoggerResponse(url, 0);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         handler.sendEmptyMessage(0);
+                        dataList = list.get(0).getRoleDate();
                     }
                 }, 4000);
                 Toast.makeText(this, "查询中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.record_logger_match_list :
+                intent = new Intent(this, MatchListActivity.class);
+                intent.putExtra("match_list", (Serializable) list.get(0).getMatchLists());
+                startActivity(intent);
                 break;
             case R.id.record_logger_server_ranking :
+                intent = new Intent(this, ServerRankingActivity.class);
+                intent.putExtra("ranking_list", (Serializable) list.get(0).getRankingList());
+                startActivity(intent);
                 break;
             default: break;
         }
