@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
-import model.Skin;
+import model.hero.Skin;
 
 /**
  * Created by NICOLITE on 2016/11/25 0025.

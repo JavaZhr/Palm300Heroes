@@ -22,10 +22,7 @@ import activity.HeroesDetailActivity;
 import adapter.HeroesRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
-import model.Heroes;
-import myInterface.HttpCallbackListener;
-import utilty.HttpUtil;
-import utilty.LogUtil;
+import model.hero.Heroes;
 import utilty.Utilty;
 
 /**
@@ -39,7 +36,6 @@ public class HeroesAssassinFragment extends Fragment implements HeroesRecyclerVi
     private HeroesRecyclerViewAdapter recycleAdapter;
     private static final int REFRESH_COMPLETE_TIME = 2000;
     private List<Heroes> dataList = new ArrayList<>() ;
-    private final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
 
     private Handler handler = new Handler() {
         @Override
@@ -98,10 +94,9 @@ public class HeroesAssassinFragment extends Fragment implements HeroesRecyclerVi
 
     @Override
     public void onRefresh() {
-                Utilty.initHeroDate(getActivity());
+                Utilty.initHeroData(getActivity(), 1);
                 readHeroDate();
                 handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
-
         //重新获取数据
         //获取完成swipeRefreshLayout.setRefreshing(false);
     }

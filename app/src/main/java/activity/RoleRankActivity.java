@@ -11,29 +11,28 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.ServerRankingRecyclerViewAdapter;
+import adapter.RoleRankRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
-import model.Record;
-import model.ServerRanking;
+import database.Palm300heroesDB;
+import model.recordLogger.RoleRank;
 import other.DividerItemDecoration;
 
 /**
  * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class ServerRankingActivity extends AppCompatActivity implements ServerRankingRecyclerViewAdapter.OnItemClickListener{
+public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
     private RecyclerView recyclerView;
-    private ServerRankingRecyclerViewAdapter recyclerAdapter;
-    private LinearLayoutManager layoutManager;
+    private RoleRankRecyclerViewAdapter recyclerAdapter;
 
-    private List<ServerRanking> dataList = new ArrayList<>();
+    private Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(this);
+    private List<RoleRank> dataList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,16 +50,16 @@ public class ServerRankingActivity extends AppCompatActivity implements ServerRa
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
-        setContentView(R.layout.server_ranking_layout);
+        setContentView(R.layout.role_rank_layout);
 
         //蒲公英Crash捕获注册
         PgyCrashManager.register(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.server_ranking_recycler_view);
+        dataList = palm300heroesDB.loadRoleRank();
 
-        dataList = (List<ServerRanking>) getIntent().getSerializableExtra("ranking_list");
+        recyclerView = (RecyclerView) findViewById(R.id.role_rank_recycler_view);
 
-        recyclerAdapter = new ServerRankingRecyclerViewAdapter(this, dataList);
+        recyclerAdapter = new RoleRankRecyclerViewAdapter(this, dataList);
 
         recyclerAdapter.setOnItemClickListener(this);
 
@@ -92,7 +91,6 @@ public class ServerRankingActivity extends AppCompatActivity implements ServerRa
 
     @Override
     public void onItemClick(View view, int position) {
-        String clickUrl= dataList.get(position).getClickUrl();
-        Toast.makeText(this, clickUrl , Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -22,10 +22,7 @@ import activity.HeroesDetailActivity;
 import adapter.HeroesRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
-import model.Heroes;
-import myInterface.HttpCallbackListener;
-import utilty.HttpUtil;
-import utilty.LogUtil;
+import model.hero.Heroes;
 import utilty.Utilty;
 
 /**
@@ -100,7 +97,7 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
 
     @Override
     public void onRefresh() {
-        Utilty.initHeroDate(getActivity());
+        Utilty.initHeroData(getActivity(), 1);
         readHeroesData();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
         //重新获取数据

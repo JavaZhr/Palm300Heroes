@@ -11,66 +11,76 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
-import model.ServerRanking;
-import utilty.LogUtil;
+import model.recordLogger.RoleRank;
 
 /**
  * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class ServerRankingRecyclerViewAdapter extends RecyclerView.Adapter {
+public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<ServerRanking> dataList;
+    private List<RoleRank> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
 
-    public ServerRankingRecyclerViewAdapter(Context context, List<ServerRanking> dataList) {
+    public RoleRankRecyclerViewAdapter(Context context, List<RoleRank> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView infoR;
-        private TextView infoTitle;
+        private TextView rankInfo;
+        private TextView rankName;
+        private TextView valueName;
+        private TextView value;
         public ViewHolder(View itemView) {
             super(itemView);
-            infoR = (TextView) itemView.findViewById(R.id.server_ranking_info);
-            infoTitle = (TextView) itemView.findViewById(R.id.server_ranking_title);
+            rankInfo = (TextView) itemView.findViewById(R.id.role_rank_info);
+            rankName = (TextView) itemView.findViewById(R.id.role_rank_name);
+            valueName = (TextView) itemView.findViewById(R.id.role_value_name);
+            value = (TextView) itemView.findViewById(R.id.role_rank_value);
         }
 
-        public TextView getInfoR() {
-            return infoR;
+        public TextView getRankInfo() {
+            return rankInfo;
         }
 
-        public TextView getInfoTitle() {
-            return infoTitle;
+        public TextView getRankName() {
+            return rankName;
+        }
+
+        public TextView getValueName() {
+            return valueName;
+        }
+
+        public TextView getValue() {
+            return value;
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.server_ranking_recyclerview_layout, parent, false);
+        View view = inflater.inflate(R.layout.role_rank_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        String color ;
-        ServerRanking serverRanking = dataList.get(position);
-        if (serverRanking.getInfoR()[2].contains("↑")) {
-            color = "<font  color='#FF2D2D'>" + serverRanking.getInfoR()[2] + serverRanking.getInfoR()[3] +"</font>";
-        }else {
-            color = "<font  color='#79FF79'>" + serverRanking.getInfoR()[2] + serverRanking.getInfoR()[3] +"</font>";
-        }
-        String info = serverRanking.getInfoR()[1]  + color + "   " +serverRanking.getInfoR()[4] + serverRanking.getInfoR()[5];
-        viewHolder.getInfoTitle().setText(serverRanking.getInfoR()[0]);
+        String info;
+        RoleRank roleRank = dataList.get(position);
 
-        for (int i = 0; i < serverRanking.getInfoR().length; i++) {
-            LogUtil.d("ServerRanking", serverRanking.getInfoR()[i]);
+        if (roleRank.getRankChange() >= 0) {
+            info = "第" + roleRank.getRank() + "名 "+ "<font  color='#FF2D2D'>(↑"+ roleRank.getRankChange() +" )</font>";
+        }else {
+            info = "第" + roleRank.getRank() + "名 "+ "<font  color='#79FF79'>(↓"+ (-1) * roleRank.getRankChange() +" )</font>";
         }
-        viewHolder.getInfoR().setText(Html.fromHtml(info));
+
+        viewHolder.getRankName().setText(roleRank.getRankName());
+        viewHolder.getRankInfo().setText(Html.fromHtml(info));
+        viewHolder.getValueName().setText(roleRank.getValueName());
+        viewHolder.getValue().setText(roleRank.getValue());
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

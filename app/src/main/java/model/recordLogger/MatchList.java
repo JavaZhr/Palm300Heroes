@@ -1,4 +1,4 @@
-package model;
+package model.recordLogger;
 
 import java.io.Serializable;
 

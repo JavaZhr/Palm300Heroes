@@ -12,19 +12,19 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pgyersdk.crash.PgyCrashManager;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
-import model.Record;
-import utilty.LogUtil;
+import database.Palm300heroesDB;
+import model.recordLogger.Role;
 import utilty.Utilty;
 
 
@@ -36,19 +36,20 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     private EditText roleNameInput;
     private Button submit;
 
-    private List<String> dataList = new ArrayList<>();
-    private TextView updatingDate;
+    private List<Role> dataList = new ArrayList<>();
+    private TextView updateTime;
     private TextView roleName;
     private TextView roleLevel;
-    private TextView jiecao;
-    private TextView totalVictoryTimes;
-    private TextView totalTimes;
-    private TextView winningRate;
+    private TextView jumpValue;
+    private TextView winCount;
+    private TextView matchCount;
+    private TextView rate;
+    private LinearLayout baseDate;
 
     private Button matchList;
-    private Button serverRanking;
+    private Button roleRank;
 
-    private List<Record> list = new ArrayList<>();
+    private Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(this);
 
     private Handler handler = new Handler(){
         @Override
@@ -87,19 +88,20 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         roleNameInput = (EditText) findViewById(R.id.record_logger_input);
         submit = (Button) findViewById(R.id.record_logger_submit);
 
-        updatingDate = (TextView) findViewById(R.id.record_logger_updating_date);
+        updateTime = (TextView) findViewById(R.id.record_logger_update_time);
         roleName = (TextView) findViewById(R.id.record_logger_role_name);
         roleLevel = (TextView) findViewById(R.id.record_logger_role_level);
-        jiecao = (TextView) findViewById(R.id.record_logger_jiecao);
-        totalVictoryTimes = (TextView) findViewById(R.id.record_logger_total_victory_times);
-        totalTimes = (TextView) findViewById(R.id.record_logger_total_times);
-        winningRate = (TextView) findViewById(R.id.record_logger_winning_rate);
+        jumpValue = (TextView) findViewById(R.id.record_logger_jump_value);
+        winCount = (TextView) findViewById(R.id.record_logger_win_count);
+        matchCount = (TextView) findViewById(R.id.record_logger_match_count);
+        rate = (TextView) findViewById(R.id.record_logger_rate);
+        baseDate = (LinearLayout) findViewById(R.id.record_logger_base_date);
 
         matchList = (Button) findViewById(R.id.record_logger_match_list);
-        serverRanking = (Button) findViewById(R.id.record_logger_server_ranking);
+        roleRank = (Button) findViewById(R.id.record_logger_role_rank);
 
         matchList.setOnClickListener(this);
-        serverRanking.setOnClickListener(this);
+        roleRank.setOnClickListener(this);
         submit.setOnClickListener(this);
     }
 
@@ -111,28 +113,27 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        String url = "http://300report.jumpw.com/list.html?name=" + roleNameInput.getText();
+        String code = roleNameInput.getText().toString();
         Intent intent;
         switch (v.getId()) {
             case R.id.record_logger_submit :
-                list = Utilty.handlerRecordLoggerResponse(url, 0);
+                Utilty.handlerRecordLoggerResponse(this, code, 1);
+                Utilty.handlerRecordLoggerResponse(this, code, 2);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        dataList = palm300heroesDB.loadRole();
                         handler.sendEmptyMessage(0);
-                        dataList = list.get(0).getRoleDate();
                     }
-                }, 4000);
+                }, 3000);
                 Toast.makeText(this, "查询中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.record_logger_match_list :
-                intent = new Intent(this, MatchListActivity.class);
-                intent.putExtra("match_list", (Serializable) list.get(0).getMatchLists());
+                intent = new Intent(this, LatestMatchActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.record_logger_server_ranking :
-                intent = new Intent(this, ServerRankingActivity.class);
-                intent.putExtra("ranking_list", (Serializable) list.get(0).getRankingList());
+            case R.id.record_logger_role_rank :
+                intent = new Intent(this, RoleRankActivity.class);
                 startActivity(intent);
                 break;
             default: break;
@@ -147,27 +148,25 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initView() {
-        LogUtil.d("xxx", " 1 " + dataList.size());
-        if (dataList.size() > 4) {
-            updatingDate.setText(dataList.get(5));
-            roleName.setText(dataList.get(0));
-            roleLevel.setText(dataList.get(1));
-            jiecao.setText(dataList.get(2));
-            totalVictoryTimes.setText(dataList.get(3));
-            totalTimes.setText(dataList.get(4));
+        if (dataList.size() > 0) {
+            Role role = dataList.get(0);
+            baseDate.setVisibility(View.VISIBLE);
+            updateTime.setText("更新时间：" + role.getUpdateTime());
+            roleName.setText(role.getRoleName());
+            roleLevel.setText("Lv" + role.getRoleLevel());
+            jumpValue.setText("节操值：" + role.getJumpValue());
+            winCount.setText("获胜场次：" + role.getWinCount());
+            matchCount.setText("总场次：" + role.getMatchCount());
 
-            float i = Float.parseFloat(dataList.get(3).replace("总胜场: ", ""));
-            float j = Float.parseFloat(dataList.get(4).replace("总场次: ", ""));
-
-            double rate = i/j;
+            double rate = (double)role.getWinCount()/(double)role.getMatchCount();
             BigDecimal b = new BigDecimal(rate);
             rate =   b.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
 
             String rates = "胜率：" + rate * 100 + "%";
-            winningRate.setText(rates);
+            this.rate.setText(rates);
 
             matchList.setVisibility(View.VISIBLE);
-            serverRanking.setVisibility(View.VISIBLE);
+            roleRank.setVisibility(View.VISIBLE);
 
         }else {
             Toast.makeText(this, "找不到角色信息！", Toast.LENGTH_SHORT).show();

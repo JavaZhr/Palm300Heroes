@@ -13,7 +13,7 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
     /**
      * 用于资讯功能
      */
-    public static final String CREATE_NEWS = "create table News("
+    private static final String CREATE_NEWS = "create table News("
             + "id integer primary key autoincrement, "
             + "news_category text, "
             + "news_url text, "
@@ -27,7 +27,7 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
     /**
      * 以下4个用于英雄功能
      */
-    public static final String CREATE_HEROES = "create table Heroes("
+    private static final String CREATE_HEROES = "create table Heroes("
             + "id integer primary key autoincrement, "
             + "hero_name text, "
             + "hero_type text, "
@@ -47,7 +47,7 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "hero_attack_range_value text, "
             + "hero_movement_speed_value text )";
 
-    public static final String CREATE_SKILL = "create table Skill("
+    private static final String CREATE_SKILL = "create table Skill("
             + "id integer primary key autoincrement, "
             + "skill_hero text, "
             + "skill_pictureUrl text, "
@@ -57,18 +57,50 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "skill_shortcut text, "
             + "skill_effectiveness text )";
 
-    public static final String CREATE_SKIN = "create table Skin("
+    private static final String CREATE_SKIN = "create table Skin("
             + "id integer primary key autoincrement, "
             + "skin_hero text, "
             + "skin_url text, "
             + "skin_name text, "
             + "skin_price text )";
 
-    public static final String CREATE_SOUND = "create table Sound("
+    private static final String CREATE_SOUND = "create table Sound("
             + "id integer primary key autoincrement, "
             + "sound_hero text, "
             + "sound_url text, "
             + "sound_content text )";
+
+
+    private static final String CREAT_ROLE = "create table Role ("
+            + "id integer primary key autoincrement, "
+            + "role_name text, "
+            + "role_level integer, "
+            + "role_id integer, "
+            + "jump_value integer, "
+            + "win_count integer, "
+            + "match_count integer, "
+            + "update_time text )";
+
+    private static final String CREATE_ROLERANK = "create table RoleRank ("
+            + "id integer primary key autoincrement, "
+            + "type integer, "
+            + "rank_name text, "
+            + "value_name text, "
+            + "rank integer, "
+            + "value text, "
+            + "rank_change integer, "
+            + "rank_index )";
+
+    private static final String CREATE_LATESTMATCH = "create table LatestMatch ("
+            + "id integer primary key autoincrement, "
+            + "match_id integer, "
+            + "match_type integer, "
+            + "hero_level integer, "
+            + "result, integer, "
+            + "match_date text, "
+            + "hero_id integer, "
+            + "hero_name text, "
+            + "hero_icon text )";
 
     public Palm300HeroesOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -83,6 +115,10 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SKILL); //技能
         db.execSQL(CREATE_SKIN); //皮肤
         db.execSQL(CREATE_SOUND); //配音
+
+        db.execSQL(CREAT_ROLE);
+        db.execSQL(CREATE_ROLERANK);
+        db.execSQL(CREATE_LATESTMATCH);
     }
 
     @Override

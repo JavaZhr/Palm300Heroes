@@ -13,8 +13,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
-import model.Skill;
-import utilty.LogUtil;
+import model.hero.Skill;
 
 /**
  * Created by NICOLITE on 2016/11/16 0016.

@@ -25,7 +25,7 @@ import fragment.Heroes.HeroesDetail.HeroesDataFragment;
 import fragment.Heroes.HeroesDetail.HeroesSkillFragment;
 import fragment.Heroes.HeroesDetail.HeroesSkinFragment;
 import fragment.Heroes.HeroesDetail.HeroesSoundFragment;
-import model.Heroes;
+import model.hero.Heroes;
 import utilty.LogUtil;
 
 /**

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
-import model.Sound;
+import model.hero.Sound;
 
 /**
  * Created by NICOLITE on 2016/11/25 0025.

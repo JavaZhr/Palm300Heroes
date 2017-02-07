@@ -1,11 +1,8 @@
 package fragment.Heroes.HeroesDetail;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import cn.nicolite.palm300heroes.R;
-import model.Heroes;
+import model.hero.Heroes;
 import utilty.LogUtil;
 
 /**
@@ -36,8 +33,6 @@ public class HeroesDataFragment extends Fragment{
     private TextView heroesBackground;
 
     private ImageView heroesImageView;
-
-    private Heroes heroes;
 
     @Nullable
     @Override
@@ -61,7 +56,7 @@ public class HeroesDataFragment extends Fragment{
     }
 
     private void initView() {
-        heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
+       Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
 
         heroesHealthValue.setText("生命值：" + heroes.getHealthValue());
         heroesMagicPointValue.setText("魔法值：" + heroes.getMagicPointValue());

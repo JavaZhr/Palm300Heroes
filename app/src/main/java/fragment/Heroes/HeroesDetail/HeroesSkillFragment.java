@@ -20,8 +20,8 @@ import java.util.List;
 import adapter.SkillRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
-import model.Heroes;
-import model.Skill;
+import model.hero.Heroes;
+import model.hero.Skill;
 import utilty.Utilty;
 
 /**
@@ -98,7 +98,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
 
     @Override
     public void onRefresh() {
-        Utilty.initSkillDate(getActivity());
+        Utilty.initHeroData(getActivity(), 2);
         readSkillDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }

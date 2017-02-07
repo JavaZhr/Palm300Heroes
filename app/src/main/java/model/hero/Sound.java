@@ -1,15 +1,14 @@
-package model;
+package model.hero;
 
 /**
  * Created by NICOLITE on 2016/10/26 0026.
  */
 
-public class Skin {
+public class Sound {
     private int id;
     private String hero;
     private String url;
-    private String name;
-    private String price;
+    private String content;
 
     public int getId() {
         return id;
@@ -35,19 +34,11 @@ public class Skin {
         this.url = url;
     }
 
-    public String getName() {
-        return name;
+    public String getContent() {
+        return content;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

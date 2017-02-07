@@ -20,8 +20,8 @@ import java.util.List;
 import adapter.SkinRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
-import model.Heroes;
-import model.Skin;
+import model.hero.Heroes;
+import model.hero.Skin;
 import utilty.Utilty;
 
 /**
@@ -99,7 +99,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
 
     @Override
     public void onRefresh() {
-        Utilty.initSkinDate(getActivity());
+        Utilty.initHeroData(getActivity(), 3);
         readSkinDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }

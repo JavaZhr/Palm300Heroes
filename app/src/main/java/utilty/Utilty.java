@@ -1,21 +1,17 @@
 package utilty;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Switch;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,14 +21,17 @@ import java.util.Date;
 import java.util.List;
 
 import database.Palm300heroesDB;
-import model.Heroes;
-import model.MatchList;
+import model.hero.Heroes;
+import model.recordLogger.LatestMatch;
+import model.recordLogger.MatchList;
 import model.News;
-import model.Record;
-import model.ServerRanking;
-import model.Skill;
-import model.Skin;
-import model.Sound;
+import model.recordLogger.Record;
+import model.recordLogger.Role;
+import model.recordLogger.RoleRank;
+import model.recordLogger.ServerRanking;
+import model.hero.Skill;
+import model.hero.Skin;
+import model.hero.Sound;
 import myInterface.HttpCallbackListener;
 
 /**
@@ -41,13 +40,12 @@ import myInterface.HttpCallbackListener;
 
 
 public class Utilty {
-    private static Palm300heroesDB palm300heroesDB;
     /**
      * 解析和处理服务器返回的News数据
      */
 
     /*资讯信息部分*/
-    public static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
+    private static boolean handleNewsResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -103,7 +101,7 @@ public class Utilty {
     }
 
     /*英雄信息部分*/
-    public static boolean handleHeroesResponse(Palm300heroesDB palm300heroesDB, String response) {
+    private static boolean handleHeroesResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -172,7 +170,7 @@ public class Utilty {
     }
 
     /*技能部分*/
-    public static boolean handleSkillResponse(Palm300heroesDB palm300heroesDB, String response) {
+    private static boolean handleSkillResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -223,7 +221,7 @@ public class Utilty {
     }
 
     /*皮肤部分*/
-    public static  boolean handleSkinResponse(Palm300heroesDB palm300heroesDB, String response) {
+    private static  boolean handleSkinResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)){
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -269,7 +267,7 @@ public class Utilty {
     }
 
     /*配音部分*/
-    public static boolean handlerSoundResponse(Palm300heroesDB palm300heroesDB, String response) {
+    private static boolean handlerSoundResponse(Palm300heroesDB palm300heroesDB, String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject  jsonObject = new JSONObject(response);
@@ -314,9 +312,9 @@ public class Utilty {
     /*************************************数据初始化********************************/
 
     /*初始化资讯数据*/
-    public static void initNewsDate(Context context) {
+    public static void initNewsData(Context context) {
         final String ADDRESS = "http://nicolite.cn/api/get_category_posts/?slug=300heroes";
-        palm300heroesDB = Palm300heroesDB.getInstance(context);
+        final Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(context);
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
@@ -329,80 +327,65 @@ public class Utilty {
         });
     }
 
-    /*初始化英雄基础数据*/
-    public static void initHeroDate(Context context) {
-        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
-        palm300heroesDB = Palm300heroesDB.getInstance(context);
+    /*初始化英雄数据*/
+    public static void initHeroData(Context context, final int type) {
+        final String HEROADDRESS = "http://og0oucran.bkt.clouddn.com/hero.json";
+        final String SKILLADDRESS = "http://og0oucran.bkt.clouddn.com/skill.json";
+        final String SKINADDRESS = "http://og0oucran.bkt.clouddn.com/skin.json";
+        final String SOUNDADDRESS = "http://og0oucran.bkt.clouddn.com/sound.json";
+        String ADDRESS = null;
+        final Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(context);
+
+        switch(type) {
+            case 1 :
+                ADDRESS = HEROADDRESS;
+                break;
+            case 2 :
+                ADDRESS = SKILLADDRESS;
+                break;
+            case 3 :
+                ADDRESS = SKINADDRESS;
+                break;
+            case 4 :
+                ADDRESS = SOUNDADDRESS;
+                break;
+         default: break;
+        }
+
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                Utilty.handleHeroesResponse(palm300heroesDB, response);
+                if (type == 1) {
+                    Utilty.handleHeroesResponse(palm300heroesDB, response);
+                }
+                if (type == 2) {
+                    Utilty.handleSkillResponse(palm300heroesDB, response);
+                }
+                if (type == 3){
+                    Utilty.handleSkinResponse(palm300heroesDB, response);
+                }
+                if (type == 4) {
+                    Utilty.handlerSoundResponse(palm300heroesDB, response);
+                }
+                if (type < 1 || type > 4) {
+                    LogUtil.d("initHeroDate", "type参数错误。1：英雄数据，2：技能数据，3：皮肤数据，4：语音数据");
+                }
             }
 
             @Override
             public void onError(Exception e) {
-                LogUtil.d("initHerolData", "返回数据错误");
+                LogUtil.d("initHeroDate", "返回数据异常");
             }
         });
     }
 
-    /*初始化技能数据*/
-    public static void initSkillDate(Context context) {
-        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/skill.json";
-        palm300heroesDB = Palm300heroesDB.getInstance(context);
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Utilty.handleSkillResponse(palm300heroesDB, response);
-            }
-            @Override
-            public void onError(Exception e) {
-                LogUtil.d("initSkillData", "返回数据错误");
-            }
-        });
-    }
+    public static void initAllData(Context context) {
+        initHeroData(context, 1);
+        initHeroData(context, 2);
+        initHeroData(context, 3);
+        initHeroData(context, 4);
 
-    /*初始化皮肤数据*/
-    public static void initSkinDate(Context context) {
-        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/skin.json";
-        palm300heroesDB = Palm300heroesDB.getInstance(context);
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Utilty.handleSkinResponse(palm300heroesDB, response);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                LogUtil.d("initSkinData", "返回数据错误");
-            }
-        });
-    }
-
-    /*初始化配音数据*/
-    public static void initSoundDate(Context context) {
-        final String ADDRESS = "http://og0oucran.bkt.clouddn.com/sound.json";
-        palm300heroesDB = Palm300heroesDB.getInstance(context);
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                Utilty.handlerSoundResponse(palm300heroesDB, response);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                LogUtil.d("initSoundData", "返回数据错误");
-            }
-        });
-    }
-
-    /*初始化所有数据*/
-    public static void initAllDate(Context context) {
-        initNewsDate(context);
-        initHeroDate(context);
-        initSkillDate(context);
-        initSkinDate(context);
-        initSoundDate(context);
+        initNewsData(context);
     }
 
     /* 按时间排序*/
@@ -429,8 +412,8 @@ public class Utilty {
         return newList;
     }
 
-
-    public static List<Record> handlerRecordLoggerResponse(String url, final int type) {
+/**************************战绩查询数据*************************/
+    public static List<Record> getRecordLoggerResponse(String url, final int type) {
         final List<Record> list = new ArrayList<>();
         final  List<String> dataList = new ArrayList<>();
         final  List<ServerRanking> sDataList = new ArrayList<>();
@@ -472,7 +455,7 @@ public class Utilty {
                         String clickUrl = elements.get(i).attr("onClick").replace("javascript:window.open('", "");
                         clickUrl = "http://300report.jumpw.com/" + clickUrl.replace("');", "");
 
-                        String imageUrl = tds.select("img").attr("abs:src");
+                        String imageUrl = "http://300report.jumpw.com/" + tds.select("img").attr("src");
                         String[] data = tds.text().split(" ");
 
                         MatchList matchList = new MatchList();
@@ -480,7 +463,8 @@ public class Utilty {
                         matchList.setImageUrl(imageUrl);
                         matchList.setData(data);
 
-                        LogUtil.d("handlerRecordLoggerResponse", tds.text());
+                        LogUtil.d("tds", imageUrl);
+                        LogUtil.d("tds", clickUrl);
                         mDataList.add(matchList);
                     }
                 }
@@ -504,5 +488,154 @@ public class Utilty {
         list.add(record);
         return list;
     }
+
+    public static void handlerRecordLoggerResponse(Context context, String code, final int type) {
+        final Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(context);
+        String ADDRESS = null;
+        switch (type) {
+            case 1 :
+                ADDRESS = "http://300report.jumpw.com/api/getrole?name=" + code;
+                break;
+            case 2 :
+                ADDRESS = "http://300report.jumpw.com/api/getlist?name=" + code;
+                break;
+           /* case 3 :
+                ADDRESS = "http://300report.jumpw.com/api/getmatch?id=" + code;
+                break;
+            case 4 :
+                ADDRESS = " http://300report.jumpw.com/api/getrank?type" + code;
+                break;*/
+            default: break;
+        }
+        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                if (type == 1) {
+                    handlerRoleResponse(palm300heroesDB, response);
+                }
+                if (type == 2) {
+                    handlerLatestMatchResponse(palm300heroesDB, response);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
+
+    private static boolean handlerRoleResponse(Palm300heroesDB palm300heroesDB, String response) {
+        palm300heroesDB.deleteRole(null, null);
+        palm300heroesDB.deleteRoleRank(null, null);
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String result = jsonObject.getString("Result");
+
+                if (result.equals("OK")){
+                    JSONObject role = jsonObject.getJSONObject("Role");
+
+                    String roleName = role.getString("RoleName");
+                    int roleLevel = role.getInt("RoleLevel");
+                    int roleId = role.getInt("RoleID");
+                    int jumpValue = role.getInt("JumpValue");
+                    int winCount = role.getInt("WinCount");
+                    int matchCount = role.getInt("MatchCount");
+                    String updateTime = role.getString("UpdateTime");
+
+                    Role roles = new Role();
+                    roles.setRoleName(roleName);
+                    roles.setRoleLevel(roleLevel);
+                    roles.setRoleId(roleId);
+                    roles.setJumpValue(jumpValue);
+                    roles.setWinCount(winCount);
+                    roles.setMatchCount(matchCount);
+                    roles.setUpdateTime(updateTime);
+
+                    palm300heroesDB.saveRole(roles);
+
+                    JSONArray rankList = jsonObject.getJSONArray("Rank");
+                    for (int i = 0; i < rankList.length(); i++) {
+                        JSONObject ranks = rankList.getJSONObject(i);
+
+                        int type = ranks.getInt("Type");
+                        String rankName = ranks.getString("RankName");
+                        String valueName = ranks.getString("ValueName");
+                        int rank = ranks.getInt("Rank");
+                        String value = ranks.getString("Value");
+                        int rankChange = ranks.getInt("RankChange");
+                        int rankIndex = ranks.getInt("RankIndex");
+
+                        RoleRank roleRank = new RoleRank();
+                        roleRank.setType(type);
+                        roleRank.setRankName(rankName);
+                        roleRank.setValueName(valueName);
+                        roleRank.setRank(rank);
+                        roleRank.setValue(value);
+                        roleRank.setRankChange(rankChange);
+                        roleRank.setRankIndex(rankIndex);
+
+                        LogUtil.d("handlerRoleResponse", "RoleName：" + roleName);
+                        palm300heroesDB.saveRoleRank(roleRank);
+                    }
+                }else {
+                    LogUtil.d("handlerRoleResponse", "返回数据异常");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean handlerLatestMatchResponse(Palm300heroesDB palm300heroesDB, String response) {
+        if (!TextUtils.isEmpty(response)){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject.getString("Result").equals("OK")) {
+                    JSONArray list = jsonObject.getJSONArray("List");
+
+                    List<LatestMatch> matchList = new ArrayList<>();
+                    for (int i = 0; i < list.length(); i++) {
+                        JSONObject match = list.getJSONObject(i);
+                        int matchId = match.getInt("MatchID");
+                        int matchType = match.getInt("MatchType");
+                        int heroLevel = match.getInt("HeroLevel");
+                        int result = match.getInt("Result");
+                        String matchDate = match.getString("MatchDate");
+
+                        JSONObject hero = match.getJSONObject("Hero");
+
+                        int heroId = hero.getInt("ID");
+                        String heroName = hero.getString("HeroName");
+                        String heroIcon = "http://300report.jumpw.com/" + hero.getString("HeroIcon");
+
+                        LatestMatch latestMatch = new LatestMatch();
+                        latestMatch.setMatchId(matchId);
+                        latestMatch.setMatchType(matchType);
+                        latestMatch.setHeroLevel(heroLevel);
+                        latestMatch.setResult(result);
+                        latestMatch.setMatchDate(matchDate);
+                        latestMatch.setHeroId(heroId);
+                        latestMatch.setHeroName(heroName);
+                        latestMatch.setHeroIcon(heroIcon);
+
+                        matchList.add(latestMatch);
+                    }
+                }else {
+                    LogUtil.d("handlerLatestMatchResponse", "返回数据异常");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
+
 
 }

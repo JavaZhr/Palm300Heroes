@@ -36,7 +36,7 @@ public class SplashActivity extends Activity {
         myCountDownTImer.start();
 
         /*初始化所有数据*/
-        Utilty.initAllDate(this);
+        Utilty.initAllData(this);
 
         new Handler().postDelayed(new Runnable() {
             @Override

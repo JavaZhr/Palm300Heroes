@@ -8,11 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Heroes;
+import model.hero.Heroes;
 import model.News;
-import model.Skill;
-import model.Skin;
-import model.Sound;
+import model.hero.Skill;
+import model.hero.Skin;
+import model.hero.Sound;
+import model.recordLogger.LatestMatch;
+import model.recordLogger.Role;
+import model.recordLogger.RoleRank;
 import utilty.LogUtil;
 
 /**
@@ -21,10 +24,10 @@ import utilty.LogUtil;
 
 public class Palm300heroesDB {
     /*数据库名*/
-    public static final String DB_NAME = "palm300heroes";
+    private static final String DB_NAME = "palm300heroes";
 
     /*数据库版本*/
-    public static int VERSION = 1;
+    private static int VERSION = 1;
 
     private static Palm300heroesDB palm300heroesDB;
     private static SQLiteDatabase db;
@@ -323,7 +326,7 @@ public class Palm300heroesDB {
             values.put("sound_content", sound.getContent());
             db.update("Sound", values, "sound_content=?", new String[]{sound.getContent()});
         }else {
-            LogUtil.d("saveSound", "skin : null");
+            LogUtil.d("updateSound", "skin : null");
         }
     }
 
@@ -342,6 +345,133 @@ public class Palm300heroesDB {
         }
         cursor.close();
         return list;
+    }
+
+    public void saveRole(Role role) {
+        if (role != null) {
+            ContentValues values = new ContentValues();
+            values.put("role_name", role.getRoleName());
+            values.put("role_level", role.getRoleLevel());
+            values.put("role_id", role.getRoleId());
+            values.put("jump_value", role.getJumpValue());
+            values.put("win_count", role.getWinCount());
+            values.put("match_count", role.getMatchCount());
+            values.put("update_time", role.getUpdateTime());
+            db.insert("Role", null, values);
+        }else {
+            LogUtil.d("saveRole", "role : null");
+        }
+    }
+
+    public void updateRole(Role role) {
+        if (role != null) {
+            ContentValues values = new ContentValues();
+            values.put("role_name", role.getRoleName());
+            values.put("role_level", role.getRoleLevel());
+            values.put("role_id", role.getRoleId());
+            values.put("jump_value", role.getJumpValue());
+            values.put("win_count", role.getWinCount());
+            values.put("match_count", role.getMatchCount());
+            values.put("update_time", role.getUpdateTime());
+            db.update("Role", values, "role_name=?", new  String[]{role.getRoleName()});
+        }else {
+            LogUtil.d("updateRole", "role : null");
+        }
+    }
+
+    public List<Role> loadRole() {
+        List<Role> list = new ArrayList<>();
+        Cursor cursor = db.query("Role", null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Role role = new Role();
+                role.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                role.setRoleName(cursor.getString(cursor.getColumnIndex("role_name")));
+                role.setRoleLevel(cursor.getInt(cursor.getColumnIndex("role_level")));
+                role.setRoleId(cursor.getInt(cursor.getColumnIndex("role_id")));
+                role.setJumpValue(cursor.getInt(cursor.getColumnIndex("jump_value")));
+                role.setWinCount(cursor.getInt(cursor.getColumnIndex("win_count")));
+                role.setMatchCount(cursor.getInt(cursor.getColumnIndex("match_count")));
+                role.setUpdateTime(cursor.getString(cursor.getColumnIndex("update_time")));
+
+                list.add(role);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void deleteRole(String whereClause, String[] whereAgrs) {
+        db.delete("Role", whereClause, whereAgrs);
+    }
+
+    public void saveRoleRank(RoleRank roleRank) {
+        if (roleRank != null) {
+            ContentValues values = new ContentValues();
+            values.put("type", roleRank.getType());
+            values.put("rank_name", roleRank.getRankName());
+            values.put("value_name", roleRank.getValueName());
+            values.put("rank", roleRank.getRank());
+            values.put("value", roleRank.getValue());
+            values.put("rank_change", roleRank.getRankChange());
+            values.put("rank_index", roleRank.getRankIndex());
+            db.insert("RoleRank", null, values);
+        }else {
+            LogUtil.d("saveRoleRank", "roleRank : null");
+        }
+    }
+
+    public void updateRoleRank(RoleRank roleRank) {
+        if (roleRank != null) {
+            ContentValues values = new ContentValues();
+            values.put("type", roleRank.getType());
+            values.put("rank_name", roleRank.getRankName());
+            values.put("value_name", roleRank.getValueName());
+            values.put("rank", roleRank.getRank());
+            values.put("value", roleRank.getValue());
+            values.put("rank_change", roleRank.getRankChange());
+            values.put("rank_index", roleRank.getRankIndex());
+            db.update("RoleRank", values, "rank_name=?", new  String[]{roleRank.getRankName()});
+        }else {
+            LogUtil.d("updateRoleRank", "roleRank : null");
+        }
+    }
+
+    public List<RoleRank> loadRoleRank() {
+        List<RoleRank> list = new ArrayList<>();
+        Cursor cursor = db.query("RoleRank", null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                RoleRank roleRank = new RoleRank();
+                roleRank.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                roleRank.setType(cursor.getInt(cursor.getColumnIndex("type")));
+                roleRank.setRankName(cursor.getString(cursor.getColumnIndex("rank_name")));
+                roleRank.setValueName(cursor.getString(cursor.getColumnIndex("value_name")));
+                roleRank.setRank(cursor.getInt(cursor.getColumnIndex("rank")));
+                roleRank.setValue(cursor.getString(cursor.getColumnIndex("value")));
+                roleRank.setRankChange(cursor.getInt(cursor.getColumnIndex("rank_change")));
+                roleRank.setRankIndex(cursor.getInt(cursor.getColumnIndex("rank_index")));
+
+                list.add(roleRank);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    public void deleteRoleRank(String whereClause, String[] whereAgrs) {
+        db.delete("RoleRank", whereClause, whereAgrs);
+    }
+
+    public void saveLatestMatch(LatestMatch latestMatch) {
+        if (latestMatch != null) {
+            ContentValues values = new ContentValues();
+            values.put("match_id", latestMatch.getMatchId());
+            values.put("match_type", latestMatch.getMatchType());
+            values.put("hero_level", latestMatch.getHeroLevel());
+
+        }else {
+            LogUtil.d("saveLatestMatch", "latestMatch : null");
+        }
     }
 
     public boolean isExistence(Object object){
