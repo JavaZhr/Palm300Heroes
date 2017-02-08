@@ -491,6 +491,9 @@ public class Utilty {
 
     public static void handlerRecordLoggerResponse(Context context, String code, final int type) {
         final Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(context);
+        palm300heroesDB.deleteRole(null, null);
+        palm300heroesDB.deleteRoleRank(null, null);
+        palm300heroesDB.deleteLatestMatch(null, null);
         String ADDRESS = null;
         switch (type) {
             case 1 :
@@ -526,8 +529,6 @@ public class Utilty {
     }
 
     private static boolean handlerRoleResponse(Palm300heroesDB palm300heroesDB, String response) {
-        palm300heroesDB.deleteRole(null, null);
-        palm300heroesDB.deleteRoleRank(null, null);
         if (!TextUtils.isEmpty(response)) {
             try {
                 JSONObject jsonObject = new JSONObject(response);
@@ -598,7 +599,6 @@ public class Utilty {
                 if (jsonObject.getString("Result").equals("OK")) {
                     JSONArray list = jsonObject.getJSONArray("List");
 
-                    List<LatestMatch> matchList = new ArrayList<>();
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject match = list.getJSONObject(i);
                         int matchId = match.getInt("MatchID");
@@ -610,8 +610,8 @@ public class Utilty {
                         JSONObject hero = match.getJSONObject("Hero");
 
                         int heroId = hero.getInt("ID");
-                        String heroName = hero.getString("HeroName");
-                        String heroIcon = "http://300report.jumpw.com/" + hero.getString("HeroIcon");
+                        String heroName = hero.getString("Name");
+                        String heroIcon = "http://300report.jumpw.com/static/images/" + hero.getString("IconFile");
 
                         LatestMatch latestMatch = new LatestMatch();
                         latestMatch.setMatchId(matchId);
@@ -623,7 +623,8 @@ public class Utilty {
                         latestMatch.setHeroName(heroName);
                         latestMatch.setHeroIcon(heroIcon);
 
-                        matchList.add(latestMatch);
+                        LogUtil.d("handlerLatestMatchResponse", "heroIcon：" + heroIcon);
+                       palm300heroesDB.saveLatestMatch(latestMatch);
                     }
                 }else {
                     LogUtil.d("handlerLatestMatchResponse", "返回数据异常");

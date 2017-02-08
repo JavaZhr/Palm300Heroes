@@ -401,8 +401,8 @@ public class Palm300heroesDB {
         return list;
     }
 
-    public void deleteRole(String whereClause, String[] whereAgrs) {
-        db.delete("Role", whereClause, whereAgrs);
+    public void deleteRole(String whereClause, String[] whereArgs) {
+        db.delete("Role", whereClause, whereArgs);
     }
 
     public void saveRoleRank(RoleRank roleRank) {
@@ -455,11 +455,12 @@ public class Palm300heroesDB {
                 list.add(roleRank);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return list;
     }
 
-    public void deleteRoleRank(String whereClause, String[] whereAgrs) {
-        db.delete("RoleRank", whereClause, whereAgrs);
+    public void deleteRoleRank(String whereClause, String[] whereArgs) {
+        db.delete("RoleRank", whereClause, whereArgs);
     }
 
     public void saveLatestMatch(LatestMatch latestMatch) {
@@ -468,10 +469,58 @@ public class Palm300heroesDB {
             values.put("match_id", latestMatch.getMatchId());
             values.put("match_type", latestMatch.getMatchType());
             values.put("hero_level", latestMatch.getHeroLevel());
-
+            values.put("result", latestMatch.getResult());
+            values.put("match_date", latestMatch.getMatchDate());
+            values.put("hero_id", latestMatch.getHeroId());
+            values.put("hero_name", latestMatch.getHeroName());
+            values.put("hero_icon", latestMatch.getHeroIcon());
+            db.insert("LatestMatch", null, values);
         }else {
             LogUtil.d("saveLatestMatch", "latestMatch : null");
         }
+    }
+
+    public void updateLatestMatch(LatestMatch latestMatch) {
+        if (latestMatch != null) {
+            ContentValues values = new ContentValues();
+            values.put("match_id", latestMatch.getMatchId());
+            values.put("match_type", latestMatch.getMatchType());
+            values.put("hero_level", latestMatch.getHeroLevel());
+            values.put("result", latestMatch.getResult());
+            values.put("match_date", latestMatch.getMatchDate());
+            values.put("hero_id", latestMatch.getHeroId());
+            values.put("hero_name", latestMatch.getHeroName());
+            values.put("hero_icon", latestMatch.getHeroIcon());
+            db.update("Latest", values, "match_id=?", new String[]{latestMatch.getMatchId()+ ""});
+        }else {
+            LogUtil.d("updateLatestMatch", "latestMatch : null");
+        }
+    }
+
+    public List<LatestMatch> loadLatestMatch(){
+        List<LatestMatch> list = new ArrayList<>();
+        Cursor cursor = db.query("LatestMatch", null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                LatestMatch latestMatch = new LatestMatch();
+                latestMatch.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                latestMatch.setMatchId(cursor.getInt(cursor.getColumnIndex("match_id")));
+                latestMatch.setMatchType(cursor.getInt(cursor.getColumnIndex("match_type")));
+                latestMatch.setHeroLevel(cursor.getInt(cursor.getColumnIndex("hero_level")));
+                latestMatch.setResult(cursor.getInt(cursor.getColumnIndex("result")));
+                latestMatch.setMatchDate(cursor.getString(cursor.getColumnIndex("match_date")));
+                latestMatch.setHeroId(cursor.getInt(cursor.getColumnIndex("hero_id")));
+                latestMatch.setHeroName(cursor.getString(cursor.getColumnIndex("hero_name")));
+                latestMatch.setHeroIcon(cursor.getString(cursor.getColumnIndex("hero_icon")));
+                list.add(latestMatch);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void deleteLatestMatch(String whereClause, String[] whereArgs){
+        db.delete("LatestMatch", whereClause, whereArgs);
     }
 
     public boolean isExistence(Object object){

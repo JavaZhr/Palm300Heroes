@@ -55,6 +55,7 @@ public class LatestMatchActivity extends AppCompatActivity implements LatestMatc
         PgyCrashManager.register(this);
         recyclerView = (RecyclerView) findViewById(R.id.match_list_recycler_view);
 
+        dataList = palm300heroesDB.loadLatestMatch();
 
         adapter = new LatestMatchRecyclerViewAdapter(this, dataList);
 
