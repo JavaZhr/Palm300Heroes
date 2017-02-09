@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.hero.Skin;
 
@@ -32,14 +34,12 @@ public class SkinRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView skinPicture;
-        private TextView skinName;
-        private TextView skinPrice;
+        @BindView(R.id.heroes_skin_pic) ImageView skinPicture;
+        @BindView(R.id.heroes_skin_name) TextView skinName;
+        @BindView(R.id.heroes_skin_price) TextView skinPrice;
         public ViewHolder(View itemView) {
             super(itemView);
-            skinPicture = (ImageView) itemView.findViewById(R.id.heroes_skin_pic);
-            skinName = (TextView) itemView.findViewById(R.id.heroes_skin_name);
-            skinPrice = (TextView) itemView.findViewById(R.id.heroes_skin_price);
+            ButterKnife.bind(this, itemView);
         }
 
         public ImageView getSkinPicture() {
@@ -68,8 +68,6 @@ public class SkinRecyclerViewAdapter extends RecyclerView.Adapter {
         Glide
                 .with(context)
                 .load(skin.getUrl())
-                .thumbnail(0.1f)
-                .skipMemoryCache(true)
                 .dontAnimate()
                 .into(viewHolder.getSkinPicture());
 

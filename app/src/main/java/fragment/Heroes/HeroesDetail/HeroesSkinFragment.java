@@ -42,6 +42,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
             switch (msg.what) {
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
+                    readSkinDate();
                     recycleAdapter.notifyDataSetChanged();
                     break;
                 default:break;
@@ -100,7 +101,6 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
     @Override
     public void onRefresh() {
         Utilty.initHeroData(getActivity(), 3);
-        readSkinDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

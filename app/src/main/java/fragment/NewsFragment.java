@@ -47,6 +47,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             switch (msg.what) {
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
+                    readNewsDate();
                     adapter.notifyDataSetChanged();
                     listView.setSelection(0);
                     break;
@@ -107,7 +108,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onRefresh() {
         //swipeRefreshLayout.setRefreshing(true);
         Utilty.initNewsData(getActivity());
-        readNewsDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

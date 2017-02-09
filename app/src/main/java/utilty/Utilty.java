@@ -12,6 +12,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -117,10 +119,14 @@ public class Utilty {
                     String heroName = heroInfo.getString("heroName");
                     String heroType = heroInfo.getString("heroType");
                     String background = heroInfo.getString("background");
-                    String avatarUrl = heroInfo.getString("avatarUrl");
+                    String avatarUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/avatar/" + heroInfo.getString("avatarUrl");
                     String coinsPrice = heroInfo.getString("coinsPrice");
                     String diamondPrice = heroInfo.getString("diamondPrice");
-                    String pictureUrl = heroInfo.getString("pictureUrl");
+                    String pictureUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/picture/" + heroInfo.getString("pictureUrl");
+                    if (pictureUrl.equals("http://ogbna06ji.bkt.clouddn.com/heroes/picture/")) {
+                        pictureUrl += "undefined.jpg";
+                    }
+
 
                     JSONObject baseData = heroInfo.getJSONObject("baseData");
                     String healthValue = baseData.getString("healthValue");
@@ -188,7 +194,7 @@ public class Utilty {
 
                     for (int j = 0; j < skill.length(); j++) {
                         JSONObject content = skill.getJSONObject(j);
-                        String pictureUrl = content.getString("pictureUrl");
+                        String pictureUrl ="http://ogbna06ji.bkt.clouddn.com/heroes/skill/" + content.getString("pictureUrl");
                         String name = content.getString("name");
                         String consumption = content.getString("consumption");
                         String chilldown = content.getString("chilldown");
@@ -238,7 +244,7 @@ public class Utilty {
 
                     for (int j = 0; j < skin.length(); j++) {
                         JSONObject skinContent = skin.getJSONObject(j);
-                        String skinUrl = skinContent.getString("url");
+                        String skinUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/skin/" + skinContent.getString("url");
                         String skinName = skinContent.getString("name");
                         String skinPrice = skinContent.getString("price");
 
@@ -284,7 +290,7 @@ public class Utilty {
 
                     for (int j = 0; j < sound.length(); j++) {
                         JSONObject  soundIn= sound.getJSONObject(j);
-                        String soundUrl = soundIn.getString("url");
+                        String soundUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/sound/" + soundIn.getString("url");
                         String soundContent = soundIn.getString("content");
 
                         Sound sounds = new Sound();
@@ -495,21 +501,28 @@ public class Utilty {
         palm300heroesDB.deleteRoleRank(null, null);
         palm300heroesDB.deleteLatestMatch(null, null);
         String ADDRESS = null;
+        String codeE = code;
+        try {
+            codeE  = URLEncoder.encode(code, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         switch (type) {
             case 1 :
-                ADDRESS = "http://300report.jumpw.com/api/getrole?name=" + code;
+                ADDRESS = "http://300report.jumpw.com/api/getrole?name=" + codeE;
                 break;
             case 2 :
-                ADDRESS = "http://300report.jumpw.com/api/getlist?name=" + code;
+                ADDRESS = "http://300report.jumpw.com/api/getlist?name=" + codeE;
                 break;
            /* case 3 :
-                ADDRESS = "http://300report.jumpw.com/api/getmatch?id=" + code;
+                ADDRESS = "http://300report.jumpw.com/api/getmatch?id=" + codeE;
                 break;
             case 4 :
-                ADDRESS = " http://300report.jumpw.com/api/getrank?type" + code;
+                ADDRESS = " http://300report.jumpw.com/api/getrank?type" + codeE;
                 break;*/
             default: break;
         }
+        LogUtil.d("handlerRecordLoggerResponse", "ADDRESS " + ADDRESS);
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
@@ -581,7 +594,7 @@ public class Utilty {
                         palm300heroesDB.saveRoleRank(roleRank);
                     }
                 }else {
-                    LogUtil.d("handlerRoleResponse", "返回数据异常");
+                    LogUtil.d("handlerRoleResponse", "返回数据异常 " + result + " " + response);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

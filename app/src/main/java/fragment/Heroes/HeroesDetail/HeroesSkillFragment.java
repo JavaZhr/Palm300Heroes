@@ -40,6 +40,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
             switch (msg.what) {
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
+                    readSkillDate();
                     recycleAdapter.notifyDataSetChanged();
                     break;
                 default:break;
@@ -99,7 +100,6 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
     @Override
     public void onRefresh() {
         Utilty.initHeroData(getActivity(), 2);
-        readSkillDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

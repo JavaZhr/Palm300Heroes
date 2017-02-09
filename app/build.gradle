@@ -36,4 +36,13 @@ dependencies {
     compile 'com.pgyersdk:sdk:2.4.5'
     /*爬取网页数据*/
     compile 'org.jsoup:jsoup:1.10.2'
+    /*异步操作*/
+    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    /*网络请求*/
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    /* 舍弃findViewById()，使用注记*/
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
 }

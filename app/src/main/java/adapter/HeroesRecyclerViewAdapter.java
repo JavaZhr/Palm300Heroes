@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.hero.Heroes;
 
@@ -32,19 +34,15 @@ public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView heroesAvatar;
-        private TextView heroesName;
-        private TextView heroesType;
-        private TextView heroesCoinsPrice;
-        private TextView heroesDiamondPrice;
+        @BindView(R.id.heroes_avatar) ImageView heroesAvatar;
+        @BindView(R.id.heroes_name) TextView heroesName;
+        @BindView(R.id.heroes_type) TextView heroesType;
+        @BindView(R.id.heroes_coins_price) TextView heroesCoinsPrice;
+        @BindView(R.id.heroes_diamond_price) TextView heroesDiamondPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            heroesAvatar = (ImageView) itemView.findViewById(R.id.heroes_avatar);
-            heroesName = (TextView) itemView.findViewById(R.id.heroes_name);
-            heroesType = (TextView) itemView.findViewById(R.id.heroes_type);
-            heroesCoinsPrice = (TextView) itemView.findViewById(R.id.heroes_coins_price);
-            heroesDiamondPrice = (TextView) itemView.findViewById(R.id.heroes_diamond_price);
+            ButterKnife.bind(this, itemView);
         }
 
         public ImageView getHeroesAvatar() {
@@ -85,7 +83,6 @@ public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
                 .with(context)
                 .load(heroes.getAvatarUrl())
                 .thumbnail(0.1f)
-                .skipMemoryCache(true)
                 .dontAnimate()
                 .into(viewHolder.getHeroesAvatar());
 

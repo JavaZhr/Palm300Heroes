@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import butterknife.BindView;
 import cn.nicolite.palm300heroes.R;
 import model.News;
 import utilty.LogUtil;
@@ -57,7 +58,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
                 .with(context)
                 .load(news.getImageUrl())
                 .thumbnail(0.1f)
-                .skipMemoryCache(true)
                 .dontAnimate()
                 .into(newsImage);
         return view;

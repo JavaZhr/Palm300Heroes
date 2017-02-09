@@ -51,6 +51,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
             switch (msg.what) {
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
+                    readSoundDate();
                     recycleAdapter.notifyDataSetChanged();
                     break;
             }
@@ -170,7 +171,6 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     @Override
     public void onRefresh() {
         Utilty.initHeroData(getActivity(), 4);
-        readSoundDate();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 

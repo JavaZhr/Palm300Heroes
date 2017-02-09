@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.recordLogger.LatestMatch;
 
@@ -32,17 +34,14 @@ public class LatestMatchRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView headPic;
-        private TextView type;
-        private TextView result;
-        private TextView date;
+        @BindView(R.id.match_list_head_pic) ImageView headPic;
+        @BindView(R.id.match_list_type) TextView type;
+        @BindView(R.id.match_list_result) TextView result;
+        @BindView(R.id.match_list_date) TextView date;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            headPic = (ImageView) itemView.findViewById(R.id.match_list_head_pic);
-            type = (TextView) itemView.findViewById(R.id.match_list_type);
-            result = (TextView) itemView.findViewById(R.id.match_list_result);
-            date = (TextView) itemView.findViewById(R.id.match_list_date);
+            ButterKnife.bind(this, itemView);
         }
 
         public ImageView getHeadPic() {
@@ -87,8 +86,7 @@ public class LatestMatchRecyclerViewAdapter extends RecyclerView.Adapter {
         Glide
                 .with(context)
                 .load(latestMatch.getHeroIcon())
-                .thumbnail(0.f)
-                .skipMemoryCache(true)
+                .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getHeadPic());
 

@@ -43,10 +43,15 @@ public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyc
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            actionBar.setDisplayShowHomeEnabled(true);
+
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 

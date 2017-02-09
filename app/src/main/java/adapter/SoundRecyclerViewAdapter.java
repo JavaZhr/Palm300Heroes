@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.hero.Sound;
 
@@ -30,12 +32,11 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
    public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView soundContent;
-        private ImageView playSound;
+       @BindView(R.id.heroes_sound_content) TextView soundContent;
+       @BindView(R.id.play_sound) ImageView playSound;
         public ViewHolder(View itemView) {
             super(itemView);
-            soundContent = (TextView) itemView.findViewById(R.id.heroes_sound_content);
-            playSound = (ImageView) itemView.findViewById(R.id.play_sound);
+            ButterKnife.bind(this, itemView);
         }
 
         public TextView getSoundContent() {

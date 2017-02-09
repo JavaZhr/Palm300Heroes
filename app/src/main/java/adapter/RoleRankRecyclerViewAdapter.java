@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.recordLogger.RoleRank;
 
@@ -30,16 +32,13 @@ public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView rankInfo;
-        private TextView rankName;
-        private TextView valueName;
-        private TextView value;
+        @BindView(R.id.role_rank_info) TextView rankInfo;
+        @BindView(R.id.role_rank_name) TextView rankName;
+        @BindView(R.id.role_value_name) TextView valueName;
+        @BindView(R.id.role_rank_value) TextView value;
         public ViewHolder(View itemView) {
             super(itemView);
-            rankInfo = (TextView) itemView.findViewById(R.id.role_rank_info);
-            rankName = (TextView) itemView.findViewById(R.id.role_rank_name);
-            valueName = (TextView) itemView.findViewById(R.id.role_value_name);
-            value = (TextView) itemView.findViewById(R.id.role_rank_value);
+            ButterKnife.bind(this, itemView);
         }
 
         public TextView getRankInfo() {

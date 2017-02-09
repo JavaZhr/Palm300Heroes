@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FragAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import fragment.Heroes.HeroesDetail.HeroesDataFragment;
 import fragment.Heroes.HeroesDetail.HeroesSkillFragment;
@@ -34,15 +36,15 @@ import utilty.LogUtil;
 
 public class HeroesDetailActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private Heroes heroes;
-    private TextView heroesDetailName;
-    private TextView heroesDetailType;
+    @BindView(R.id.heroes_detail_name) TextView heroesDetailName;
+    @BindView(R.id.heroes_detail_type) TextView heroesDetailType;
 
-    private Button heroesDataButton;
-    private Button heroesSkillButton;
-    private Button heroesSkinButton;
-    private Button heroesSoundButton;
+    @BindView(R.id.heroes_detail_data) Button heroesDataButton;
+    @BindView(R.id.heroes_detail_skill) Button heroesSkillButton;
+    @BindView(R.id.heroes_detail_skin) Button heroesSkinButton;
+    @BindView(R.id.heroes_detail_sound) Button heroesSoundButton;
 
-    private ViewPager viewPager;
+    @BindView(R.id.heroes_detail_viewpager) ViewPager viewPager;
     private int selectedPositon; //用来记住导航的位置
 
     List<Fragment> fragments = new ArrayList<>();
@@ -60,37 +62,34 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            actionBar.setDisplayShowHomeEnabled(true);
+
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         setContentView(R.layout.heroes_detail_activity);
 
+        ButterKnife.bind(this);
         //蒲公英Crash捕获注册
         PgyCrashManager.register(this);
         heroes = (Heroes) getIntent().getSerializableExtra("heroes_data");
         LogUtil.d("heroesDetailActivity", heroes.getName());
 
-        heroesDetailName = (TextView) findViewById(R.id.heroes_detail_name);
-        heroesDetailType = (TextView) findViewById(R.id.heroes_detail_type);
         heroesDetailName.setText(heroes.getName());
         heroesDetailType.setText(heroes.getType());
-
-        heroesDataButton = (Button) findViewById(R.id.heroes_detail_data);
-        heroesSkillButton = (Button) findViewById(R.id.heroes_detail_skill);
-        heroesSkinButton = (Button) findViewById(R.id.heroes_detail_skin);
-        heroesSoundButton = (Button) findViewById(R.id.heroes_detail_sound);
-
         heroesDataButton.setOnClickListener(this);
         heroesSkillButton.setOnClickListener(this);
         heroesSkinButton.setOnClickListener(this);
         heroesSoundButton.setOnClickListener(this);
 
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), getFragments());
-        viewPager = (ViewPager) findViewById(R.id.heroes_detail_viewpager);
         viewPager.setAdapter(adapter);
         //默认选择第一个，改变第一个fragment的状态
         heroesDataButton.setTextColor(getResources().getColor(R.color.orange));

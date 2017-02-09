@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FragAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.nicolite.palm300heroes.R;
 import fragment.Heroes.HeroesAllFragment;
 import fragment.Heroes.HeroesAssassinFragment;
@@ -30,16 +33,16 @@ import fragment.Heroes.HeroesWarriorFragment;
  */
 
 public class HeroesFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
-    private Button buttonAll;
-    private Button buttonAssassin;
-    private Button buttonWarrior;
-    private Button buttonTank;
-    private Button buttonShooter;
-    private Button buttonMaster;
-    private Button buttonAssist;
-    private ViewPager viewPager;
+    @BindView(R.id.all_heroes) Button buttonAll;
+    @BindView(R.id.assassin_heroes) Button buttonAssassin;
+    @BindView(R.id.warrior_heroes) Button buttonWarrior;
+    @BindView(R.id.tank_heroes) Button buttonTank;
+    @BindView(R.id.shooter_heroes) Button buttonShooter;
+    @BindView(R.id.master_heroes) Button buttonMaster;
+    @BindView(R.id.assist_heroes) Button buttonAssist;
+    @BindView(R.id.heroes_viewpager) ViewPager viewPager;
     private int selectedPositon; //记录Fragment
-
+    private Unbinder unbinder;
     List<Fragment> fragments=new ArrayList<>();
     private HeroesAllFragment heroesAllFragment;
     private HeroesAssassinFragment heroesAssassinFragment;
@@ -52,20 +55,9 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            FragmentManager manager = getChildFragmentManager();
-            manager.popBackStackImmediate(null, 1);
-        }
-
         View view = inflater.inflate(R.layout.heroes_fragment, container, false);
-        buttonAll = (Button) view.findViewById(R.id.all_heroes);
-        buttonAssassin = (Button) view.findViewById(R.id.assassin_heroes);
-        buttonWarrior = (Button) view.findViewById(R.id.warrior_heroes);
-        buttonTank = (Button) view.findViewById(R.id.tank_heroes);
-        buttonShooter = (Button) view.findViewById(R.id.shooter_heroes);
-        buttonMaster = (Button) view.findViewById(R.id.master_heroes);
-        buttonAssist = (Button) view.findViewById(R.id.assist_heroes);
 
+        unbinder = ButterKnife.bind(this, view);
         buttonAll.setOnClickListener(this);
         buttonAssassin.setOnClickListener(this);
         buttonWarrior.setOnClickListener(this);
@@ -75,7 +67,6 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
         buttonAssist.setOnClickListener(this);
 
         FragAdapter adapter = new FragAdapter(getChildFragmentManager(), getFragments());
-        viewPager = (ViewPager)view.findViewById(R.id.heroes_viewpager);
         viewPager.setAdapter(adapter);
         //默认选择第一个，改变第一个fragment的状态
         buttonAll.setTextColor(getResources().getColor(R.color.orange));
@@ -221,5 +212,11 @@ public class HeroesFragment extends Fragment implements View.OnClickListener, Vi
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

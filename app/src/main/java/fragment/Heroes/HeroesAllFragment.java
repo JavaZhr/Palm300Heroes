@@ -44,6 +44,7 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
             switch (msg.what) {
                 case 0 :
                     swipeRefreshLayout.setRefreshing(false);
+                    readHeroesData();
                     recycleAdapter.notifyDataSetChanged();
                     break;
                 default:break;
@@ -98,7 +99,6 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
     @Override
     public void onRefresh() {
         Utilty.initHeroData(getActivity(), 1);
-        readHeroesData();
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
         //重新获取数据
         //获取完成swipeRefreshLayout.setRefreshing(false);

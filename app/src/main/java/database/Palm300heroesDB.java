@@ -84,7 +84,7 @@ public class Palm300heroesDB {
     public List<News> loadNews() {
         List<News> list = new ArrayList<>();
         Cursor cursor = db.query("News", null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToLast()) {
             do {
                 News news = new News();
                 news.setId(cursor.getInt(cursor.getColumnIndex("id")));
@@ -97,7 +97,7 @@ public class Palm300heroesDB {
                 news.setImageUrl(cursor.getString(cursor.getColumnIndex("news_imageUrl")));
 
                 list.add(news);
-            }while (cursor.moveToNext());
+            }while (cursor.moveToPrevious());
         }
         cursor.close();
         return list;
@@ -233,9 +233,9 @@ public class Palm300heroesDB {
             values.put("skill_chilldown", skill.getChilldown());
             values.put("skill_shortcut", skill.getShortcut());
             values.put("skill_effectiveness", skill.getEffectiveness());
-            db.update("Skill", values, "skill_name=?", new String[]{skill.getName()});
+            db.update("Skill", values, "skill_name=? and skill_hero=?", new String[]{skill.getName(), skill.getHero()});
         }else {
-            LogUtil.d("saveSkill", "skill : null");
+            LogUtil.d("updateSkill", "skill : null");
         }
     }
 
@@ -523,6 +523,31 @@ public class Palm300heroesDB {
         db.delete("LatestMatch", whereClause, whereArgs);
     }
 
+    public void saveRecentSearch(String string) {
+        if (!string.equals("")) {
+            ContentValues values = new ContentValues();
+            values.put("content", string);
+            db.insert("RecentSearch", null, values);
+        }else {
+            LogUtil.d("saveRecentSearch", "content " + string);
+        }
+    }
+
+    public List<String> loadRecentSearch(){
+        List<String> list = new ArrayList<>();
+        Cursor cursor = db.query("RecentSearch", null, null, null, null, null, null);
+        if (cursor.moveToLast()) {
+            do {
+                list.add(cursor.getString(cursor.getColumnIndex("content")));
+            }while (cursor.moveToPrevious());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void deleteRecentSearch(String whereClause, String[] whereArgs) {
+        db.delete("RecentSearch", whereClause, whereArgs);
+    }
     public boolean isExistence(Object object){
         if (object instanceof News) {
             News news = (News) object;
@@ -563,7 +588,7 @@ public class Palm300heroesDB {
                 List<Skill> list = palm300heroesDB.loadSkill();
 
                 for (Skill skill2 : list) {
-                    if (skill.getName().equals(skill2.getName())) {
+                    if (skill.getName().equals(skill2.getName()) && skill.getHero().equals(skill2.getHero())) {
                         if (!skill.equals(skill2)) {
                             updateSkill(skill);
                         }

@@ -23,7 +23,6 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "news_nickName text, "
             + "news_imageUrl text )";
 
-
     /**
      * 以下4个用于英雄功能
      */
@@ -71,6 +70,7 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "sound_content text )";
 
 
+    /*战绩查询*/
     private static final String CREAT_ROLE = "create table Role ("
             + "id integer primary key autoincrement, "
             + "role_name text, "
@@ -102,6 +102,11 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
             + "hero_name text, "
             + "hero_icon text )";
 
+
+    private static final String CREATE_RECENTSEARCH = "create table RecentSearch("
+            + "id integer primary key autoincrement, "
+            + "content text )";
+
     public Palm300HeroesOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -116,9 +121,12 @@ public class Palm300HeroesOpenHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SKIN); //皮肤
         db.execSQL(CREATE_SOUND); //配音
 
+        /*建立战绩数据表*/
         db.execSQL(CREAT_ROLE);
         db.execSQL(CREATE_ROLERANK);
         db.execSQL(CREATE_LATESTMATCH);
+
+        db.execSQL(CREATE_RECENTSEARCH);
     }
 
     @Override

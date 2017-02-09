@@ -70,7 +70,7 @@ public class GameFragment extends Fragment implements GameRecyclerViewAdapter.On
         if (intent != null) {
             getActivity().startActivity(intent);
         }else {
-            Toast.makeText(getActivity(), "程序出错，请摇一摇反馈！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "程序出错，请反馈！", Toast.LENGTH_SHORT).show();
         }
 
     }

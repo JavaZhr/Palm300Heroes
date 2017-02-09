@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.nicolite.palm300heroes.R;
 import model.hero.Heroes;
 import utilty.LogUtil;
@@ -20,37 +23,25 @@ import utilty.LogUtil;
  */
 
 public class HeroesDataFragment extends Fragment{
-    private TextView heroesHealthValue;
-    private TextView heroesMagicPointValue;
-    private TextView heroesPhysicalAttackValue;
-    private TextView heroesMagicAttackValue;
-    private TextView heroesPhysicalDefenseValue;
-    private TextView heroesMagicDefenseValue;
-    private TextView heroesCritValue;
-    private TextView heroesAttackSpeedValue;
-    private TextView heroesAttackRangeValue;
-    private TextView heroesMovementSpeedValue;
-    private TextView heroesBackground;
+    @BindView(R.id.heroes_health_value) TextView heroesHealthValue;
+    @BindView(R.id.heroes_magic_point_value) TextView heroesMagicPointValue;
+    @BindView(R.id.heroes_physical_attack_value) TextView heroesPhysicalAttackValue;
+    @BindView(R.id.heroes_magic_attack_value) TextView heroesMagicAttackValue;
+    @BindView(R.id.heroes_physical_defense_value) TextView heroesPhysicalDefenseValue;
+    @BindView(R.id.heroes_magic_defense_value) TextView heroesMagicDefenseValue;
+    @BindView(R.id.heroes_crit_value) TextView heroesCritValue;
+    @BindView(R.id.heroes_attack_speed_value) TextView heroesAttackSpeedValue;
+    @BindView(R.id.heroes_attack_range_value) TextView heroesAttackRangeValue;
+    @BindView(R.id.heroes_movement_speed_value) TextView heroesMovementSpeedValue;
+    @BindView(R.id.heroes_background) TextView heroesBackground;
+    @BindView(R.id.heroes_pic) ImageView heroesImageView;
 
-    private ImageView heroesImageView;
-
+    private Unbinder unbinder;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.heroes_detail_data_fragment, container, false);
-
-        heroesHealthValue = (TextView) view.findViewById(R.id.heroes_health_value);
-        heroesMagicPointValue = (TextView) view.findViewById(R.id.heroes_magic_point_value);
-        heroesPhysicalAttackValue = (TextView) view.findViewById(R.id.heroes_physical_attack_value);
-        heroesMagicAttackValue = (TextView) view.findViewById(R.id.heroes_magic_attack_value);
-        heroesPhysicalDefenseValue = (TextView) view.findViewById(R.id.heroes_physical_defense_value);
-        heroesMagicDefenseValue = (TextView) view.findViewById(R.id.heroes_magic_defense_value);
-        heroesCritValue = (TextView) view.findViewById(R.id.heroes_crit_value);
-        heroesAttackSpeedValue = (TextView) view.findViewById(R.id.heroes_attack_speed_value);
-        heroesAttackRangeValue = (TextView) view.findViewById(R.id.heroes_attack_range_value);
-        heroesMovementSpeedValue = (TextView) view.findViewById(R.id.heroes_movement_speed_value);
-        heroesBackground = (TextView) view.findViewById(R.id.heroes_background);
-        heroesImageView = (ImageView) view.findViewById(R.id.heroes_pic);
+        unbinder = ButterKnife.bind(this, view);
         initView();
         return view;
     }
@@ -70,16 +61,17 @@ public class HeroesDataFragment extends Fragment{
         heroesMovementSpeedValue.setText("移动速度：" + heroes.getMovementSpeedValue());
         heroesBackground.setText(heroes.getBackground());
 
-        LogUtil.d("heroes_pic", heroes.getPictureUrl());
-        if (!heroes.getPictureUrl().equals("")) {
-            Glide
-                    .with(getActivity())
-                    .load(heroes.getPictureUrl())
-                    .thumbnail(0.1f)
-                    .skipMemoryCache(true)
-                    .dontAnimate()
-                    .into(heroesImageView);
-        }
+        Glide
+                .with(getActivity())
+                .load(heroes.getPictureUrl())
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .into(heroesImageView);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

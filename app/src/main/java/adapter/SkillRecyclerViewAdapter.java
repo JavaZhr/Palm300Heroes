@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.hero.Skill;
 
@@ -32,21 +34,16 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView skillPicture;
-        private TextView skillName;
-        private TextView skillConsumption;
-        private TextView skillChilldown;
-        private TextView skillShortCut;
-        private TextView skillEffectiveness;
+        @BindView(R.id.heroes_skill_pic) ImageView skillPicture;
+        @BindView(R.id.heroes_skill_name) TextView skillName;
+        @BindView(R.id.heroes_skill_consumption) TextView skillConsumption;
+        @BindView(R.id.heroes_skill_chilldown) TextView skillChilldown;
+        @BindView(R.id.heroes_skill_shortcut) TextView skillShortCut;
+        @BindView(R.id.heroes_skill_effectiveness) TextView skillEffectiveness;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            skillPicture = (ImageView) itemView.findViewById(R.id.heroes_skill_pic);
-            skillName = (TextView) itemView.findViewById(R.id.heroes_skill_name);
-            skillConsumption = (TextView) itemView.findViewById(R.id.heroes_skill_consumption);
-            skillChilldown = (TextView) itemView.findViewById(R.id.heroes_skill_chilldown);
-            skillShortCut = (TextView) itemView.findViewById(R.id.heroes_skill_shortcut);
-            skillEffectiveness = (TextView) itemView.findViewById(R.id.heroes_skill_effectiveness);
+            ButterKnife.bind(this, itemView);
         }
 
         public ImageView getSkillPicture() {
@@ -92,7 +89,6 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
                 .with(context)
                 .load(skill.getPictureUrl())
                 .thumbnail(0.1f)
-                .skipMemoryCache(true)
                 .dontAnimate()
                 .into(viewHolder.getSkillPicture());
 
