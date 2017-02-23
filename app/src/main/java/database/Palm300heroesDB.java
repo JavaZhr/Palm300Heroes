@@ -57,11 +57,10 @@ public class Palm300heroesDB {
             values.put("news_nickName", news.getNickName());
             values.put("news_imageUrl", news.getImageUrl());
             db.insert("News", null, values);
-        }else {
+        } else {
             LogUtil.d("saveNews", "news : null");
         }
     }
-
 
     public void updateNews(News news) {
         if (news != null) {
@@ -74,11 +73,10 @@ public class Palm300heroesDB {
             values.put("news_nickName", news.getNickName());
             values.put("news_imageUrl", news.getImageUrl());
             db.update("News", values, "news_title=?", new String[]{news.getTitle()});
-        }else {
+        } else {
             LogUtil.d("saveNews", "news : null");
         }
     }
-
 
     /* 从数据库中读取News数据 */
     public List<News> loadNews() {
@@ -97,7 +95,7 @@ public class Palm300heroesDB {
                 news.setImageUrl(cursor.getString(cursor.getColumnIndex("news_imageUrl")));
 
                 list.add(news);
-            }while (cursor.moveToPrevious());
+            } while (cursor.moveToPrevious());
         }
         cursor.close();
         return list;
@@ -128,7 +126,7 @@ public class Palm300heroesDB {
             values.put("hero_movement_speed_value", heroes.getMovementSpeedValue());
 
             db.insert("Heroes", null, values);
-        }else {
+        } else {
             LogUtil.d("saveHeroes", "heroes : null");
         }
     }
@@ -157,7 +155,7 @@ public class Palm300heroesDB {
             values.put("hero_movement_speed_value", heroes.getMovementSpeedValue());
 
             db.update("Heroes", values, "hero_name=?", new String[]{heroes.getName()});
-        }else {
+        } else {
             LogUtil.d("saveHeroes", "heroes : null");
         }
     }
@@ -190,13 +188,13 @@ public class Palm300heroesDB {
                 heroes.setMovementSpeedValue(cursor.getString(cursor.getColumnIndex("hero_movement_speed_value")));
 
                 list.add(heroes);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
     }
 
-    public static List<Heroes> getHeroesTypeDate(String heroesType){
+    public static List<Heroes> getHeroesTypeDate(String heroesType) {
         List<Heroes> dataList = palm300heroesDB.loadHeroes();
         List<Heroes> list = new ArrayList<>();
         for (Heroes heroes : dataList) {
@@ -218,7 +216,7 @@ public class Palm300heroesDB {
             values.put("skill_shortcut", skill.getShortcut());
             values.put("skill_effectiveness", skill.getEffectiveness());
             db.insert("Skill", null, values);
-        }else {
+        } else {
             LogUtil.d("saveSkill", "skill : null");
         }
     }
@@ -234,12 +232,12 @@ public class Palm300heroesDB {
             values.put("skill_shortcut", skill.getShortcut());
             values.put("skill_effectiveness", skill.getEffectiveness());
             db.update("Skill", values, "skill_name=? and skill_hero=?", new String[]{skill.getName(), skill.getHero()});
-        }else {
+        } else {
             LogUtil.d("updateSkill", "skill : null");
         }
     }
 
-    public List<Skill> loadSkill(){
+    public List<Skill> loadSkill() {
         List<Skill> list = new ArrayList<>();
         Cursor cursor = db.query("Skill", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -254,7 +252,7 @@ public class Palm300heroesDB {
                 skill.setShortcut(cursor.getString(cursor.getColumnIndex("skill_shortcut")));
                 skill.setEffectiveness(cursor.getString(cursor.getColumnIndex("skill_effectiveness")));
                 list.add(skill);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
@@ -269,7 +267,7 @@ public class Palm300heroesDB {
             values.put("skin_name", skin.getName());
             values.put("skin_price", skin.getPrice());
             db.insert("Skin", null, values);
-        }else {
+        } else {
             LogUtil.d("saveSkin", "skin : null");
         }
     }
@@ -281,13 +279,13 @@ public class Palm300heroesDB {
             values.put("skin_url", skin.getUrl());
             values.put("skin_name", skin.getName());
             values.put("skin_price", skin.getPrice());
-            db.update("Skin", values, "skin_name=? and skin_hero=?", new String[]{skin.getName(),skin.getHero()});
-        }else {
+            db.update("Skin", values, "skin_name=? and skin_hero=?", new String[]{skin.getName(), skin.getHero()});
+        } else {
             LogUtil.d("saveSkin", "skin : null");
         }
     }
 
-    public List<Skin> loadSkin(){
+    public List<Skin> loadSkin() {
         List<Skin> list = new ArrayList<>();
         Cursor cursor = db.query("Skin", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -299,7 +297,7 @@ public class Palm300heroesDB {
                 skin.setName(cursor.getString(cursor.getColumnIndex("skin_name")));
                 skin.setPrice(cursor.getString(cursor.getColumnIndex("skin_price")));
                 list.add(skin);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
@@ -313,7 +311,7 @@ public class Palm300heroesDB {
             values.put("sound_url", sound.getUrl());
             values.put("sound_content", sound.getContent());
             db.insert("Sound", null, values);
-        }else {
+        } else {
             LogUtil.d("saveSound", "skin : null");
         }
     }
@@ -324,13 +322,13 @@ public class Palm300heroesDB {
             values.put("sound_hero", sound.getHero());
             values.put("sound_url", sound.getUrl());
             values.put("sound_content", sound.getContent());
-            db.update("Sound", values, "sound_content=?", new String[]{sound.getContent()});
-        }else {
+            db.update("Sound", values, "sound_content=? and sound_hero=?", new String[]{sound.getContent(), sound.getHero()});
+        } else {
             LogUtil.d("updateSound", "skin : null");
         }
     }
 
-    public List<Sound> loadSound(){
+    public List<Sound> loadSound() {
         List<Sound> list = new ArrayList<>();
         Cursor cursor = db.query("Sound", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -341,7 +339,7 @@ public class Palm300heroesDB {
                 sound.setUrl(cursor.getString(cursor.getColumnIndex("sound_url")));
                 sound.setContent(cursor.getString(cursor.getColumnIndex("sound_content")));
                 list.add(sound);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
@@ -358,7 +356,7 @@ public class Palm300heroesDB {
             values.put("match_count", role.getMatchCount());
             values.put("update_time", role.getUpdateTime());
             db.insert("Role", null, values);
-        }else {
+        } else {
             LogUtil.d("saveRole", "role : null");
         }
     }
@@ -373,8 +371,8 @@ public class Palm300heroesDB {
             values.put("win_count", role.getWinCount());
             values.put("match_count", role.getMatchCount());
             values.put("update_time", role.getUpdateTime());
-            db.update("Role", values, "role_name=?", new  String[]{role.getRoleName()});
-        }else {
+            db.update("Role", values, "role_name=?", new String[]{role.getRoleName()});
+        } else {
             LogUtil.d("updateRole", "role : null");
         }
     }
@@ -395,7 +393,7 @@ public class Palm300heroesDB {
                 role.setUpdateTime(cursor.getString(cursor.getColumnIndex("update_time")));
 
                 list.add(role);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
@@ -416,7 +414,7 @@ public class Palm300heroesDB {
             values.put("rank_change", roleRank.getRankChange());
             values.put("rank_index", roleRank.getRankIndex());
             db.insert("RoleRank", null, values);
-        }else {
+        } else {
             LogUtil.d("saveRoleRank", "roleRank : null");
         }
     }
@@ -431,8 +429,8 @@ public class Palm300heroesDB {
             values.put("value", roleRank.getValue());
             values.put("rank_change", roleRank.getRankChange());
             values.put("rank_index", roleRank.getRankIndex());
-            db.update("RoleRank", values, "rank_name=?", new  String[]{roleRank.getRankName()});
-        }else {
+            db.update("RoleRank", values, "rank_name=?", new String[]{roleRank.getRankName()});
+        } else {
             LogUtil.d("updateRoleRank", "roleRank : null");
         }
     }
@@ -475,7 +473,7 @@ public class Palm300heroesDB {
             values.put("hero_name", latestMatch.getHeroName());
             values.put("hero_icon", latestMatch.getHeroIcon());
             db.insert("LatestMatch", null, values);
-        }else {
+        } else {
             LogUtil.d("saveLatestMatch", "latestMatch : null");
         }
     }
@@ -491,13 +489,13 @@ public class Palm300heroesDB {
             values.put("hero_id", latestMatch.getHeroId());
             values.put("hero_name", latestMatch.getHeroName());
             values.put("hero_icon", latestMatch.getHeroIcon());
-            db.update("Latest", values, "match_id=?", new String[]{latestMatch.getMatchId()+ ""});
-        }else {
+            db.update("Latest", values, "match_id=?", new String[]{latestMatch.getMatchId() + ""});
+        } else {
             LogUtil.d("updateLatestMatch", "latestMatch : null");
         }
     }
 
-    public List<LatestMatch> loadLatestMatch(){
+    public List<LatestMatch> loadLatestMatch() {
         List<LatestMatch> list = new ArrayList<>();
         Cursor cursor = db.query("LatestMatch", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
@@ -519,7 +517,7 @@ public class Palm300heroesDB {
         return list;
     }
 
-    public void deleteLatestMatch(String whereClause, String[] whereArgs){
+    public void deleteLatestMatch(String whereClause, String[] whereArgs) {
         db.delete("LatestMatch", whereClause, whereArgs);
     }
 
@@ -528,18 +526,18 @@ public class Palm300heroesDB {
             ContentValues values = new ContentValues();
             values.put("content", string);
             db.insert("RecentSearch", null, values);
-        }else {
+        } else {
             LogUtil.d("saveRecentSearch", "content " + string);
         }
     }
 
-    public List<String> loadRecentSearch(){
+    public List<String> loadRecentSearch() {
         List<String> list = new ArrayList<>();
         Cursor cursor = db.query("RecentSearch", null, null, null, null, null, null);
         if (cursor.moveToLast()) {
             do {
                 list.add(cursor.getString(cursor.getColumnIndex("content")));
-            }while (cursor.moveToPrevious());
+            } while (cursor.moveToPrevious());
         }
         cursor.close();
         return list;
@@ -548,14 +546,15 @@ public class Palm300heroesDB {
     public void deleteRecentSearch(String whereClause, String[] whereArgs) {
         db.delete("RecentSearch", whereClause, whereArgs);
     }
-    public boolean isExistence(Object object){
+
+    public boolean isExistence(Object object) {
         if (object instanceof News) {
             News news = (News) object;
             if (palm300heroesDB != null) {
                 List<News> list = palm300heroesDB.loadNews();
                 for (News news1 : list) {
                     if (news.getTitle().equals(news1.getTitle())) {
-                        if (!news.equals(news1)){
+                        if (!news.equals(news1)) {
                             updateNews(news);
                         }
                         return true;
@@ -567,8 +566,17 @@ public class Palm300heroesDB {
 
         if (object instanceof Heroes) {
             Heroes heroes = (Heroes) object;
-            if (palm300heroesDB != null) {
-                List<Heroes> list = palm300heroesDB.loadHeroes();
+            String sql = "select * from Heroes where hero_name = ?";
+            Cursor cursor = db.rawQuery(sql, new String[]{heroes.getName()});
+            if (cursor.getCount() != 0) {
+                cursor.close();
+                updateHeroes(heroes);
+                return true;
+            }
+            cursor.close();
+            return false;
+            /*  if (palm300heroesDB != null) {
+              List<Heroes> list = palm300heroesDB.loadHeroes();
                 for (Heroes heroes1 : list) {
                     if (heroes.getName().equals(heroes1.getName())) {
                         if (!heroes.equals(heroes1)) {
@@ -579,14 +587,22 @@ public class Palm300heroesDB {
                     }
                 }
                 return false;
-            }
+            }*/
         }
 
         if (object instanceof Skill) {
             Skill skill = (Skill) object;
-            if (palm300heroesDB != null) {
-                List<Skill> list = palm300heroesDB.loadSkill();
-
+            String sql = "select * from Skill where skill_hero = ? and skill_name = ?";
+            Cursor cursor = db.rawQuery(sql, new String[]{skill.getHero(), skill.getName()});
+            if (cursor.getCount() != 0) {
+                cursor.close();
+                updateSkill(skill);
+                return true;
+            }
+            cursor.close();
+            return false;
+            /*if (palm300heroesDB != null) {
+               List<Skill> list = palm300heroesDB.loadSkill();
                 for (Skill skill2 : list) {
                     if (skill.getName().equals(skill2.getName()) && skill.getHero().equals(skill2.getHero())) {
                         if (!skill.equals(skill2)) {
@@ -596,14 +612,21 @@ public class Palm300heroesDB {
                     }
                 }
                 return false;
-            }
+            }*/
         }
 
-        if (object instanceof  Skin) {
+        if (object instanceof Skin) {
             Skin skin = (Skin) object;
-            if (palm300heroesDB != null) {
-                List<Skin> list = palm300heroesDB.loadSkin();
-
+            String sql = "select * from Skin where skin_hero = ? and skin_name = ?";
+            Cursor cursor = db.rawQuery(sql, new String[]{skin.getHero(), skin.getName()});
+            if (cursor.getCount() != 0) {
+                cursor.close();
+                updateSkin(skin);
+                return true;
+            }
+            cursor.close();
+            /*if (palm300heroesDB != null) {
+               List<Skin> list = palm300heroesDB.loadSkin();
                 for (Skin skin1 : list) {
                     if (skin.getName().equals(skin1.getName()) && skin.getHero().equals(skin1.getHero())) {
                         if (!skin.equals(skin1)) {
@@ -613,15 +636,24 @@ public class Palm300heroesDB {
                     }
                 }
                 return false;
-            }
+            }*/
         }
 
-        if (object instanceof  Sound) {
+        if (object instanceof Sound) {
             Sound sound = (Sound) object;
-            if (palm300heroesDB != null){
-                List<Sound> list = palm300heroesDB.loadSound();
+            String sql = "select * from Sound where sound_content = ? and sound_hero = ?";
+            Cursor cursor = db.rawQuery(sql, new String[]{sound.getContent(), sound.getHero()});
+            if (cursor.getCount() != 0) {
+                cursor.close();
+                updateSound(sound);
+                return true;
+            }
+            cursor.close();
+            return false;
+            /* if (palm300heroesDB != null){
+               List<Sound> list = palm300heroesDB.loadSound();
                 for (Sound sound1 : list) {
-                    if (sound.getContent().equals(sound1.getContent())) {
+                    if (sound.getContent().equals(sound1.getContent()) && sound.getHero().equals(sound1.getHero())) {
                         if (!sound.equals(sound1)) {
                             updateSound(sound);
                         }
@@ -629,8 +661,26 @@ public class Palm300heroesDB {
                 }
         }
         return false;
+    }*/
+        }
+        if (object instanceof String) {
+            String string = (String) object;
+            String sql = "select * from RecentSearch where content = ?";
+            Cursor cursor = db.rawQuery(sql, new String[]{string});
+            if (cursor.getCount() != 0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+           /*if (palm300heroesDB != null) {
+                List<String> list = palm300heroesDB.loadRecentSearch();
+                for (String strings : list) {
+                    if (string.equals(strings)) {
+                        return true;
+                    }
+                }
+            }*/
+        }
+            return false;
+        }
     }
-}
-        return false;
-    }
-}

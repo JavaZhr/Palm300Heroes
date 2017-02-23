@@ -11,11 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import activity.FightSkillActivity;
 import activity.RecordLoggerActivity;
 import adapter.GameRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
@@ -65,17 +65,17 @@ public class GameFragment extends Fragment implements GameRecyclerViewAdapter.On
             case 0 :
                 intent = new Intent(getActivity(), RecordLoggerActivity.class);
                 break;
+            case 1 :
+                intent = new Intent(getActivity(), FightSkillActivity.class);
             default: break;
         }
         if (intent != null) {
             getActivity().startActivity(intent);
-        }else {
-            Toast.makeText(getActivity(), "程序出错，请反馈！", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void initDate() {
         dataList.add("战绩查询");
+        dataList.add("战斗技能");
     }
 }

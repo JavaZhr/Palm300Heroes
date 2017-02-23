@@ -18,7 +18,7 @@ import cn.nicolite.palm300heroes.R;
 
 public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<String> dataList = new ArrayList<>();
+    private List<String> dataList;
     private OnItemClickListener onItemClickListener = null;
     private LayoutInflater inflater;
 

@@ -23,42 +23,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:weightSum="10">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="角色名："
-            android:textColor="@color/dark"
-            android:textSize="18sp"
-            android:layout_marginEnd="3dp"
-            android:id="@+id/textView" />
-
         <EditText
             android:id="@+id/record_logger_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="9.5"
+            android:layout_weight="8"
+            android:selectAllOnFocus="true"
             android:maxLines="1"
             android:maxLength="15"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/edit_shape"
             android:hint="请输入角色名" />
 
         <Button
             android:id="@+id/record_logger_submit"
-            android:layout_width="79dp"
-            android:layout_height="41dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_weight="0.25"
+            android:layout_weight="2"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:textSize="16sp"
             android:text="查询"
             android:textColor="@color/white"
-            android:background="@color/blue"/>
+            android:background="@drawable/button_shape"/>
     </LinearLayout>
 
     <LinearLayout
@@ -66,29 +60,35 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/contentTextView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
             android:text="历史查询"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:background="@color/orange"/>
+            android:background="@drawable/button_shape"/>
+
         <ListView
             android:id="@+id/search_history_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@color/orange"
             android:cacheColorHint="@android:color/transparent">
         </ListView>
         <Button
             android:id="@+id/clear_history_btn"
-            android:layout_width="210dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:text="清除历史记录"
+            android:textSize="16sp"
             android:gravity="center"
-            android:background="@color/orange"/>
+            android:textColor="@color/white"
+            android:background="@drawable/button_shape"/>
     </LinearLayout>
 
     <LinearLayout
@@ -101,7 +101,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/widget_shape">
             <TextView
                 android:id="@+id/record_logger_role_name"
                 android:layout_width="match_parent"
@@ -124,9 +126,7 @@
                 android:text="Lv40"
                 android:textSize="18sp"
                 android:textColor="@color/dark"/>
-
         </RelativeLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -205,6 +205,7 @@
             android:textSize="16sp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:background="@drawable/button_shape"
             android:visibility="gone"/>
 
         <Button
@@ -217,6 +218,7 @@
             android:textSize="16sp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:background="@drawable/button_shape"
             android:visibility="gone"/>
 
     </LinearLayout>

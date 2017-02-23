@@ -6,33 +6,34 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import adapter.RoleRankRecyclerViewAdapter;
+import adapter.FightSkillRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
-import database.Palm300heroesDB;
-import model.recordLogger.RoleRank;
+import model.FightSkill;
 import other.DividerItemDecoration;
+import utilty.Utilty;
 
 /**
- * Created by NICOLITE on 2017/2/6 0006.
+ * Created by NICOLITE on 2017/2/13 0013.
  */
 
-public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
+public class FightSkillActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RoleRankRecyclerViewAdapter recyclerAdapter;
-
-    private Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(this);
-    private List<RoleRank> dataList = new ArrayList<>();
-
+    private FightSkillRecyclerViewAdapter adapter;
+    private List<FightSkill> dataList;
+    private TextView fightSkillContent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,26 +54,30 @@ public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyc
         }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        setContentView(R.layout.fight_skill_layout);
 
-        setContentView(R.layout.role_rank_layout);
+        dataList = Utilty.getFightSkill(this);
+        recyclerView = (RecyclerView) findViewById(R.id.fight_skill_recycler_view);
+        adapter = new FightSkillRecyclerViewAdapter(this, dataList);
 
-        dataList = palm300heroesDB.loadRoleRank();
+        fightSkillContent = (TextView) findViewById(R.id.fight_skill_content);
 
-        recyclerView = (RecyclerView) findViewById(R.id.role_rank_recycler_view);
-
-        recyclerAdapter = new RoleRankRecyclerViewAdapter(this, dataList);
-
-        recyclerAdapter.setOnItemClickListener(this);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setAdapter(adapter);
+        adapter.setItemOnClickListener(new FightSkillRecyclerViewAdapter.OnItemClicikListener() {
+            @Override
+            public void OnItemClick(View view, int postion) {
+                fightSkillContent.setText(Html.fromHtml(dataList.get(postion).getContent()));
+            }
+        });
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 5);
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
-        layoutManager.setOrientation(OrientationHelper.VERTICAL);
+        //layoutManager.setOrientation(OrientationHelper.VERTICAL);
         //设置Adapter
-        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(adapter);
         //设置分隔线
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+       // recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -81,11 +86,5 @@ public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyc
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
-    }
-
-
-    @Override
-    public void onItemClick(View view, int position) {
-
     }
 }

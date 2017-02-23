@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +34,14 @@ import fragment.Heroes.HeroesWarriorFragment;
  */
 
 public class HeroesFragment extends Fragment implements View.OnClickListener, ViewPager.OnPageChangeListener{
-    @BindView(R.id.all_heroes) Button buttonAll;
-    @BindView(R.id.assassin_heroes) Button buttonAssassin;
-    @BindView(R.id.warrior_heroes) Button buttonWarrior;
-    @BindView(R.id.tank_heroes) Button buttonTank;
-    @BindView(R.id.shooter_heroes) Button buttonShooter;
-    @BindView(R.id.master_heroes) Button buttonMaster;
-    @BindView(R.id.assist_heroes) Button buttonAssist;
+    @BindView(R.id.all_heroes)
+    TextView buttonAll;
+    @BindView(R.id.assassin_heroes) TextView buttonAssassin;
+    @BindView(R.id.warrior_heroes) TextView buttonWarrior;
+    @BindView(R.id.tank_heroes) TextView buttonTank;
+    @BindView(R.id.shooter_heroes) TextView buttonShooter;
+    @BindView(R.id.master_heroes) TextView buttonMaster;
+    @BindView(R.id.assist_heroes) TextView buttonAssist;
     @BindView(R.id.heroes_viewpager) ViewPager viewPager;
     private int selectedPositon; //记录Fragment
     private Unbinder unbinder;

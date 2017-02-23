@@ -27,22 +27,28 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    /*底部菜单栏*/
     compile 'com.android.support:appcompat-v7:25.1.1'
+    /*底部菜单栏*/
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.1'
     /*图片处理框架，用于显示网络图片*/
     compile 'com.github.bumptech.glide:glide:3.7.0'
     /*蒲公英*/
-    compile 'com.pgyersdk:sdk:2.4.5'
+    compile 'com.pgyersdk:sdk:2.5.2'
     /*爬取网页数据*/
     compile 'org.jsoup:jsoup:1.10.2'
     /*异步操作*/
     compile 'io.reactivex.rxjava2:rxjava:2.0.5'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     /*网络请求*/
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+   /* compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.retrofit2:retrofit-converters:2.1.0'
+    compile 'com.squareup.retrofit2:retrofit-adapters:2.1.0'
+    //compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'*/
     /* 舍弃findViewById()，使用注记*/
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    /*json解析*/
+    compile 'com.google.code.gson:gson:2.8.0'
 
 }

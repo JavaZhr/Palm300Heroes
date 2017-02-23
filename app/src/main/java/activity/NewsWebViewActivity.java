@@ -15,8 +15,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import com.pgyersdk.crash.PgyCrashManager;
-
 import cn.nicolite.palm300heroes.R;
 import utilty.LogUtil;
 
@@ -65,9 +63,6 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
         //actionBar.setTitle("资讯详情");
         setContentView(R.layout.news_webview);
 
-        //蒲公英Crash捕获注册
-        PgyCrashManager.register(this);
-
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.news_webview_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -114,10 +109,4 @@ public class NewsWebViewActivity extends AppCompatActivity implements SwipeRefre
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //解除蒲公英Crash捕获注册
-        PgyCrashManager.unregister();
-    }
 }

@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -19,9 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pgyersdk.crash.PgyCrashManager;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -98,13 +96,22 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.record_logger_layout);
 
         ButterKnife.bind(this);
-        //蒲公英Crash捕获注册
-        PgyCrashManager.register(this);
 
         matchList.setOnClickListener(this);
         roleRank.setOnClickListener(this);
         submit.setOnClickListener(this);
         clearHistoryBtn.setOnClickListener(this);
+
+        roleNameInput.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                baseDate.setVisibility(View.GONE);
+                matchList.setVisibility(View.GONE);
+                roleRank.setVisibility(View.GONE);
+                serchListLayout.setVisibility(View.VISIBLE);
+                return false;
+    }
+});
 
     }
 
@@ -122,9 +129,11 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
             case R.id.record_logger_submit :
                 Utilty.handlerRecordLoggerResponse(this, code, 1);
                 Utilty.handlerRecordLoggerResponse(this, code, 2);
-                palm300heroesDB.saveRecentSearch(code);
-                initData();
-                arrayAdapter.notifyDataSetChanged();
+                if (!palm300heroesDB.isExistence(code)) {
+                    palm300heroesDB.saveRecentSearch(code);
+                    initData();
+                    arrayAdapter.notifyDataSetChanged();
+                }
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -154,8 +163,6 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //解除蒲公英Crash捕获注册
-        PgyCrashManager.unregister();
     }
 
     private void initView() {

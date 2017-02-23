@@ -42,52 +42,52 @@
     <LinearLayout
         android:id="@+id/heroes_detail_tab"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_below="@id/heroes_detail_title">
-        <Button
+        <TextView
             android:id="@+id/heroes_detail_data"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:background="@color/blue"
             android:text="@string/data"
             android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
+            android:textColor="@color/white"/>
 
-        <Button
+        <TextView
             android:id="@+id/heroes_detail_skill"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:background="@color/blue"
             android:text="@string/skill"
             android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
+            android:textColor="@color/white" />
 
-        <Button
+        <TextView
             android:id="@+id/heroes_detail_skin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:background="@color/blue"
             android:text="@string/skin"
             android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
+            android:textColor="@color/white" />
 
-        <Button
+        <TextView
             android:id="@+id/heroes_detail_sound"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
             android:background="@color/blue"
             android:text="@string/sound"
             android:textSize="16sp"
-            android:textColor="@color/white"
-            tools:ignore="ButtonStyle" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <RelativeLayout

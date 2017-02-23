@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/heroes_fragment"
@@ -12,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="76dp"
         android:background="@color/blue"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:id="@+id/menubar"
             android:layout_width="match_parent"
@@ -20,82 +20,81 @@
             android:orientation="horizontal"
             android:background="@color/blue"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            tools:ignore="UselessParent">
+            android:layout_centerInParent="true">
 
-            <Button
+            <TextView
                 android:id="@+id/all_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/blue"
                 android:text="@string/all"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
-            <Button
+                android:textColor="@color/white" />
+            <TextView
                 android:id="@+id/assassin_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/blue"
                 android:text="@string/assassin"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
-            <Button
+                android:textColor="@color/white" />
+            <TextView
                 android:id="@+id/warrior_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/blue"
+                android:gravity="center"
                 android:text="@string/warrior"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
-            <Button
+                android:textColor="@color/white" />
+            <TextView
                 android:id="@+id/tank_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/blue"
                 android:text="@string/tank"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
+                android:textColor="@color/white" />
 
-            <Button
+            <TextView
                 android:id="@+id/shooter_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/blue"
                 android:text="@string/shooter"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
+                android:textColor="@color/white" />
 
-            <Button
+            <TextView
                 android:id="@+id/master_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/blue"
                 android:text="@string/master"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
+                android:textColor="@color/white" />
 
-            <Button
+            <TextView
                 android:id="@+id/assist_heroes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/blue"
                 android:text="@string/assist"
                 android:textSize="16sp"
-                android:textColor="@color/white"
-                tools:ignore="ButtonStyle" />
+                android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>
 

@@ -13,14 +13,13 @@
                 android:id="@+id/heroes_skin_pic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ffffff_hero"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/orange">
+            android:background="@color/grey">
             <TextView
                 android:id="@+id/heroes_skin_name"
                 android:layout_width="0dp"

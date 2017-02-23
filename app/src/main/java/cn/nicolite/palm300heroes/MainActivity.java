@@ -11,8 +11,6 @@ import android.view.WindowManager;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
-import com.pgyersdk.update.PgyUpdateManager;
 
 import fragment.AboutFragment;
 import fragment.GameFragment;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "资讯"))
+                //.addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "资讯"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "英雄"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_favorite_white_24dp, "关于"))
@@ -73,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         transaction = fragmentManager.beginTransaction();
         if (newsFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
-            newsFragment = new NewsFragment();
+            heroesFragment = new HeroesFragment();
             //actionBar.setTitle("资讯");
-            transaction.add(R.id.content, newsFragment);
+            transaction.add(R.id.content, heroesFragment);
         }else {
                     /*如果不为空，则直接显示出来*/
-            transaction.show(newsFragment);
+            transaction.show(heroesFragment);
         }
         transaction.commit();
     }
@@ -91,20 +89,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         /*先隐藏所有的Fragment，防止多个Fragment显示在界面上*/
         hideFragments(transaction);
         switch (position) {
-            case 0 :
-                /*点击资讯*/
+           /* case 0 :
+                //点击资讯
                 LogUtil.d("BottomNavigationBar", "点击了资讯");
                 //actionBar.setTitle("资讯");
                 if (newsFragment == null) {
-                    /*如果NewsFragment为空，则创建一个*/
+                    //如果NewsFragment为空，则创建一个
                     newsFragment = new NewsFragment();
                     transaction.add(R.id.content, newsFragment);
                 }else {
-                    /*如果不为空，则直接显示出来*/
+                    //如果不为空，则直接显示出来
                     transaction.show(newsFragment);
                 }
-                break;
-            case 1 :
+                break;*/
+            case 0 :
                 /*点击英雄*/
                 LogUtil.d("BottomNavigationBar", "点击了英雄");
                // actionBar.setTitle("英雄");
@@ -117,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     transaction.show(heroesFragment);
                 }
                 break;
-            case 2 :
+            case 1 :
                 /*点击游戏*/
                 LogUtil.d("BottomNavigationBar", "点击了游戏");
                 //actionBar.setTitle("游戏");
@@ -130,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     transaction.show(gameFragment);
                 }
                 break;
-            case 3 :
+            case 2 :
                 /*点击关于*/
                 LogUtil.d("BottomNavigationBar", "点击了关于");
                 //actionBar.setTitle("关于");
@@ -169,9 +167,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * 用于对Fragment执行事务操作
      */
     private void hideFragments(FragmentTransaction transaction) {
-       if (newsFragment != null) {
+      /* if (newsFragment != null) {
             transaction.hide(newsFragment);
-        }
+        }*/
         if (heroesFragment != null) {
             transaction.hide(heroesFragment);
         }

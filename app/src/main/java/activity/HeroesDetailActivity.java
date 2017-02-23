@@ -14,8 +14,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.pgyersdk.crash.PgyCrashManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +37,10 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.heroes_detail_name) TextView heroesDetailName;
     @BindView(R.id.heroes_detail_type) TextView heroesDetailType;
 
-    @BindView(R.id.heroes_detail_data) Button heroesDataButton;
-    @BindView(R.id.heroes_detail_skill) Button heroesSkillButton;
-    @BindView(R.id.heroes_detail_skin) Button heroesSkinButton;
-    @BindView(R.id.heroes_detail_sound) Button heroesSoundButton;
+    @BindView(R.id.heroes_detail_data) TextView heroesDataButton;
+    @BindView(R.id.heroes_detail_skill)TextView heroesSkillButton;
+    @BindView(R.id.heroes_detail_skin) TextView heroesSkinButton;
+    @BindView(R.id.heroes_detail_sound)TextView heroesSoundButton;
 
     @BindView(R.id.heroes_detail_viewpager) ViewPager viewPager;
     private int selectedPositon; //用来记住导航的位置
@@ -77,8 +75,7 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.heroes_detail_activity);
 
         ButterKnife.bind(this);
-        //蒲公英Crash捕获注册
-        PgyCrashManager.register(this);
+
         heroes = (Heroes) getIntent().getSerializableExtra("heroes_data");
         LogUtil.d("heroesDetailActivity", heroes.getName());
 
@@ -198,10 +195,4 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //解除蒲公英Crash捕获注册
-        PgyCrashManager.unregister();
-    }
 }

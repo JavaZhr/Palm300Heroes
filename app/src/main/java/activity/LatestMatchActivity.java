@@ -11,9 +11,6 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
-
-import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.List;
 
@@ -21,7 +18,6 @@ import adapter.LatestMatchRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.recordLogger.LatestMatch;
-import model.recordLogger.MatchList;
 import other.DividerItemDecoration;
 
 /**
@@ -56,8 +52,6 @@ public class LatestMatchActivity extends AppCompatActivity implements LatestMatc
 
         setContentView(R.layout.lastest_match_layout);
 
-        //蒲公英Crash捕获注册
-        PgyCrashManager.register(this);
         recyclerView = (RecyclerView) findViewById(R.id.match_list_recycler_view);
 
         dataList = palm300heroesDB.loadLatestMatch();
@@ -84,13 +78,6 @@ public class LatestMatchActivity extends AppCompatActivity implements LatestMatc
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //解除蒲公英Crash捕获注册
-        PgyCrashManager.unregister();
     }
 
     @Override

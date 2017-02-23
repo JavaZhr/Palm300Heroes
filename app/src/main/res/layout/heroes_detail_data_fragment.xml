@@ -4,138 +4,119 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <ScrollView
+    <RelativeLayout
+        android:id="@+id/heroes_image_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/heroes_pic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/heroes_data_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:orientation="vertical">
-                <RelativeLayout
-                    android:id="@+id/heroes_image_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/heroes_pic"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ffffff_hero"
-                        tools:ignore="ContentDescription" />
-                </RelativeLayout>
-
-                <!-- 分割线 -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="@color/white"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/widget_shape"
+                android:baselineAligned="false">
 
                 <LinearLayout
-                    android:id="@+id/heroes_data_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/widget_shape"
-                    android:baselineAligned="false">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/heroes_health_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-
-                        <TextView
-                            android:id="@+id/heroes_magic_point_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-
-                        <TextView
-                            android:id="@+id/heroes_physical_attack_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/heroes_magic_attack_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/heroes_physical_defense_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/heroes_magic_defense_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/heroes_crit_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/heroes_attack_speed_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/heroes_attack_range_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/heroes_movement_speed_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-                </LinearLayout>
-                <!-- 分割线 -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="@color/white"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/widget_shape">
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/heroes_background"
+                        android:id="@+id/heroes_health_value"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_magic_point_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_physical_attack_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_magic_attack_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_physical_defense_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- 分割线 -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:background="@color/white"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/heroes_magic_defense_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_crit_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_attack_speed_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_attack_range_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/heroes_movement_speed_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+
+            <TextView
+                android:id="@+id/heroes_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/widget_shape"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+
+
 </LinearLayout>

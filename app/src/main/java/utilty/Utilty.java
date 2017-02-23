@@ -1,9 +1,9 @@
 package utilty;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Switch;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +12,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParsePosition;
@@ -23,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 import database.Palm300heroesDB;
+import model.FightSkill;
 import model.hero.Heroes;
 import model.recordLogger.LatestMatch;
 import model.recordLogger.MatchList;
@@ -298,7 +303,7 @@ public class Utilty {
                         sounds.setUrl(soundUrl);
                         sounds.setContent(soundContent);
 
-                       /* LogUtil.d("handleHeroesResponse", "soundContent : " + sounds.getContent());
+                      /* LogUtil.d("handleHeroesResponse", "soundContent : " + sounds.getContent());
                         LogUtil.d("handleHeroesResponse", "soundUrl: " + sounds.getUrl());*/
                         if (!palm300heroesDB.isExistence(sounds)) {
                             palm300heroesDB.saveSound(sounds);
@@ -357,6 +362,42 @@ public class Utilty {
                 break;
          default: break;
         }
+      /* final Context mcontext =context;
+       final String finalADDRESS = ADDRESS;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    AssetManager assetManager = mcontext.getAssets();
+                    InputStreamReader is = new InputStreamReader(assetManager.open(finalADDRESS), "utf-8");
+                    BufferedReader br = new BufferedReader(is);
+                    String line = "";
+                    StringBuilder builder = new StringBuilder();
+                    while ((line = br.readLine()) != null) {
+                        builder.append(line);
+                    }
+                    String response = builder.toString();
+
+                    if (type == 1) {
+                        Utilty.handleHeroesResponse(palm300heroesDB, response);
+                    }
+                    if (type == 2) {
+                        Utilty.handleSkillResponse(palm300heroesDB, response);
+                    }
+                    if (type == 3){
+                        Utilty.handleSkinResponse(palm300heroesDB, response);
+                    }
+                    if (type == 4) {
+                        Utilty.handlerSoundResponse(palm300heroesDB, response);
+                    }
+                    if (type < 1 || type > 4) {
+                        LogUtil.d("initHeroDate", "type参数错误。1：英雄数据，2：技能数据，3：皮肤数据，4：语音数据");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();*/
 
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
@@ -391,7 +432,7 @@ public class Utilty {
         initHeroData(context, 3);
         initHeroData(context, 4);
 
-        initNewsData(context);
+       // initNewsData(context);
     }
 
     /* 按时间排序*/
@@ -514,10 +555,10 @@ public class Utilty {
             case 2 :
                 ADDRESS = "http://300report.jumpw.com/api/getlist?name=" + codeE;
                 break;
-           /* case 3 :
+            case 3 :
                 ADDRESS = "http://300report.jumpw.com/api/getmatch?id=" + codeE;
                 break;
-            case 4 :
+            /*case 4 :
                 ADDRESS = " http://300report.jumpw.com/api/getrank?type" + codeE;
                 break;*/
             default: break;
@@ -594,7 +635,7 @@ public class Utilty {
                         palm300heroesDB.saveRoleRank(roleRank);
                     }
                 }else {
-                    LogUtil.d("handlerRoleResponse", "返回数据异常 " + result + " " + response);
+                    LogUtil.d("handlerRoleResponse", "返回数据异常 " + result + "\n" + response);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -609,7 +650,8 @@ public class Utilty {
         if (!TextUtils.isEmpty(response)){
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                if (jsonObject.getString("Result").equals("OK")) {
+                String results = jsonObject.getString("Result");
+                if (results.equals("OK")) {
                     JSONArray list = jsonObject.getJSONArray("List");
 
                     for (int i = 0; i < list.length(); i++) {
@@ -651,5 +693,171 @@ public class Utilty {
         return true;
     }
 
+    private static boolean handlerMatchResponse(Palm300heroesDB palm300heroesDB, String response) {
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String results = jsonObject.getString("Result");
+                if (results.equals("OK")){
+                    JSONObject match = jsonObject.getJSONObject("Match");
+                    int matchType = match.getInt("MatchType");
+                    int winSideKill = match.getInt("WinSideKill");
+                    int loseSideKill = match.getInt("LoseSideKill");
+                    int useTime = match.getInt("UsedTime");
+                    String matchDate = match.getString("MatchDate");
 
+                    JSONArray winSide = match.getJSONArray("WinSide");
+                    for (int i = 0; i < winSide.length(); i++) {
+                        JSONObject winSideI = winSide.getJSONObject(i);
+                        String roleName = winSideI.getString("RoleName");
+                        int roleId = winSideI.getInt("RoleID");
+                        int roleLevel = winSideI.getInt("RoleLevel");
+                        int heroId = winSideI.getInt("HeroID");
+                        int heroLevel = winSideI.getInt("HeroLevel");
+                        int result = winSideI.getInt("Result");
+                        int teamResult = winSideI.getInt("TeamResult");
+                        int isFirstWin = winSideI.getInt("IsFirstWin");
+                        int killCount = winSideI.getInt("KillCount");
+                        int deathCount = winSideI.getInt("DeathCount");
+                        int assistCount = winSideI.getInt("AssistCount");
+                        int towerDestory = winSideI.getInt("TowerDestroy");
+                        int killUnitCount = winSideI.getInt("KillUnitCount");
+                        int totalMoney = winSideI.getInt("TotalMoney");
+
+                        JSONArray skillId = winSideI.getJSONArray("SkillID");
+                        JSONArray equipId = winSideI.getJSONArray("EquipID");
+                        int rewardMoney = winSideI.getInt("RewardMoney");
+                        int rewardExp = winSideI.getInt("RewardExp");
+                        int jumpValue = winSideI.getInt("JumpValue");
+                        int winCount = winSideI.getInt("WinCount");
+                        int matchCount = winSideI.getInt("MatchCount");
+                        int ELO = winSideI.getInt("ELO");
+                        int KDA = winSideI.getInt("KDA");
+
+                        JSONObject hero = winSideI.getJSONObject("Hero");
+                        int id = hero.getInt("ID");
+                        String name = hero.getString("Name");
+                        String iconFile = hero.getString("IconFile");
+
+                        JSONArray skill = hero.getJSONArray("skill");
+
+                        for (int k = 0; k < skill.length(); i++) {
+                            JSONObject skillI = skill.getJSONObject(i);
+                            int skillIds = skillI.getInt("ID");
+                            String skillName = skillI.getString("Name");
+                            String skillIconFile = skillI.getString("IconFile");
+                        }
+
+                        JSONArray equip = hero.getJSONArray("Equip");
+                        for (int l = 0; l < equip.length(); l++) {
+                            JSONObject equipI = equip.getJSONObject(i);
+                            int equipIds = equipI.getInt("ID");
+                            String equipName = equipI.getString("Name");
+                            String equipIconFile = equipI.getString("IconFile");
+                        }
+                    }
+
+                    JSONArray loseSide = match.getJSONArray("LoseSide");
+                    for (int i = 0; i < loseSide.length(); i++) {
+                        JSONObject loseSideI = loseSide.getJSONObject(i);
+                        String roleName = loseSideI.getString("RoleName");
+                        int roleId = loseSideI.getInt("RoleID");
+                        int roleLevel = loseSideI.getInt("RoleLevel");
+                        int heroId = loseSideI.getInt("HeroID");
+                        int heroLevel = loseSideI.getInt("HeroLevel");
+                        int result = loseSideI.getInt("Result");
+                        int teamResult = loseSideI.getInt("TeamResult");
+                        int isFirstWin = loseSideI.getInt("IsFirstWin");
+                        int killCount = loseSideI.getInt("KillCount");
+                        int deathCount = loseSideI.getInt("DeathCount");
+                        int assistCount = loseSideI.getInt("AssistCount");
+                        int towerDestory = loseSideI.getInt("TowerDestroy");
+                        int killUnitCount = loseSideI.getInt("KillUnitCount");
+                        int totalMoney = loseSideI.getInt("TotalMoney");
+
+                        JSONArray skillId = loseSideI.getJSONArray("SkillID");
+                        JSONArray equipId = loseSideI.getJSONArray("EquipID");
+                        int rewardMoney = loseSideI.getInt("RewardMoney");
+                        int rewardExp = loseSideI.getInt("RewardExp");
+                        int jumpValue = loseSideI.getInt("JumpValue");
+                        int winCount = loseSideI.getInt("WinCount");
+                        int matchCount = loseSideI.getInt("MatchCount");
+                        int ELO = loseSideI.getInt("ELO");
+                        int KDA = loseSideI.getInt("KDA");
+
+                        JSONObject hero = loseSideI.getJSONObject("Hero");
+                        int id = hero.getInt("ID");
+                        String name = hero.getString("Name");
+                        String iconFile = hero.getString("IconFile");
+
+                        JSONArray skill = hero.getJSONArray("skill");
+
+                        for (int k = 0; k < skill.length(); i++) {
+                            JSONObject skillI = skill.getJSONObject(i);
+                            int skillIds = skillI.getInt("ID");
+                            String skillName = skillI.getString("Name");
+                            String skillIconFile = skillI.getString("IconFile");
+                        }
+
+                        JSONArray equip = hero.getJSONArray("Equip");
+                        for (int l = 0; l < equip.length(); l++) {
+                            JSONObject equipI = equip.getJSONObject(i);
+                            int equipIds = equipI.getInt("ID");
+                            String equipName = equipI.getString("Name");
+                            String equipIconFile = equipI.getString("IconFile");
+                        }
+                    }
+                }else {
+                    LogUtil.d("handlerMatchResponse", "返回数据异常 " + results + "\n" + response);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            return false;
+        }
+        return true;
+    }
+
+    public static List<FightSkill> getFightSkill(Context context) {
+        List<FightSkill> list = new ArrayList<>();
+        AssetManager assetManager = context.getAssets();
+        try {
+            InputStreamReader is = new InputStreamReader(assetManager.open("fight_skill.json"), "utf-8");
+            BufferedReader br = new BufferedReader(is);
+            String line = "";
+            StringBuilder builder = new StringBuilder();
+            while ((line = br.readLine()) != null){
+                builder.append(line);
+            }
+            br.close();
+            is.close();
+            JSONObject jsonObject = new JSONObject(builder.toString());
+            String status = jsonObject.getString("status");
+            if (status.equals("ok")){
+                JSONArray info = jsonObject.getJSONArray("info");
+                for (int i = 0 ; i < info.length(); i++) {
+                    JSONObject skill = info.getJSONObject(i);
+                    String name = skill.getString("name");
+                    String picture = "http://ogbna06ji.bkt.clouddn.com/heroes/fightSkill/" + URLEncoder.encode(skill.getString("picture"), "utf-8");
+                    String content = skill.getString("content");
+
+                    FightSkill fightSkill = new FightSkill();
+                    fightSkill.setName(name);
+                    fightSkill.setPicture(picture);
+                    fightSkill.setContent(content);
+
+                    LogUtil.d("handlerFightSkillResponse", "name：" + name);
+                    list.add(fightSkill);
+                }
+            }else {
+                LogUtil.d("handlerFightSkillResponse", "返回信息失败");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
