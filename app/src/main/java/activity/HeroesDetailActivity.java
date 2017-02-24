@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import fragment.Heroes.HeroesDetail.HeroesSkillFragment;
 import fragment.Heroes.HeroesDetail.HeroesSkinFragment;
 import fragment.Heroes.HeroesDetail.HeroesSoundFragment;
 import model.hero.Heroes;
-import utilty.LogUtil;
+import util.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/11/4 0004.

@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.nicolite.palm300heroes.R;
 import model.hero.Heroes;
-import utilty.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.

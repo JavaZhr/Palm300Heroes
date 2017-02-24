@@ -1,4 +1,4 @@
-package utilty;
+package util;
 
 import android.util.Log;
 

@@ -1,4 +1,4 @@
-package utilty;
+package util;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -14,7 +14,6 @@ import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -40,13 +39,16 @@ import model.hero.Skill;
 import model.hero.Skin;
 import model.hero.Sound;
 import myInterface.HttpCallbackListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by NICOLITE on 2016/10/15 0015.
  */
 
 
-public class Utilty {
+public class Util {
     /**
      * 解析和处理服务器返回的News数据
      */
@@ -329,7 +331,7 @@ public class Utilty {
         HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                Utilty.handleNewsResponse(palm300heroesDB, response);
+                Util.handleNewsResponse(palm300heroesDB, response);
             }
             @Override
             public void onError(Exception e) {
@@ -399,20 +401,20 @@ public class Utilty {
             }
         }).start();*/
 
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+       /* HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 if (type == 1) {
-                    Utilty.handleHeroesResponse(palm300heroesDB, response);
+                    Util.handleHeroesResponse(palm300heroesDB, response);
                 }
                 if (type == 2) {
-                    Utilty.handleSkillResponse(palm300heroesDB, response);
+                    Util.handleSkillResponse(palm300heroesDB, response);
                 }
                 if (type == 3){
-                    Utilty.handleSkinResponse(palm300heroesDB, response);
+                    Util.handleSkinResponse(palm300heroesDB, response);
                 }
                 if (type == 4) {
-                    Utilty.handlerSoundResponse(palm300heroesDB, response);
+                    Util.handlerSoundResponse(palm300heroesDB, response);
                 }
                 if (type < 1 || type > 4) {
                     LogUtil.d("initHeroDate", "type参数错误。1：英雄数据，2：技能数据，3：皮肤数据，4：语音数据");
@@ -422,6 +424,32 @@ public class Utilty {
             @Override
             public void onError(Exception e) {
                 LogUtil.d("initHeroDate", "返回数据异常");
+            }
+        });*/
+
+        HttpUtil.sendOkHttpRequest(ADDRESS, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                LogUtil.d("initHeroDate", "返回数据异常");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (type == 1) {
+                    Util.handleHeroesResponse(palm300heroesDB, response.body().string());
+                }
+                if (type == 2) {
+                    Util.handleSkillResponse(palm300heroesDB, response.body().string());
+                }
+                if (type == 3){
+                    Util.handleSkinResponse(palm300heroesDB, response.body().string());
+                }
+                if (type == 4) {
+                    Util.handlerSoundResponse(palm300heroesDB, response.body().string());
+                }
+                if (type < 1 || type > 4) {
+                    LogUtil.d("initHeroDate", "type参数错误。1：英雄数据，2：技能数据，3：皮肤数据，4：语音数据");
+                }
             }
         });
     }
@@ -564,7 +592,8 @@ public class Utilty {
             default: break;
         }
         LogUtil.d("handlerRecordLoggerResponse", "ADDRESS " + ADDRESS);
-        HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
+
+       /* HttpUtil.sendHttpRequest(ADDRESS, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 if (type == 1) {
@@ -578,6 +607,22 @@ public class Utilty {
             @Override
             public void onError(Exception e) {
 
+            }
+        });*/
+
+        HttpUtil.sendOkHttpRequest(ADDRESS, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (type == 1) {
+                    handlerRoleResponse(palm300heroesDB, response.body().string());
+                }
+                if (type == 2) {
+                    handlerLatestMatchResponse(palm300heroesDB, response.body().string());
+                }
             }
         });
     }

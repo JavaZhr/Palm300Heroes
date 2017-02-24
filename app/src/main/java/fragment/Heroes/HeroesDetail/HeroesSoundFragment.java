@@ -25,7 +25,7 @@ import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.hero.Heroes;
 import model.hero.Sound;
-import utilty.Utilty;
+import util.Util;
 
 import static android.media.AudioManager.STREAM_MUSIC;
 
@@ -170,7 +170,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
 
     @Override
     public void onRefresh() {
-        Utilty.initHeroData(getActivity(), 4);
+        Util.initHeroData(getActivity(), 4);
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 

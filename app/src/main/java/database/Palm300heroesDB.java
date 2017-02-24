@@ -16,7 +16,7 @@ import model.hero.Sound;
 import model.recordLogger.LatestMatch;
 import model.recordLogger.Role;
 import model.recordLogger.RoleRank;
-import utilty.LogUtil;
+import util.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/10/18 0018.

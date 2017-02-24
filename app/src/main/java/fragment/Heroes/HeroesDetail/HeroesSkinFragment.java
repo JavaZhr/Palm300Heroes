@@ -22,7 +22,7 @@ import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.hero.Heroes;
 import model.hero.Skin;
-import utilty.Utilty;
+import util.Util;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
@@ -100,7 +100,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
 
     @Override
     public void onRefresh() {
-        Utilty.initHeroData(getActivity(), 3);
+        Util.initHeroData(getActivity(), 3);
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

@@ -6,7 +6,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +21,7 @@ import adapter.NewsAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.News;
-import myInterface.HttpCallbackListener;
-import utilty.HttpUtil;
-import utilty.LogUtil;
-import utilty.Utilty;
+import util.Util;
 
 
 /**
@@ -88,7 +84,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void readNewsDate(){
         Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
         newsList = palm300heroesDB.loadNews();
-        Utilty.sortByDate(newsList);
+        Util.sortByDate(newsList);
         if (newsList.size() > 0 && dataList.size() > 0) {
             for (News news : newsList) {
                if (news.getId() > dataList.size()) {
@@ -107,7 +103,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onRefresh() {
         //swipeRefreshLayout.setRefreshing(true);
-        Utilty.initNewsData(getActivity());
+        Util.initNewsData(getActivity());
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

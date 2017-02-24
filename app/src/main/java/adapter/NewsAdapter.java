@@ -13,10 +13,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import butterknife.BindView;
 import cn.nicolite.palm300heroes.R;
 import model.News;
-import utilty.LogUtil;
 
 
 /**

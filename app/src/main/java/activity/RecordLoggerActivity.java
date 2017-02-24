@@ -27,8 +27,7 @@ import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.recordLogger.Role;
-import utilty.LogUtil;
-import utilty.Utilty;
+import util.Util;
 
 
 /**
@@ -127,8 +126,8 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         Intent intent;
         switch (v.getId()) {
             case R.id.record_logger_submit :
-                Utilty.handlerRecordLoggerResponse(this, code, 1);
-                Utilty.handlerRecordLoggerResponse(this, code, 2);
+                Util.handlerRecordLoggerResponse(this, code, 1);
+                Util.handlerRecordLoggerResponse(this, code, 2);
                 if (!palm300heroesDB.isExistence(code)) {
                     palm300heroesDB.saveRecentSearch(code);
                     initData();

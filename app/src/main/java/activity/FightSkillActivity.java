@@ -7,23 +7,18 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.bumptech.glide.util.Util;
-
 import java.util.List;
 
 import adapter.FightSkillRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import model.FightSkill;
-import other.DividerItemDecoration;
-import utilty.Utilty;
+import util.Util;
 
 /**
  * Created by NICOLITE on 2017/2/13 0013.
@@ -56,7 +51,7 @@ public class FightSkillActivity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         setContentView(R.layout.fight_skill_layout);
 
-        dataList = Utilty.getFightSkill(this);
+        dataList = Util.getFightSkill(this);
         recyclerView = (RecyclerView) findViewById(R.id.fight_skill_recycler_view);
         adapter = new FightSkillRecyclerViewAdapter(this, dataList);
 

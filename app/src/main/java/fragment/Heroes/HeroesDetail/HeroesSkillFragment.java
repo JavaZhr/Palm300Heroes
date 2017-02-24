@@ -22,7 +22,7 @@ import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.hero.Heroes;
 import model.hero.Skill;
-import utilty.Utilty;
+import util.Util;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
@@ -99,7 +99,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
 
     @Override
     public void onRefresh() {
-        Utilty.initHeroData(getActivity(), 2);
+        Util.initHeroData(getActivity(), 2);
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
     }
 }

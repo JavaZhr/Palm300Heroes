@@ -16,7 +16,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import cn.nicolite.palm300heroes.R;
-import utilty.LogUtil;
+import util.LogUtil;
 
 /**
  * Created by NICOLITE on 2016/10/15 0015.

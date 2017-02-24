@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,7 @@ import adapter.HeroesRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.hero.Heroes;
-import utilty.Utilty;
+import util.Util;
 
 /**
  * Created by NICOLITE on 2016/10/30 0030.
@@ -99,7 +98,7 @@ public class HeroesAllFragment extends Fragment implements HeroesRecyclerViewAda
 
     @Override
     public void onRefresh() {
-        Utilty.initHeroData(getActivity(), 1);
+        Util.initHeroData(getActivity(), 1);
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
         //重新获取数据
         //获取完成swipeRefreshLayout.setRefreshing(false);

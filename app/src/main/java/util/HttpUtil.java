@@ -1,16 +1,16 @@
-package utilty;
+package util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import myInterface.HttpCallbackListener;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * Created by NICOLITE on 2016/9/20 0020.
@@ -58,5 +58,11 @@ public class HttpUtil {
         }).start();
     }
 
-
+    public static void sendOkHttpRequest (final String address, okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
 }

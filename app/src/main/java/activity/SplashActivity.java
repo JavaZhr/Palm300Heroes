@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import cn.nicolite.palm300heroes.MainActivity;
 import cn.nicolite.palm300heroes.R;
-import utilty.Utilty;
+import util.Util;
 
 /**
  * Created by NICOLITE on 2016/10/11 0011.
@@ -31,7 +31,7 @@ public class SplashActivity extends Activity {
         myCountDownTImer.start();
 
         /*初始化所有数据*/
-        Utilty.initAllData(this);
+        Util.initAllData(this);
 
         new Handler().postDelayed(new Runnable() {
             @Override

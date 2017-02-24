@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:clickable="true">
     <RelativeLayout
-        android:id="@+id/equipment_title"
+        android:id="@+id/about_title"
         android:layout_width="match_parent"
         android:layout_height="76dp"
         android:background="@color/blue"

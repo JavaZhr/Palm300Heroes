@@ -23,7 +23,7 @@ import adapter.HeroesRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
 import database.Palm300heroesDB;
 import model.hero.Heroes;
-import utilty.Utilty;
+import util.Util;
 
 /**
  * Created by NICOLITE on 2016/10/30 0030.
@@ -95,7 +95,7 @@ public class HeroesShooterFragment extends Fragment implements HeroesRecyclerVie
 
     @Override
     public void onRefresh() {
-        Utilty.initHeroData(getActivity(), 1);
+        Util.initHeroData(getActivity(), 1);
         handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
         //重新获取数据
         //获取完成swipeRefreshLayout.setRefreshing(false);
