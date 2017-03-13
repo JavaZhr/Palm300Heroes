@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import activity.FightSkillActivity;
-import activity.RecordLoggerActivity;
 import adapter.GameRecyclerViewAdapter;
+import cn.nicolite.palm300heroes.FightSkillActivity;
 import cn.nicolite.palm300heroes.R;
+import cn.nicolite.palm300heroes.RecordLoggerActivity;
 import other.DividerItemDecoration;
 
 
@@ -28,7 +28,7 @@ import other.DividerItemDecoration;
 
 public class GameFragment extends Fragment implements GameRecyclerViewAdapter.OnItemClickListener{
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    private LinearLayoutManager  layoutManager;
     private GameRecyclerViewAdapter recycleAdapter;
     private List<String> dataList = new ArrayList<>();
 

@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
-import model.hero.Skin;
+import database.SkinD;
 
 /**
  * Created by NICOLITE on 2016/11/25 0025.
@@ -23,11 +24,11 @@ import model.hero.Skin;
 
 public class SkinRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<Skin> dataList;
+    private List<SkinD> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener;
 
-    public SkinRecyclerViewAdapter(Context context, List<Skin> dataList) {
+    public SkinRecyclerViewAdapter(Context context, List<SkinD> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);
@@ -61,13 +62,13 @@ public class SkinRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        Skin skin = dataList.get(position);
+        SkinD skin = dataList.get(holder.getAdapterPosition());
 
         Glide
                 .with(context)
-                .load(skin.getUrl())
+                .load("http://ogbna06ji.bkt.clouddn.com/heroes/skin/" + Uri.encode(skin.getUrl()))
                 .dontAnimate()
                 .into(viewHolder.getSkinPicture());
 

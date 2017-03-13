@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
-import model.recordLogger.RoleRank;
+import model.recordLogger.Role;
 
 /**
  * Created by NICOLITE on 2017/2/6 0006.
@@ -21,11 +21,11 @@ import model.recordLogger.RoleRank;
 
 public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<RoleRank> dataList;
+    private List<Role.Rank> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
 
-    public RoleRankRecyclerViewAdapter(Context context, List<RoleRank> dataList) {
+    public RoleRankRecyclerViewAdapter(Context context, List<Role.Rank> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);
@@ -65,21 +65,21 @@ public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         String info;
-        RoleRank roleRank = dataList.get(position);
+        Role.Rank roleRank = dataList.get(holder.getAdapterPosition());
 
-        if (roleRank.getRankChange() >= 0) {
-            info = "第" + roleRank.getRank() + "名 "+ "<font  color='#FF2D2D'>(↑"+ roleRank.getRankChange() +" )</font>";
+        if (roleRank.RankChange >= 0) {
+            info = "第" + roleRank.Rank + "名 "+ "<font  color='#FF2D2D'>(↑"+ roleRank.RankChange +" )</font>";
         }else {
-            info = "第" + roleRank.getRank() + "名 "+ "<font  color='#79FF79'>(↓"+ (-1) * roleRank.getRankChange() +" )</font>";
+            info = "第" + roleRank.Rank + "名 "+ "<font  color='#79FF79'>(↓"+ (-1) * roleRank.RankChange +" )</font>";
         }
 
-        viewHolder.getRankName().setText(roleRank.getRankName());
+        viewHolder.getRankName().setText(roleRank.RankName);
         viewHolder.getRankInfo().setText(Html.fromHtml(info));
-        viewHolder.getValueName().setText(roleRank.getValueName());
-        viewHolder.getValue().setText(roleRank.getValue());
+        viewHolder.getValueName().setText(roleRank.ValueName);
+        viewHolder.getValue().setText(roleRank.Value);
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

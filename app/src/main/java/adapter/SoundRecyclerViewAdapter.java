@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
-import model.hero.Sound;
+import database.SoundD;
 
 /**
  * Created by NICOLITE on 2016/11/25 0025.
@@ -21,11 +21,11 @@ import model.hero.Sound;
 
 public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<Sound> dataList;
+    private List<SoundD> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener;
 
-    public SoundRecyclerViewAdapter(Context context, List<Sound> dataList) {
+    public SoundRecyclerViewAdapter(Context context, List<SoundD> dataList) {
         this.context = context;
         this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
@@ -54,17 +54,15 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        Sound sound = dataList.get(position);
-
+        SoundD sound = dataList.get(holder.getAdapterPosition());
         viewHolder.getSoundContent().setText(sound.getContent());
-
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder, position);
+                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder, holder.getAdapterPosition());
                 }
             });
         }

@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ import model.FightSkill;
 
 public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<FightSkill> dataList;
+    private List<FightSkill.FightSkillInfo> dataList;
     private LayoutInflater inflater;
     private OnItemClicikListener onItemClicikListener;
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,10 +46,10 @@ public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public FightSkillRecyclerViewAdapter(Context context, List<FightSkill> dataList) {
+    public FightSkillRecyclerViewAdapter(Context context, List<FightSkill.FightSkillInfo> dataList) {
         this.context = context;
         this.dataList = dataList;
-        this.inflater = inflater.from(context);
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -58,18 +59,18 @@ public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        FightSkill fightSkill = dataList.get(position);
+        FightSkill.FightSkillInfo fightSkill = dataList.get(holder.getAdapterPosition());
 
         Glide
                 .with(context)
-                .load(fightSkill.getPicture())
+                .load("http://ogbna06ji.bkt.clouddn.com/heroes/fightSkill/" + Uri.encode(fightSkill.picture))
                 .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getFightSkillPic());
 
-        viewHolder.getFightSkillText().setText(fightSkill.getName());
+        viewHolder.getFightSkillText().setText(fightSkill.name);
         if (onItemClicikListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.pgyersdk.feedback.PgyFeedback;
@@ -14,7 +13,6 @@ import com.pgyersdk.update.PgyUpdateManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.nicolite.palm300heroes.R;
 
@@ -47,7 +45,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 PgyFeedback.getInstance().showDialog(getActivity());
                 break;
             case R.id.update :
-                PgyUpdateManager.register(getActivity());
+                PgyUpdateManager.register(getActivity(), null);
         }
     }
 

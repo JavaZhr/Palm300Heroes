@@ -1,44 +1,21 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
- * Created by NICOLITE on 2017/2/14 0014.
+ * Created by NICOLITE on 2017/3/10 0010.
  */
 
 public class FightSkill {
-    private int id;
-    private String name;
-    private String picture;
-    private String content;
+    public String status;
+    @SerializedName("info")
+    public List<FightSkillInfo> fightSkillInfoList;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public class FightSkillInfo {
+        public String name;
+        public String picture;
+        public String content;
     }
 }

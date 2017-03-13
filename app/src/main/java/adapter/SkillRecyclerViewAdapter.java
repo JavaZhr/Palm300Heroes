@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
-import model.hero.Skill;
+import database.SkillD;
 
 /**
  * Created by NICOLITE on 2016/11/16 0016.
@@ -23,11 +24,11 @@ import model.hero.Skill;
 
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<Skill> dataList;
+    private List<SkillD> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
 
-    public SkillRecyclerViewAdapter(Context context, List<Skill> dataList) {
+    public SkillRecyclerViewAdapter(Context context, List<SkillD> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);
@@ -78,16 +79,16 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        Skill skill = dataList.get(position);
+        SkillD skill = dataList.get(holder.getAdapterPosition());
 
        /* LogUtil.d("onBindViewHolder", "HeroesDName : " + skill.getName());
         LogUtil.d("onBindViewHolder", "SkillPictureUrl : " + dataList.get(position).getPictureUrl());*/
 
         Glide
                 .with(context)
-                .load(skill.getPictureUrl())
+                .load("http://ogbna06ji.bkt.clouddn.com/heroes/skill/" + Uri.encode(skill.getPictureUrl()))
                 .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getSkillPicture());

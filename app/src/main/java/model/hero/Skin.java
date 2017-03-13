@@ -1,53 +1,28 @@
 package model.hero;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
- * Created by NICOLITE on 2016/10/26 0026.
+ * Created by NICOLITE on 2017/3/10 0010.
  */
 
 public class Skin {
-    private int id;
-    private String hero;
-    private String url;
-    private String name;
-    private String price;
+    public String status;
+    @SerializedName("info")
+    public List<SkinInfo> skinInfoList;
 
-    public int getId() {
-        return id;
-    }
+    public class SkinInfo {
+        public String hero;
+        @SerializedName("skin")
+        public List<SkinItem> skinItemList;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getHero() {
-        return hero;
-    }
-
-    public void setHero(String hero) {
-        this.hero = hero;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+        public class SkinItem {
+            public String UNCode;
+            public String url;
+            public String name;
+            public String price;
+        }
     }
 }

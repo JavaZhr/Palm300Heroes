@@ -1,9 +1,8 @@
 package fragment.Heroes.HeroesDetail;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,15 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.SoundRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
-import database.Palm300heroesDB;
-import model.hero.Heroes;
-import model.hero.Sound;
+import database.DBUtil;
+import database.HeroD;
+import database.SoundD;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import util.HttpUtil;
 import util.Util;
 
 import static android.media.AudioManager.STREAM_MUSIC;
@@ -34,47 +39,26 @@ import static android.media.AudioManager.STREAM_MUSIC;
  */
 
 public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
-    private Palm300heroesDB palm300heroesDB;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
     private SoundRecyclerViewAdapter recycleAdapter;
-    private List<Sound> dataList = new ArrayList<>();
-
+    private List<SoundD> dataList = new ArrayList<>();
     private MediaPlayer mediaPlayer;
     private SoundRecyclerViewAdapter.ViewHolder oldViewHolder;
-
     private SwipeRefreshLayout swipeRefreshLayout;
-    private static final int REFRESH_COMPLETE_TIME = 4000;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0 :
-                    swipeRefreshLayout.setRefreshing(false);
-                    readSoundDate();
-                    recycleAdapter.notifyDataSetChanged();
-                    break;
-            }
-        }
-    };
+    private HeroD heroes;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_sound_fragment, container, false);
-
-        readSoundDate();
-
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sound_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_sound_recycler_view);
-
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_sound_recycler_view);
+        heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
+        dataList.clear();
+        dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SoundD.class));
         recycleAdapter = new SoundRecyclerViewAdapter(getActivity(), dataList);
-
         recycleAdapter.setOnItemClickListener(this);
-
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
@@ -85,7 +69,6 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         return view;
     }
 
@@ -95,7 +78,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
         }
-        String url = dataList.get(position).getUrl();
+        String url = "http://ogbna06ji.bkt.clouddn.com/heroes/sound/" + Uri.encode(dataList.get(position).getUrl());
 
         if (oldViewHolder != viewHolder && oldViewHolder != null) {
             oldViewHolder.getPlaySound().setImageResource(R.drawable.ic_media_play);
@@ -141,19 +124,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         });
     }
 
-    public void readSoundDate(){
-        palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
-        List<Sound> list = palm300heroesDB.loadSound();
-        dataList.clear();
-        Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
-        for (Sound sound : list) {
-            if (sound.getHero().equals(heroes.getName())) {
-                dataList.add(sound);
-            }
-        }
-    }
-
-    void destoryMediaPlay(){
+    void destroyMediaPlay(){
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.reset();
@@ -161,17 +132,41 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
             mediaPlayer = null;
         }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        destoryMediaPlay();
+        destroyMediaPlay();
     }
 
     @Override
     public void onRefresh() {
-        Util.initHeroData(getActivity(), 4);
-        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+        String soundAddress = "http://og0oucran.bkt.clouddn.com/sound.json";
+        HttpUtil.sendOkHttpRequest(soundAddress, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getActivity(),"刷新失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                DBUtil.saveSound(Util.handleSoundResponse(response.body().string()), DBUtil.UPDATE);
+                dataList.clear();
+                dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SoundD.class));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        recycleAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 
 }

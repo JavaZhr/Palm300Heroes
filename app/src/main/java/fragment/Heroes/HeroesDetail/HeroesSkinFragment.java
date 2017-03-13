@@ -1,8 +1,6 @@
 package fragment.Heroes.HeroesDetail;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,15 +11,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import org.litepal.crud.DataSupport;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.SkinRecyclerViewAdapter;
 import cn.nicolite.palm300heroes.R;
-import database.Palm300heroesDB;
-import model.hero.Heroes;
-import model.hero.Skin;
+import database.DBUtil;
+import database.HeroD;
+import database.SkinD;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import util.HttpUtil;
 import util.Util;
 
 /**
@@ -29,44 +35,24 @@ import util.Util;
  */
 
 public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
     private SkinRecyclerViewAdapter recycleAdapter;
-    private List<Skin> dataList = new ArrayList<>();
-
+    private List<SkinD> dataList = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private static final int REFRESH_COMPLETE_TIME = 4000;
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0 :
-                    swipeRefreshLayout.setRefreshing(false);
-                    readSkinDate();
-                    recycleAdapter.notifyDataSetChanged();
-                    break;
-                default:break;
-            }
-        }
-    };
+    private HeroD heroes;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_skin_fragment, container, false);
-
-        readSkinDate();
-
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.skin_swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
         swipeRefreshLayout.setOnRefreshListener(this);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skin_recycler_view);
-
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skin_recycler_view);
+        heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
+        dataList.clear();
+        dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SkinD.class));
         recycleAdapter = new SkinRecyclerViewAdapter(getActivity(), dataList);
-
         recycleAdapter.setOnItemClickListener(this);
-
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
@@ -77,7 +63,6 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
         //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         return view;
     }
 
@@ -86,21 +71,35 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
 
     }
 
-    private void readSkinDate() {
-        Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(getActivity());
-        List<Skin> list = palm300heroesDB.loadSkin();
-        dataList.clear();
-        Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
-        for (Skin skin : list) {
-            if (skin.getHero().equals(heroes.getName())) {
-                dataList.add(skin);
-            }
-        }
-    }
 
     @Override
     public void onRefresh() {
-        Util.initHeroData(getActivity(), 3);
-        handler.sendEmptyMessageDelayed(0, REFRESH_COMPLETE_TIME);
+        String skinAddress = "http://og0oucran.bkt.clouddn.com/skin.json";
+        HttpUtil.sendOkHttpRequest(skinAddress, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getActivity(),"刷新失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                DBUtil.saveSkin(Util.handleSkinResponse(response.body().string()), DBUtil.UPDATE);
+                dataList.clear();
+                dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SkinD.class));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        recycleAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
 }

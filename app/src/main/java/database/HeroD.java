@@ -1,15 +1,20 @@
-package model.hero;
+package database;
+
+import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
 
 /**
- * Created by NICOLITE on 2016/10/26 0026.
+ * Created by NICOLITE on 2017/3/10 0010.
  */
 
-public class Heroes implements Serializable{
-    private int id;
-    private String name;
-    private String type;
+public class HeroD extends DataSupport implements Serializable{
+    @Column(unique = true)
+    private String heroName;
+    private String heroType;
+    @Column(unique = true)
+    private String UNCode;
     private String background;
     private String avatarUrl;
     private String pictureUrl;
@@ -27,28 +32,28 @@ public class Heroes implements Serializable{
     private String attackRangeValue;
     private String movementSpeedValue;
 
-    public int getId() {
-        return id;
+    public String getHeroName() {
+        return heroName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setHeroName(String heroName) {
+        this.heroName = heroName;
     }
 
-    public String getName() {
-        return name;
+    public String getHeroType() {
+        return heroType;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHeroType(String heroType) {
+        this.heroType = heroType;
     }
 
-    public String getType() {
-        return type;
+    public String getUNCode() {
+        return UNCode;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setUNCode(String UNCode) {
+        this.UNCode = UNCode;
     }
 
     public String getBackground() {

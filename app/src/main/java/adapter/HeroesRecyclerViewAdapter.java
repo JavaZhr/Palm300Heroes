@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
-import model.hero.Heroes;
+import database.HeroD;
 
 /**
  * Created by NICOLITE on 2016/10/30 0030.
@@ -23,11 +24,11 @@ import model.hero.Heroes;
 
 public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private List<Heroes> dataList;
+    private List<HeroD> dataList;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
 
-    public HeroesRecyclerViewAdapter(Context context, List<Heroes> dataList) {
+    public HeroesRecyclerViewAdapter(Context context, List<HeroD> dataList) {
         this.context = context;
         this.dataList = dataList;
         inflater = LayoutInflater.from(context);
@@ -73,21 +74,21 @@ public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         final ViewHolder viewHolder = (ViewHolder) holder;
-        Heroes heroes = dataList.get(position);
+        HeroD heroes = dataList.get(holder.getAdapterPosition());
        /* LogUtil.d("onBindViewHolder", "HeroesDName : " + heroes.getName());
         LogUtil.d("onBindViewHolder", "avatarUrl : " + dataList.get(position).getAvatarUrl());*/
         Glide
                 .with(context)
-                .load(heroes.getAvatarUrl())
+                .load("http://ogbna06ji.bkt.clouddn.com/heroes/avatar/" + Uri.encode(heroes.getAvatarUrl()))
                 .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getHeroesAvatar());
 
-        viewHolder.getHeroesName().setText(heroes.getName());
-        viewHolder.getHeroesType().setText("定位：" + heroes.getType());
+        viewHolder.getHeroesName().setText(heroes.getHeroName());
+        viewHolder.getHeroesType().setText("定位：" + heroes.getHeroType());
         viewHolder.getHeroesCoinsPrice().setText("金币：" + heroes.getCoinsPrice());
         viewHolder.getHeroesDiamondPrice().setText("钻石：" + heroes.getDiamondPrice());
 

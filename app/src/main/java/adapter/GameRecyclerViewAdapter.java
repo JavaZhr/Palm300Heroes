@@ -25,7 +25,7 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
     public GameRecyclerViewAdapter(Context context, List<String> dataList) {
         this.context = context;
         this.dataList = dataList;
-        inflater = inflater.from(context);
+        inflater = LayoutInflater.from(context);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,10 +54,10 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
 
-        viewHolder.getGameSelectorName().setText(dataList.get(position));
+        viewHolder.getGameSelectorName().setText(dataList.get(holder.getAdapterPosition()));
         viewHolder.getGameSelectorHint().setText("");
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

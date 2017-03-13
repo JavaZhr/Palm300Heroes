@@ -1,10 +1,10 @@
-package activity;
+package cn.nicolite.palm300heroes;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,13 +20,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.litepal.crud.DataSupport;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.nicolite.palm300heroes.R;
-import database.Palm300heroesDB;
+import database.SearchHistoryD;
 import model.recordLogger.Role;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import util.HttpUtil;
 import util.Util;
 
 
@@ -51,25 +59,14 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.record_logger_role_rank) Button roleRank;
 
     @BindView(R.id.search_history_lv) ListView searchListView;
-    @BindView(R.id.search_history_ll) LinearLayout serchListLayout;
+    @BindView(R.id.search_history_ll) LinearLayout searchListLayout;
     @BindView(R.id.clear_history_btn) Button clearHistoryBtn;
 
-    private List<Role> dataList;
-    private Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(this);
-    private List<String> historyList = palm300heroesDB.loadRecentSearch();
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0 :
-                    initView();
-                    break;
-                default: break;
-            }
-        }
-    };
+    private List<Role> dataList = new ArrayList<>();
+    private List<SearchHistoryD> historyList = new ArrayList<>();
+    private  ArrayAdapter<SearchHistoryD> arrayAdapter;
+    private ProgressDialog progressDialog;
 
-    private  ArrayAdapter<String> arrayAdapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +104,7 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
                 baseDate.setVisibility(View.GONE);
                 matchList.setVisibility(View.GONE);
                 roleRank.setVisibility(View.GONE);
-                serchListLayout.setVisibility(View.VISIBLE);
+                searchListLayout.setVisibility(View.VISIBLE);
                 return false;
     }
 });
@@ -122,37 +119,57 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        String code = roleNameInput.getText().toString();
+        String roleName = roleNameInput.getText().toString();
+        String apiAddress = "http://300report.jumpw.com/api/getrole?name=" + Uri.encode(roleName);
         Intent intent;
         switch (v.getId()) {
             case R.id.record_logger_submit :
-                Util.handlerRecordLoggerResponse(this, code, 1);
-                Util.handlerRecordLoggerResponse(this, code, 2);
-                if (!palm300heroesDB.isExistence(code)) {
-                    palm300heroesDB.saveRecentSearch(code);
-                    initData();
-                    arrayAdapter.notifyDataSetChanged();
-                }
-                handler.postDelayed(new Runnable() {
+                showProgressDialog();
+                SearchHistoryD searchHistoryD = new SearchHistoryD();
+                searchHistoryD.setKeyword(roleName);
+                searchHistoryD.saveOrUpdate();
+                HttpUtil.sendOkHttpRequest(apiAddress, new Callback() {
                     @Override
-                    public void run() {
-                        dataList = palm300heroesDB.loadRole();
-                        handler.sendEmptyMessage(0);
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                closeProgressDialog();
+                                Toast.makeText(getApplicationContext(), "查询失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                }, 3000);
-                Toast.makeText(this, "查询中...", Toast.LENGTH_SHORT).show();
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        dataList.clear();
+                        dataList.add(Util.handleRoleResponse(response.body().string()));
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                closeProgressDialog();
+                                updateView();
+                            }
+                        });
+                    }
+                });
+                historyList.clear();
+                historyList = DataSupport.findAll(SearchHistoryD.class);
+                arrayAdapter.notifyDataSetChanged();
                 break;
             case R.id.record_logger_match_list :
-                intent = new Intent(this, LatestMatchActivity.class);
+                intent = new Intent(this, RecentMatchActivity.class);
+                intent.putExtra("role_name", roleName);
                 startActivity(intent);
                 break;
             case R.id.record_logger_role_rank :
                 intent = new Intent(this, RoleRankActivity.class);
+                intent.putExtra("role_data", dataList.get(0));
                 startActivity(intent);
                 break;
             case R.id.clear_history_btn :
-                palm300heroesDB.deleteRecentSearch(null, null);
-                initData();
+                DataSupport.deleteAll(SearchHistoryD.class);
+                dataList.clear();
                 arrayAdapter.notifyDataSetChanged();
                 break;
             default: break;
@@ -164,19 +181,19 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         super.onDestroy();
     }
 
-    private void initView() {
-        if (dataList.size() > 0) {
-            serchListLayout.setVisibility(View.GONE);
+    private void updateView() {
+        if (dataList.size() > 0 && dataList.get(0).Result.equals("OK")) {
+            searchListLayout.setVisibility(View.GONE);
             Role role = dataList.get(0);
             baseDate.setVisibility(View.VISIBLE);
-            updateTime.setText("更新时间：" + role.getUpdateTime());
-            roleName.setText(role.getRoleName());
-            roleLevel.setText("Lv" + role.getRoleLevel());
-            jumpValue.setText("节操值：" + role.getJumpValue());
-            winCount.setText("获胜场次：" + role.getWinCount());
-            matchCount.setText("总场次：" + role.getMatchCount());
+            updateTime.setText("更新时间：" + role.roleInfo.UpdateTime);
+            roleName.setText(role.roleInfo.RoleName);
+            roleLevel.setText("Lv" + role.roleInfo.RoleLevel);
+            jumpValue.setText("节操值：" + role.roleInfo.JumpValue);
+            winCount.setText("获胜场次：" + role.roleInfo.WinCount);
+            matchCount.setText("总场次：" + role.roleInfo.MatchCount);
 
-            double rate = (double)role.getWinCount()/(double)role.getMatchCount();
+            double rate = (double)role.roleInfo.WinCount/(double)role.roleInfo.MatchCount;
             /*BigDecimal b = new BigDecimal(rate);
             rate =   b.setScale(4, RoundingMode.UP).doubleValue();*/
 
@@ -186,27 +203,38 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
 
             matchList.setVisibility(View.VISIBLE);
             roleRank.setVisibility(View.VISIBLE);
-
         }else {
             Toast.makeText(this, "找不到角色信息！", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void initData() {
-        historyList.clear();
-        historyList.addAll(palm300heroesDB.loadRecentSearch());
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        historyList = DataSupport.findAll(SearchHistoryD.class);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, historyList);
         searchListView.setAdapter(arrayAdapter);
         searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                roleNameInput.setText(historyList.get(position));
+                roleNameInput.setText(historyList.get(position).getKeyword());
             }
         });
+    }
+
+    private void showProgressDialog(){
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("查询中...");
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    private void closeProgressDialog() {
+        if (progressDialog != null){
+            progressDialog.dismiss();
+        }
     }
 }

@@ -1,8 +1,10 @@
 package fragment.Heroes.HeroesDetail;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.nicolite.palm300heroes.R;
-import model.hero.Heroes;
+import database.HeroD;
 
 /**
  * Created by NICOLITE on 2016/11/7 0007.
@@ -46,7 +48,7 @@ public class HeroesDataFragment extends Fragment{
     }
 
     private void initView() {
-       Heroes heroes = (Heroes) getActivity().getIntent().getSerializableExtra("heroes_data");
+       HeroD heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
 
         heroesHealthValue.setText("生命值：" + heroes.getHealthValue());
         heroesMagicPointValue.setText("魔法值：" + heroes.getMagicPointValue());
@@ -60,9 +62,13 @@ public class HeroesDataFragment extends Fragment{
         heroesMovementSpeedValue.setText("移动速度：" + heroes.getMovementSpeedValue());
         heroesBackground.setText(heroes.getBackground());
 
+        String pictureUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/picture/" + Uri.encode(heroes.getPictureUrl());
+        if (TextUtils.isEmpty(heroes.getPictureUrl())) {
+            pictureUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/picture/undefined.jpg";
+        }
         Glide
                 .with(getActivity())
-                .load(heroes.getPictureUrl())
+                .load(pictureUrl)
                 .skipMemoryCache(true)
                 .dontAnimate()
                 .into(heroesImageView);

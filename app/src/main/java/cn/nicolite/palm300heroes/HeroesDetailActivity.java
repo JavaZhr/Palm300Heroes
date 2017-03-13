@@ -1,4 +1,4 @@
-package activity;
+package cn.nicolite.palm300heroes;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,12 +19,11 @@ import java.util.List;
 import adapter.FragAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.nicolite.palm300heroes.R;
+import database.HeroD;
 import fragment.Heroes.HeroesDetail.HeroesDataFragment;
 import fragment.Heroes.HeroesDetail.HeroesSkillFragment;
 import fragment.Heroes.HeroesDetail.HeroesSkinFragment;
 import fragment.Heroes.HeroesDetail.HeroesSoundFragment;
-import model.hero.Heroes;
 import util.LogUtil;
 
 /**
@@ -32,7 +31,7 @@ import util.LogUtil;
  */
 
 public class HeroesDetailActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    private Heroes heroes;
+    private HeroD heroes;
     @BindView(R.id.heroes_detail_name) TextView heroesDetailName;
     @BindView(R.id.heroes_detail_type) TextView heroesDetailType;
 
@@ -75,11 +74,11 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
 
         ButterKnife.bind(this);
 
-        heroes = (Heroes) getIntent().getSerializableExtra("heroes_data");
-        LogUtil.d("heroesDetailActivity", heroes.getName());
+        heroes = (HeroD) getIntent().getSerializableExtra("heroes_data");
+        LogUtil.d("heroesDetailActivity", heroes.getHeroName());
 
-        heroesDetailName.setText(heroes.getName());
-        heroesDetailType.setText(heroes.getType());
+        heroesDetailName.setText(heroes.getHeroName());
+        heroesDetailType.setText(heroes.getHeroType());
         heroesDataButton.setOnClickListener(this);
         heroesSkillButton.setOnClickListener(this);
         heroesSkinButton.setOnClickListener(this);

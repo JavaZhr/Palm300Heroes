@@ -1,5 +1,6 @@
-package activity;
+package cn.nicolite.palm300heroes;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,14 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.RoleRankRecyclerViewAdapter;
-import cn.nicolite.palm300heroes.R;
-import database.Palm300heroesDB;
-import model.recordLogger.RoleRank;
+import model.recordLogger.Role;
 import other.DividerItemDecoration;
 
 /**
@@ -27,11 +25,8 @@ import other.DividerItemDecoration;
  */
 
 public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
-    private RecyclerView recyclerView;
     private RoleRankRecyclerViewAdapter recyclerAdapter;
-
-    private Palm300heroesDB palm300heroesDB = Palm300heroesDB.getInstance(this);
-    private List<RoleRank> dataList = new ArrayList<>();
+    private List<Role.Rank> dataList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,17 +48,13 @@ public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyc
         }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-
         setContentView(R.layout.role_rank_layout);
 
-        dataList = palm300heroesDB.loadRoleRank();
-
-        recyclerView = (RecyclerView) findViewById(R.id.role_rank_recycler_view);
-
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.role_rank_recycler_view);
+        Role role = (Role) getIntent().getSerializableExtra("role_data");
+        dataList = role.Rank;
         recyclerAdapter = new RoleRankRecyclerViewAdapter(this, dataList);
-
         recyclerAdapter.setOnItemClickListener(this);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         //设置布局管理器
         recyclerView.setLayoutManager(layoutManager);

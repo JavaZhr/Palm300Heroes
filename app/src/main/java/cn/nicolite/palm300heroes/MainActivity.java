@@ -2,9 +2,11 @@ package cn.nicolite.palm300heroes;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.WindowManager;
 
@@ -14,19 +16,15 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import fragment.AboutFragment;
 import fragment.GameFragment;
 import fragment.HeroesFragment;
-import fragment.NewsFragment;
 import util.LogUtil;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     int lastSelectedPosition = 0; //底部菜单栏默认选中
-
     /*Fragment类*/
-    private NewsFragment newsFragment;
     private HeroesFragment heroesFragment;
     private GameFragment gameFragment;
     private AboutFragment aboutFragment;
-    private ActionBar actionBar;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
         setContentView(R.layout.bottom_navigation_bar);
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private void setDefaultFragment() {
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
-        if (newsFragment == null) {
+        if (heroesFragment == null) {
                     /*如果NewsFragment为空，则创建一个*/
             heroesFragment = new HeroesFragment();
             //actionBar.setTitle("资讯");
@@ -82,19 +80,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         /*先隐藏所有的Fragment，防止多个Fragment显示在界面上*/
         hideFragments(transaction);
         switch (position) {
-           /* case 0 :
-                //点击资讯
-                LogUtil.d("BottomNavigationBar", "点击了资讯");
-                //actionBar.setTitle("资讯");
-                if (newsFragment == null) {
-                    //如果NewsFragment为空，则创建一个
-                    newsFragment = new NewsFragment();
-                    transaction.add(R.id.content, newsFragment);
-                }else {
-                    //如果不为空，则直接显示出来
-                    transaction.show(newsFragment);
-                }
-                break;*/
             case 0 :
                 /*点击英雄*/
                 LogUtil.d("BottomNavigationBar", "点击了英雄");
@@ -160,9 +145,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * 用于对Fragment执行事务操作
      */
     private void hideFragments(FragmentTransaction transaction) {
-      /* if (newsFragment != null) {
-            transaction.hide(newsFragment);
-        }*/
         if (heroesFragment != null) {
             transaction.hide(heroesFragment);
         }
@@ -172,5 +154,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         if (aboutFragment != null) {
             transaction.hide(aboutFragment);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            moveTaskToBack(false);
+        }
+        return true;
     }
 }

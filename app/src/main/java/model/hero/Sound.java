@@ -1,44 +1,26 @@
 package model.hero;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
- * Created by NICOLITE on 2016/10/26 0026.
+ * Created by NICOLITE on 2017/3/10 0010.
  */
 
 public class Sound {
-    private int id;
-    private String hero;
-    private String url;
-    private String content;
+    public String status;
+    @SerializedName("info")
+    public List<SoundInfo> soundInfoList;
 
-    public int getId() {
-        return id;
-    }
+    public class SoundInfo {
+        public String hero;
+        @SerializedName("sound")
+        public List<SoundItem> soundItemList;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getHero() {
-        return hero;
-    }
-
-    public void setHero(String hero) {
-        this.hero = hero;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+        public class SoundItem {
+            public String url;
+            public String content;
+        }
     }
 }
