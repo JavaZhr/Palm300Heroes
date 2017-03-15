@@ -4,13 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -35,7 +35,8 @@ import fragment.HeroesFragment;
 import util.LogUtil;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
-
+    @BindView(R.id.main_drawer_layout)
+    DrawerLayout drawerLayout;
     int lastSelectedPosition = 0; //底部菜单栏默认选中
     /*Fragment类*/
     private HeroesFragment heroesFragment;
@@ -156,7 +157,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            moveTaskToBack(false);
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+                drawerLayout.closeDrawers();
+            }else {
+                moveTaskToBack(false);
+            }
         }
         return true;
     }

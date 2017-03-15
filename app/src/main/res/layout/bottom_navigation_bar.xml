@@ -15,6 +15,7 @@
         </com.ashokvarma.bottomnavigation.BottomNavigationBar>
     </LinearLayout>
     <android.support.v4.widget.DrawerLayout
+        android:id="@+id/main_drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_bar_layout">
