@@ -51,12 +51,10 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -69,9 +67,7 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-
         setContentView(R.layout.heroes_detail_activity);
-
         ButterKnife.bind(this);
 
         heroes = (HeroD) getIntent().getSerializableExtra("heroes_data");

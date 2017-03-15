@@ -63,7 +63,7 @@ public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.latest_matchrecycleview_layout, parent, false);
+        View view = inflater.inflate(R.layout.recent_matchrecycleview_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -98,7 +98,7 @@ public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(viewHolder.itemView, position);
+                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
                 }
             });
         }

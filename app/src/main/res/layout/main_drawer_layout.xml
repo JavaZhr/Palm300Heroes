@@ -19,4 +19,12 @@
             android:paddingBottom="14dp"
             android:paddingTop="0dp"/>
     </RelativeLayout>
+
+    <ListView
+        android:id="@+id/drawer_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+    </ListView>
 </LinearLayout>

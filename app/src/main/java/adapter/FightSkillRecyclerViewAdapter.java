@@ -75,7 +75,7 @@ public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClicikListener.OnItemClick(viewHolder.itemView, position);
+                    onItemClicikListener.OnItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
                 }
             });
         }

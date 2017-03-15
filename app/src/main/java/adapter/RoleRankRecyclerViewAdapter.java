@@ -84,7 +84,7 @@ public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(viewHolder.itemView, position);
+                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
                 }
             });
         }

@@ -62,7 +62,7 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder, holder.getAdapterPosition());
+                    onItemClickListener.onItemClick(viewHolder.itemView, viewHolder, viewHolder.getAdapterPosition());
                 }
             });
         }

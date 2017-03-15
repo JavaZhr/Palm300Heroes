@@ -40,7 +40,6 @@ public class Util {
             try {
                 JSONObject jsonObject = new JSONObject(response);
                 String hero = jsonObject.toString();
-                LogUtil.d("xx", hero);
                 return new Gson().fromJson(hero, Hero.class);
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -63,8 +63,8 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.clear_history_btn) Button clearHistoryBtn;
 
     private List<Role> dataList = new ArrayList<>();
-    private List<SearchHistoryD> historyList = new ArrayList<>();
-    private  ArrayAdapter<SearchHistoryD> arrayAdapter;
+    private List<String> historyList = new ArrayList<>();
+    private  ArrayAdapter<String> arrayAdapter;
     private ProgressDialog progressDialog;
 
     @Override
@@ -88,11 +88,8 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-
         setContentView(R.layout.record_logger_layout);
-
         ButterKnife.bind(this);
-
         matchList.setOnClickListener(this);
         roleRank.setOnClickListener(this);
         submit.setOnClickListener(this);
@@ -120,42 +117,10 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         String roleName = roleNameInput.getText().toString();
-        String apiAddress = "http://300report.jumpw.com/api/getrole?name=" + Uri.encode(roleName);
         Intent intent;
         switch (v.getId()) {
             case R.id.record_logger_submit :
-                showProgressDialog();
-                SearchHistoryD searchHistoryD = new SearchHistoryD();
-                searchHistoryD.setKeyword(roleName);
-                searchHistoryD.saveOrUpdate();
-                HttpUtil.sendOkHttpRequest(apiAddress, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                closeProgressDialog();
-                                Toast.makeText(getApplicationContext(), "查询失败", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        dataList.clear();
-                        dataList.add(Util.handleRoleResponse(response.body().string()));
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                closeProgressDialog();
-                                updateView();
-                            }
-                        });
-                    }
-                });
-                historyList.clear();
-                historyList = DataSupport.findAll(SearchHistoryD.class);
-                arrayAdapter.notifyDataSetChanged();
+                queryData(roleName);
                 break;
             case R.id.record_logger_match_list :
                 intent = new Intent(this, RecentMatchActivity.class);
@@ -168,9 +133,9 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
                 startActivity(intent);
                 break;
             case R.id.clear_history_btn :
-                DataSupport.deleteAll(SearchHistoryD.class);
-                dataList.clear();
+                historyList.clear();
                 arrayAdapter.notifyDataSetChanged();
+                DataSupport.deleteAll(SearchHistoryD.class);
                 break;
             default: break;
         }
@@ -211,13 +176,13 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        historyList = DataSupport.findAll(SearchHistoryD.class);
+        updateInputHistory();
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, historyList);
         searchListView.setAdapter(arrayAdapter);
         searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                roleNameInput.setText(historyList.get(position).getKeyword());
+                roleNameInput.setText(historyList.get(position));
             }
         });
     }
@@ -236,5 +201,49 @@ public class RecordLoggerActivity extends AppCompatActivity implements View.OnCl
         if (progressDialog != null){
             progressDialog.dismiss();
         }
+    }
+
+    private void updateInputHistory(){
+        List<SearchHistoryD> list =DataSupport.findAll(SearchHistoryD.class);
+        historyList.clear();
+        for (SearchHistoryD searchHistoryD : list){
+            historyList.add(0,searchHistoryD.getKeyword());
+        }
+        //arrayAdapter.notifyDataSetChanged();
+    }
+
+    private void queryData(String roleName) {
+        String apiAddress = "http://300report.jumpw.com/api/getrole?name=" + Uri.encode(roleName);
+        showProgressDialog();
+        SearchHistoryD searchHistoryD = new SearchHistoryD();
+        searchHistoryD.setKeyword(roleName);
+        searchHistoryD.save();
+        HttpUtil.sendOkHttpRequest(apiAddress, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialog();
+                        Toast.makeText(getApplicationContext(), "查询失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                dataList.clear();
+                dataList.add(Util.handleRoleResponse(response.body().string()));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeProgressDialog();
+                        updateView();
+                    }
+                });
+            }
+        });
+        updateInputHistory();
+        arrayAdapter.notifyDataSetChanged();
     }
 }

@@ -1,19 +1,35 @@
 package cn.nicolite.palm300heroes;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.pgyersdk.feedback.PgyFeedback;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
-import fragment.AboutFragment;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import fragment.GameFragment;
 import fragment.HeroesFragment;
 import util.LogUtil;
@@ -24,10 +40,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     /*Fragment类*/
     private HeroesFragment heroesFragment;
     private GameFragment gameFragment;
-    private AboutFragment aboutFragment;
-
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
+    @BindView(R.id.bottom_navigation_bar)
+    BottomNavigationBar bottomNavigationBar;
+    @BindView(R.id.drawer_list_view)
+    ListView listView;
+    private List<String> dataList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,27 +55,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(true);
         setContentView(R.layout.bottom_navigation_bar);
-
-        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        ButterKnife.bind(this);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar
                 //.addItem(new BottomNavigationItem(R.drawable.ic_home_white_24dp, "资讯"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_book_white_24dp, "英雄"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_game_asset_white_24dp, "游戏"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_favorite_white_24dp, "关于"))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
         hideFragments(transaction);
         setDefaultFragment();
-    }
+        dataList.add("问题反馈");
+        dataList.add("检查更新");
+        dataList.add("关于");
+        }
     private void setDefaultFragment() {
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
@@ -106,27 +125,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     transaction.show(gameFragment);
                 }
                 break;
-            case 2 :
-                /*点击关于*/
-                LogUtil.d("BottomNavigationBar", "点击了关于");
-                //actionBar.setTitle("关于");
-                if (aboutFragment== null) {
-                   /*如果AboutFragment为空，则创建一个*/
-                    aboutFragment = new AboutFragment();
-                    transaction.add(R.id.content, aboutFragment);
-                }else {
-                    /*如果不为空，则直接显示出来*/
-                    transaction.show(aboutFragment);
-                }
-                break;
-            default:break;
         }
         transaction.commit();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -151,9 +151,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         if (gameFragment != null) {
             transaction.hide(gameFragment);
         }
-        if (aboutFragment != null) {
-            transaction.hide(aboutFragment);
-        }
     }
 
     @Override
@@ -162,5 +159,74 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             moveTaskToBack(false);
         }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataList);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                switch (dataList.get(position)){
+                    case "问题反馈":
+                        PgyFeedback.getInstance().showDialog(MainActivity.this);
+                        break;
+                    case "检查更新":
+                        updateApp();
+                        break;
+                    case "关于":
+                        intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+    }
+
+    private void updateApp(){
+        PgyUpdateManager.register(MainActivity.this, "您自定义provider file值", new UpdateManagerListener() {
+            @Override
+            public void onUpdateAvailable(final String result) {
+                // 将新版本信息封装到AppBean中
+                final AppBean appBean = getAppBeanFromString(result);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("更新 "+ appBean.getVersionName())
+                        .setMessage(appBean.getReleaseNote())
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startDownloadTask(MainActivity.this, appBean.getDownloadURL());
+                            }
+                        })
+                        .setNegativeButton(
+                                "取消",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                        .show();
+            }
+
+            @Override
+            public void onNoUpdateAvailable() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "已经是最新版", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PgyUpdateManager.unregister();
     }
 }

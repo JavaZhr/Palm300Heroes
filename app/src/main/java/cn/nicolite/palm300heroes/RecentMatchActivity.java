@@ -56,7 +56,7 @@ public class RecentMatchActivity extends AppCompatActivity implements RecentMatc
         }
         //透明ActionBar
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        setContentView(R.layout.lastest_match_layout);
+        setContentView(R.layout.recent_match_layout);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.match_list_recycler_view);
         updateData();
