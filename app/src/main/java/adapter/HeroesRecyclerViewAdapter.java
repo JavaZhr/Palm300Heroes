@@ -83,7 +83,6 @@ public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
         Glide
                 .with(context)
                 .load("http://ogbna06ji.bkt.clouddn.com/heroes/avatar/" + Uri.encode(heroes.getAvatarUrl()))
-                .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getHeroesAvatar());
 

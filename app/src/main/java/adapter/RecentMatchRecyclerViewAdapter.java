@@ -86,7 +86,6 @@ public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter {
         Glide
                 .with(context)
                 .load("http://300report.jumpw.com/static/images/" + matchList.hero.IconFile)
-                .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getHeadPic());
 

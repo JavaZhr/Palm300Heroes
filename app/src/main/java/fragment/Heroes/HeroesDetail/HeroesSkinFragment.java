@@ -34,23 +34,17 @@ import util.Util;
  * Created by NICOLITE on 2016/11/7 0007.
  */
 
-public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
-    private SkinRecyclerViewAdapter recycleAdapter;
+public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdapter.OnItemClickListener{
     private List<SkinD> dataList = new ArrayList<>();
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private HeroD heroes;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_skin_fragment, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.skin_swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
-        swipeRefreshLayout.setOnRefreshListener(this);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skin_recycler_view);
-        heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
-        dataList.clear();
+        HeroD heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
         dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SkinD.class));
-        recycleAdapter = new SkinRecyclerViewAdapter(getActivity(), dataList);
+        SkinRecyclerViewAdapter recycleAdapter = new SkinRecyclerViewAdapter(getActivity(), dataList);
         recycleAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
@@ -69,37 +63,5 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
     @Override
     public void onItemClick(View view, int position) {
 
-    }
-
-
-    @Override
-    public void onRefresh() {
-        String skinAddress = "http://og0oucran.bkt.clouddn.com/skin.json";
-        HttpUtil.sendOkHttpRequest(skinAddress, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(getActivity(),"刷新失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                DBUtil.saveSkin(Util.handleSkinResponse(response.body().string()), DBUtil.UPDATE);
-                dataList.clear();
-                dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SkinD.class));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        recycleAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
     }
 }

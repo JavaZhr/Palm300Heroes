@@ -1,6 +1,5 @@
 package cn.nicolite.palm300heroes;
 
-import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import other.DividerItemDecoration;
  */
 
 public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
-    private RoleRankRecyclerViewAdapter recyclerAdapter;
     private List<Role.Rank> dataList = new ArrayList<>();
 
     @Override
@@ -52,8 +50,10 @@ public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyc
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.role_rank_recycler_view);
         Role role = (Role) getIntent().getSerializableExtra("role_data");
-        dataList = role.Rank;
-        recyclerAdapter = new RoleRankRecyclerViewAdapter(this, dataList);
+        if (role.Rank != null){
+            dataList.addAll(role.Rank);
+        }
+        RoleRankRecyclerViewAdapter recyclerAdapter = new RoleRankRecyclerViewAdapter(this, dataList);
         recyclerAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         //设置布局管理器

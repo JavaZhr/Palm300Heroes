@@ -38,25 +38,20 @@ import static android.media.AudioManager.STREAM_MUSIC;
  * Created by NICOLITE on 2016/11/7 0007.
  */
 
-public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
-    private SoundRecyclerViewAdapter recycleAdapter;
+public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAdapter.OnItemClickListener{
     private List<SoundD> dataList = new ArrayList<>();
     private MediaPlayer mediaPlayer;
     private SoundRecyclerViewAdapter.ViewHolder oldViewHolder;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private HeroD heroes;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R. layout.heroes_detail_sound_fragment, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sound_swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.orange));
-        swipeRefreshLayout.setOnRefreshListener(this);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_sound_recycler_view);
-        heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
+        HeroD heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
         dataList.clear();
         dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SoundD.class));
-        recycleAdapter = new SoundRecyclerViewAdapter(getActivity(), dataList);
+        SoundRecyclerViewAdapter recycleAdapter = new SoundRecyclerViewAdapter(getActivity(), dataList);
         recycleAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
@@ -136,37 +131,6 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
     public void onDestroy() {
         super.onDestroy();
         destroyMediaPlay();
-    }
-
-    @Override
-    public void onRefresh() {
-        String soundAddress = "http://og0oucran.bkt.clouddn.com/sound.json";
-        HttpUtil.sendOkHttpRequest(soundAddress, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(getActivity(),"刷新失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                DBUtil.saveSound(Util.handleSoundResponse(response.body().string()), DBUtil.UPDATE);
-                dataList.clear();
-                dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SoundD.class));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        recycleAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
     }
 
 }

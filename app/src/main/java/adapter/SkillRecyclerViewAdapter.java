@@ -89,7 +89,6 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
         Glide
                 .with(context)
                 .load("http://ogbna06ji.bkt.clouddn.com/heroes/skill/" + Uri.encode(skill.getPictureUrl()))
-                .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getSkillPicture());
 

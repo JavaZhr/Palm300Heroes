@@ -18,7 +18,7 @@ public class Role implements Serializable{
 
     public class RoleInfo implements Serializable{
         public String RoleName;
-        public int RoleID;
+        public long RoleID;
         public int RoleLevel;
         public int JumpValue;
         public int WinCount;

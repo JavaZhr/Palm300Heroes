@@ -66,7 +66,6 @@ public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
         Glide
                 .with(context)
                 .load("http://ogbna06ji.bkt.clouddn.com/heroes/fightSkill/" + Uri.encode(fightSkill.picture))
-                .thumbnail(0.1f)
                 .dontAnimate()
                 .into(viewHolder.getFightSkillPic());
 

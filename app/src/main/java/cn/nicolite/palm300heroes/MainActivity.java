@@ -2,6 +2,8 @@ package cn.nicolite.palm300heroes;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar.setTabSelectedListener(this);
         hideFragments(transaction);
         setDefaultFragment();
+        dataList.add("更新数据");
         dataList.add("问题反馈");
         dataList.add("检查更新");
         dataList.add("关于");
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             //actionBar.setTitle("资讯");
             transaction.add(R.id.content, heroesFragment);
         }else {
-                    /*如果不为空，则直接显示出来*/
+            /*如果不为空，则直接显示出来*/
             transaction.show(heroesFragment);
         }
         transaction.commit();
@@ -176,6 +179,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
                 switch (dataList.get(position)){
+                    case "更新数据":
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setMessage("更新数据需要重启应用")
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                                        editor.putString("load","");
+                                        editor.apply();
+                                        Intent splashActivity = new Intent(getApplicationContext(), SplashActivity.class);
+                                        startActivity(splashActivity);
+                                        finish();
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .show();
+                        break;
                     case "问题反馈":
                         PgyFeedback.getInstance().showDialog(MainActivity.this);
                         break;
