@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.nicolite.palm300heroes.R;
@@ -16,7 +15,7 @@ import cn.nicolite.palm300heroes.R;
  * Created by NICOLITE on 2017/2/5 0005.
  */
 
-public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
+public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<String> dataList;
     private OnItemClickListener onItemClickListener = null;
@@ -48,14 +47,14 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.game_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
 
         viewHolder.getGameSelectorName().setText(dataList.get(holder.getAdapterPosition()));
         viewHolder.getGameSelectorHint().setText("");

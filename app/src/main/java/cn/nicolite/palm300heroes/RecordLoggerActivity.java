@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,7 @@ import util.Util;
  * Created by NICOLITE on 2017/2/5 0005.
  */
 
-public class RecordLoggerActivity extends AppCompatActivity implements View.OnClickListener{
+public class RecordLoggerActivity extends BaseActivity implements View.OnClickListener{
     @BindView(R.id.record_logger_input) EditText roleNameInput;
     @BindView(R.id.record_logger_submit) Button submit;
 

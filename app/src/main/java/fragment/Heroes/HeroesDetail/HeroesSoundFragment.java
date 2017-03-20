@@ -49,8 +49,7 @@ public class HeroesSoundFragment extends Fragment implements SoundRecyclerViewAd
         View view = inflater.inflate(R. layout.heroes_detail_sound_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_sound_recycler_view);
         HeroD heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
-        dataList.clear();
-        dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SoundD.class));
+        dataList = DataSupport.where("hero = ?", heroes.getHeroName()).find(SoundD.class);
         SoundRecyclerViewAdapter recycleAdapter = new SoundRecyclerViewAdapter(getActivity(), dataList);
         recycleAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

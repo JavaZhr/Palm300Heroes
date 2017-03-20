@@ -37,6 +37,7 @@
         <mapping class="database.SkinD"/>
         <mapping class="database.SoundD"/>
         <mapping class="database.SearchHistoryD"/>
+        <mapping class="database.FightSkillD"/>
     </list>
 
     <!--

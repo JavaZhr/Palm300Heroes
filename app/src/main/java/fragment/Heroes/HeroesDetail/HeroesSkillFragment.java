@@ -42,8 +42,7 @@ public class HeroesSkillFragment extends Fragment implements SkillRecyclerViewAd
         View view = inflater.inflate(R. layout.heroes_detail_skill_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skill_recycler_view);
         HeroD heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
-        dataList.clear();
-        dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SkillD.class));
+        dataList = DataSupport.where("hero = ?", heroes.getHeroName()).find(SkillD.class);
         SkillRecyclerViewAdapter recycleAdapter = new SkillRecyclerViewAdapter(getActivity(), dataList);
         recycleAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

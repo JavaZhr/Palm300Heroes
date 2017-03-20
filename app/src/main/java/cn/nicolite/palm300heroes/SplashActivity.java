@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,7 +19,7 @@ import okhttp3.Response;
 import util.HttpUtil;
 import util.Util;
 
-public class SplashActivity extends AppCompatActivity{
+public class SplashActivity extends BaseActivity{
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.progress_message)
@@ -29,6 +28,7 @@ public class SplashActivity extends AppCompatActivity{
     private String skillAddress = "http://og0oucran.bkt.clouddn.com/skill.json";
     private String skinAddress = "http://og0oucran.bkt.clouddn.com/skin.json";
     private String soundAddress = "http://og0oucran.bkt.clouddn.com/sound.json";
+    private String fightSkillAddress = "http://og0oucran.bkt.clouddn.com/fight_skill.json";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +40,21 @@ public class SplashActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String load = preferences.getString("load", null);
         if (TextUtils.isEmpty(preferences.getString("load", null))){
             updateHeroData();
-        }else if (preferences.getString("load", null).equals("1")){
-            progressBar.setProgress(25);
+        }else if (load.equals("1")){
+            progressBar.setProgress(20);
             updateSkillData();
-        }else if (preferences.getString("load", null).equals("2")){
-            progressBar.setProgress(50);
+        }else if (load.equals("2")){
+            progressBar.setProgress(40);
             updateSkinData();
-        }else if (preferences.getString("load", null).equals("3")){
-            progressBar.setProgress(75);
+        }else if (load.equals("3")){
+            progressBar.setProgress(60);
             updateSoundData();
+        }else if (load.equals("4")){
+            progressBar.setProgress(80);
+            updateFightSkillData();
         }else {
             startMainActivity();
         }
@@ -58,7 +62,7 @@ public class SplashActivity extends AppCompatActivity{
 
     private void startMainActivity(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getString("load", null).equals("4")){
+        if (preferences.getString("load", null).equals("5")){
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -74,14 +78,14 @@ public class SplashActivity extends AppCompatActivity{
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                DBUtil.saveHero(Util.handleHeroResponse(response.body().string()), DBUtil.SAVE);
+                DBUtil.saveHero(Util.handleHeroResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
                         editor.putString("load", "1");
                         editor.apply();
-                        progressBar.setProgress(25);
+                        progressBar.setProgress(20);
                         updateSkillData();
                     }
                 });
@@ -94,22 +98,17 @@ public class SplashActivity extends AppCompatActivity{
         HttpUtil.sendOkHttpRequest(skillAddress, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                DBUtil.saveSkill(Util.handleSkillResponse(response.body().string()), DBUtil.SAVE);
+                DBUtil.saveSkill(Util.handleSkillResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
                         editor.putString("load", "2");
                         editor.apply();
-                        progressBar.setProgress(50);
+                        progressBar.setProgress(40);
                         updateSkinData();
                     }
                 });
@@ -122,22 +121,17 @@ public class SplashActivity extends AppCompatActivity{
         HttpUtil.sendOkHttpRequest(skinAddress, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                DBUtil.saveSkin(Util.handleSkinResponse(response.body().string()), DBUtil.SAVE);
+                DBUtil.saveSkin(Util.handleSkinResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
                         editor.putString("load", "3");
                         editor.apply();
-                        progressBar.setProgress(75);
+                        progressBar.setProgress(60);
                         updateSoundData();
                     }
                 });
@@ -150,20 +144,39 @@ public class SplashActivity extends AppCompatActivity{
         HttpUtil.sendOkHttpRequest(soundAddress, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                DBUtil.saveSound(Util.handleSoundResponse(response.body().string()), DBUtil.SAVE);
+                DBUtil.saveSound(Util.handleSoundResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
                         editor.putString("load", "4");
+                        editor.apply();
+                        progressBar.setProgress(80);
+                        updateFightSkillData();
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateFightSkillData(){
+        progressMessage.setText("正在下载战斗技能数据");
+        HttpUtil.sendOkHttpRequest(fightSkillAddress, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                DBUtil.saveFightSkill(Util.handleFightSkillResponse(response.body().string()));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
+                        editor.putString("load", "5");
                         editor.apply();
                         progressBar.setProgress(100);
                         startMainActivity();

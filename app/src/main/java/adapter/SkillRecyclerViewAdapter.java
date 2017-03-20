@@ -22,7 +22,7 @@ import database.SkillD;
  * Created by NICOLITE on 2016/11/16 0016.
  */
 
-public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
+public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<SkillD> dataList;
     private LayoutInflater inflater;
@@ -73,14 +73,14 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.skill_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
         SkillD skill = dataList.get(holder.getAdapterPosition());
 
        /* LogUtil.d("onBindViewHolder", "HeroesDName : " + skill.getName());

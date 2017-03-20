@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -30,8 +29,7 @@ import util.LogUtil;
  * Created by NICOLITE on 2016/11/4 0004.
  */
 
-public class HeroesDetailActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    private HeroD heroes;
+public class HeroesDetailActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     @BindView(R.id.heroes_detail_name) TextView heroesDetailName;
     @BindView(R.id.heroes_detail_type) TextView heroesDetailType;
 
@@ -70,7 +68,7 @@ public class HeroesDetailActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.heroes_detail_activity);
         ButterKnife.bind(this);
 
-        heroes = (HeroD) getIntent().getSerializableExtra("heroes_data");
+        HeroD heroes = (HeroD) getIntent().getSerializableExtra("heroes_data");
         LogUtil.d("heroesDetailActivity", heroes.getHeroName());
 
         heroesDetailName.setText(heroes.getHeroName());

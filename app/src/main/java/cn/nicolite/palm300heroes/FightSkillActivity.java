@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,20 +12,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FightSkillRecyclerViewAdapter;
-import model.FightSkill;
-import util.Util;
+import database.FightSkillD;
 
 /**
  * Created by NICOLITE on 2017/2/13 0013.
  */
 
-public class FightSkillActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private FightSkillRecyclerViewAdapter adapter;
-    private List<FightSkill.FightSkillInfo> dataList;
+public class FightSkillActivity extends BaseActivity {
+    private List<FightSkillD> dataList = new ArrayList<>();
     private TextView fightSkillContent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,17 +49,17 @@ public class FightSkillActivity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         setContentView(R.layout.fight_skill_layout);
 
-        dataList = Util.getFightSkill(this).fightSkillInfoList;
-        recyclerView = (RecyclerView) findViewById(R.id.fight_skill_recycler_view);
-        adapter = new FightSkillRecyclerViewAdapter(this, dataList);
+        dataList = DataSupport.findAll(FightSkillD.class);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.fight_skill_recycler_view);
+        FightSkillRecyclerViewAdapter adapter = new FightSkillRecyclerViewAdapter(this, dataList);
 
         fightSkillContent = (TextView) findViewById(R.id.fight_skill_content);
 
         recyclerView.setAdapter(adapter);
-        adapter.setItemOnClickListener(new FightSkillRecyclerViewAdapter.OnItemClicikListener() {
+        adapter.setItemOnClickListener(new FightSkillRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int postion) {
-                fightSkillContent.setText(Html.fromHtml(dataList.get(postion).content));
+                fightSkillContent.setText(Html.fromHtml(dataList.get(postion).getContent()));
             }
         });
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 5);

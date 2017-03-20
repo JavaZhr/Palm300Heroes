@@ -22,7 +22,7 @@ import database.SkinD;
  * Created by NICOLITE on 2016/11/25 0025.
  */
 
-public class SkinRecyclerViewAdapter extends RecyclerView.Adapter {
+public class SkinRecyclerViewAdapter extends RecyclerView.Adapter<SkinRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<SkinD> dataList;
     private LayoutInflater inflater;
@@ -56,14 +56,14 @@ public class SkinRecyclerViewAdapter extends RecyclerView.Adapter {
         }
     }
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.skin_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
         SkinD skin = dataList.get(holder.getAdapterPosition());
 
         Glide

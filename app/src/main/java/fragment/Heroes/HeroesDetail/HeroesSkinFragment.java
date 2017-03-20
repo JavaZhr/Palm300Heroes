@@ -43,7 +43,7 @@ public class HeroesSkinFragment extends Fragment implements SkinRecyclerViewAdap
         View view = inflater.inflate(R. layout.heroes_detail_skin_fragment, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.heroes_skin_recycler_view);
         HeroD heroes = (HeroD) getActivity().getIntent().getSerializableExtra("heroes_data");
-        dataList.addAll(DataSupport.where("hero = ?", heroes.getHeroName()).find(SkinD.class));
+        dataList = DataSupport.where("hero = ?", heroes.getHeroName()).find(SkinD.class);
         SkinRecyclerViewAdapter recycleAdapter = new SkinRecyclerViewAdapter(getActivity(), dataList);
         recycleAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

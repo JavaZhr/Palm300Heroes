@@ -19,7 +19,7 @@ import database.SoundD;
  * Created by NICOLITE on 2016/11/25 0025.
  */
 
-public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
+public class SoundRecyclerViewAdapter extends RecyclerView.Adapter<SoundRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<SoundD> dataList;
     private LayoutInflater inflater;
@@ -48,14 +48,14 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
         }
     }
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.sound_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
         SoundD sound = dataList.get(holder.getAdapterPosition());
         viewHolder.getSoundContent().setText(sound.getContent());
         if (onItemClickListener != null) {
@@ -81,5 +81,4 @@ public class SoundRecyclerViewAdapter extends RecyclerView.Adapter {
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
     }
-
 }

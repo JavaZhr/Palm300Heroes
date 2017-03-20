@@ -16,17 +16,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
-import model.FightSkill;
+import database.FightSkillD;
 
 /**
  * Created by NICOLITE on 2017/2/14 0014.
  */
 
-public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
+public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter<FightSkillRecyclerViewAdapter.ViewHolder> {
     private Context context;
-    private List<FightSkill.FightSkillInfo> dataList;
+    private List<FightSkillD> dataList;
     private LayoutInflater inflater;
-    private OnItemClicikListener onItemClicikListener;
+    private OnItemClickListener onItemClickListener;
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.fight_skill_pic)
         ImageView fightSkillPic;
@@ -46,35 +46,35 @@ public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public FightSkillRecyclerViewAdapter(Context context, List<FightSkill.FightSkillInfo> dataList) {
+    public FightSkillRecyclerViewAdapter(Context context, List<FightSkillD> dataList) {
         this.context = context;
         this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.fight_skill_recycler_view, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
-        FightSkill.FightSkillInfo fightSkill = dataList.get(holder.getAdapterPosition());
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
+        FightSkillD fightSkillD = dataList.get(holder.getAdapterPosition());
 
         Glide
                 .with(context)
-                .load("http://ogbna06ji.bkt.clouddn.com/heroes/fightSkill/" + Uri.encode(fightSkill.picture))
+                .load("http://ogbna06ji.bkt.clouddn.com/heroes/fightSkill/" + Uri.encode(fightSkillD.getPicture()))
                 .dontAnimate()
                 .into(viewHolder.getFightSkillPic());
 
-        viewHolder.getFightSkillText().setText(fightSkill.name);
-        if (onItemClicikListener != null) {
+        viewHolder.getFightSkillText().setText(fightSkillD.getName());
+        if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClicikListener.OnItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
+                    onItemClickListener.OnItemClick(viewHolder.itemView, viewHolder.getAdapterPosition());
                 }
             });
         }
@@ -85,11 +85,11 @@ public class FightSkillRecyclerViewAdapter extends RecyclerView.Adapter {
         return dataList.size();
     }
 
-    public interface OnItemClicikListener{
+    public interface OnItemClickListener {
         void OnItemClick(View view, int postion);
     }
 
-    public void setItemOnClickListener(OnItemClicikListener onItemClicikListener){
-        this.onItemClicikListener = onItemClicikListener;
+    public void setItemOnClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 }

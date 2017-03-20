@@ -1,12 +1,12 @@
 package cn.nicolite.palm300heroes;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -32,7 +32,7 @@ import util.Util;
  * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class RecentMatchActivity extends AppCompatActivity implements RecentMatchRecyclerViewAdapter.OnItemClickListener{
+public class RecentMatchActivity extends BaseActivity implements RecentMatchRecyclerViewAdapter.OnItemClickListener{
     private RecentMatchRecyclerViewAdapter adapter;
     private List<RecentMatchList.MatchList> dataList = new ArrayList<>();
     private ProgressDialog progressDialog;
@@ -83,7 +83,9 @@ public class RecentMatchActivity extends AppCompatActivity implements RecentMatc
 
     @Override
     public void onItemClick(View view, int position) {
-
+        /*Intent intent = new Intent(this, MatchDetailActivity.class);
+        intent.putExtra("match_id", dataList.get(position).MatchID);
+        startActivity(intent);*/
     }
 
     private void updateData(){

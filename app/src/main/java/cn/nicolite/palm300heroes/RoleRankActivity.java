@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -23,7 +22,7 @@ import other.DividerItemDecoration;
  * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class RoleRankActivity extends AppCompatActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
+public class RoleRankActivity extends BaseActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
     private List<Role.Rank> dataList = new ArrayList<>();
 
     @Override

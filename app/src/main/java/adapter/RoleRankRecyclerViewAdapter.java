@@ -19,7 +19,7 @@ import model.recordLogger.Role;
  * Created by NICOLITE on 2017/2/6 0006.
  */
 
-public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
+public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter<RoleRankRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<Role.Rank> dataList;
     private LayoutInflater inflater;
@@ -59,14 +59,14 @@ public class RoleRankRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.role_rank_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
         String info;
         Role.Rank roleRank = dataList.get(holder.getAdapterPosition());
 

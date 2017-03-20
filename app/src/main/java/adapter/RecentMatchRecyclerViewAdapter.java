@@ -22,7 +22,7 @@ import model.recordLogger.RecentMatchList;
  * Created by NICOLITE on 2017/2/7 0007.
  */
 
-public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter {
+public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter<RecentMatchRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<RecentMatchList.MatchList> dataList;
     private LayoutInflater inflater;
@@ -62,14 +62,14 @@ public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.recent_matchrecycleview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
         RecentMatchList.MatchList matchList = dataList.get(holder.getAdapterPosition());
 
         String result = "<font  color='#79FF79'>" + "失败" + "</font>";
@@ -102,6 +102,7 @@ public class RecentMatchRecyclerViewAdapter extends RecyclerView.Adapter {
             });
         }
     }
+
 
     @Override
     public int getItemCount() {

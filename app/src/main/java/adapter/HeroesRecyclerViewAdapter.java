@@ -22,7 +22,7 @@ import database.HeroD;
  * Created by NICOLITE on 2016/10/30 0030.
  */
 
-public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
+public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter<HeroesRecyclerViewAdapter.ViewHolder> {
     private Context context;
     private List<HeroD> dataList;
     private LayoutInflater inflater;
@@ -68,15 +68,14 @@ public class HeroesRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.heroes_recyclerview_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final ViewHolder viewHolder = holder;
         HeroD heroes = dataList.get(holder.getAdapterPosition());
        /* LogUtil.d("onBindViewHolder", "HeroesDName : " + heroes.getName());
         LogUtil.d("onBindViewHolder", "avatarUrl : " + dataList.get(position).getAvatarUrl());*/

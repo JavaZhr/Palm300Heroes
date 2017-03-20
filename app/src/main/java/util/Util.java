@@ -31,7 +31,6 @@ import model.recordLogger.Role;
  * Created by NICOLITE on 2016/10/15 0015.
  */
 
-
 public class Util {
 
     /*英雄信息部分*/
@@ -90,6 +89,18 @@ public class Util {
         return null;
     }
 
+    public static FightSkill handleFightSkillResponse(String response){
+        if (!TextUtils.isEmpty(response)){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String fightSkill = jsonObject.toString();
+                return new Gson().fromJson(fightSkill, FightSkill.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
     /* 按时间排序*/
     public static Date stringToDate(String date) {
@@ -147,26 +158,6 @@ public class Util {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        return null;
-    }
-    public static FightSkill getFightSkill(Context context) {
-        AssetManager assetManager = context.getAssets();
-        try {
-            InputStreamReader is = new InputStreamReader(assetManager.open("fight_skill.json"), "utf-8");
-            BufferedReader br = new BufferedReader(is);
-            String line;
-            StringBuilder builder = new StringBuilder();
-            while ((line = br.readLine()) != null){
-                builder.append(line);
-            }
-            br.close();
-            is.close();
-            JSONObject jsonObject = new JSONObject(builder.toString());
-            String fightSkill = jsonObject.toString();
-            return new Gson().fromJson(fightSkill, FightSkill.class);
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
         }
         return null;
     }
