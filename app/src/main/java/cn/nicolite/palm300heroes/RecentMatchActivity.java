@@ -53,9 +53,9 @@ public class RecentMatchActivity extends BaseActivity implements RecentMatchRecy
             actionBar.setDisplayShowHomeEnabled(true);
 
             actionBar.setDisplayShowTitleEnabled(false);
+            //透明ActionBar
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         }
-        //透明ActionBar
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         setContentView(R.layout.recent_match_layout);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.match_list_recycler_view);

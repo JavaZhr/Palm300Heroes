@@ -40,7 +40,7 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         if (onItemClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {

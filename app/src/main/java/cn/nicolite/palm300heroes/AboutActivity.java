@@ -1,30 +1,27 @@
 package cn.nicolite.palm300heroes;
 
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.support.v7.widget.Toolbar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AboutActivity extends BaseActivity {
 
+    @BindView(R.id.about_toolbar)
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
+        setContentView(R.layout.activity_about);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("关于");
         }
-        //透明ActionBar
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        setContentView(R.layout.activity_about);
     }
 
     @Override

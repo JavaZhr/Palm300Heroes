@@ -62,9 +62,10 @@ public class HeroesDetailActivity extends BaseActivity implements View.OnClickLi
             actionBar.setDisplayShowHomeEnabled(true);
 
             actionBar.setDisplayShowTitleEnabled(false);
+            //透明ActionBar
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         }
-        //透明ActionBar
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+
         setContentView(R.layout.heroes_detail_activity);
         ButterKnife.bind(this);
 

@@ -46,9 +46,9 @@ public class MatchDetailActivity extends BaseActivity implements MatchDetailRecy
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
+            //透明ActionBar
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         }
-        //透明ActionBar
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         setContentView(R.layout.activity_match_detail);
         ButterKnife.bind(this);
         updateData();
