@@ -1,15 +1,14 @@
 package cn.nicolite.palm300heroes;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
@@ -18,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FightSkillRecyclerViewAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import database.FightSkillD;
 
 /**
@@ -26,36 +27,25 @@ import database.FightSkillD;
 
 public class FightSkillActivity extends BaseActivity {
     private List<FightSkillD> dataList = new ArrayList<>();
-    private TextView fightSkillContent;
+    @BindView(R.id.fight_skill_content)
+     TextView fightSkillContent;
+    @BindView(R.id.fight_skill_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.fight_toolbar)
+    Toolbar toolbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
+        setContentView(R.layout.fight_skill_layout);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-            actionBar.setDisplayShowHomeEnabled(true);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            //透明ActionBar
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+            actionBar.setTitle("战斗技能");
         }
-
-        setContentView(R.layout.fight_skill_layout);
-
         dataList = DataSupport.findAll(FightSkillD.class);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.fight_skill_recycler_view);
         FightSkillRecyclerViewAdapter adapter = new FightSkillRecyclerViewAdapter(this, dataList);
-
-        fightSkillContent = (TextView) findViewById(R.id.fight_skill_content);
-
         recyclerView.setAdapter(adapter);
         adapter.setItemOnClickListener(new FightSkillRecyclerViewAdapter.OnItemClickListener() {
             @Override

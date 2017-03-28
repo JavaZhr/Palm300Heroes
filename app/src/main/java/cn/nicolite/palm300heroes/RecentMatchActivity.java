@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.RecentMatchRecyclerViewAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.recordLogger.RecentMatchList;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,29 +39,21 @@ public class RecentMatchActivity extends BaseActivity implements RecentMatchRecy
     private RecentMatchRecyclerViewAdapter adapter;
     private List<RecentMatchList.MatchList> dataList = new ArrayList<>();
     private ProgressDialog progressDialog;
+    @BindView(R.id.match_list_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.recent_match_toolbar)
+    Toolbar toolbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
+        setContentView(R.layout.recent_match_layout);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-            actionBar.setDisplayShowHomeEnabled(true);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            //透明ActionBar
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+            actionBar.setTitle("最近战斗");
         }
-        setContentView(R.layout.recent_match_layout);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.match_list_recycler_view);
         updateData();
         adapter = new RecentMatchRecyclerViewAdapter(this, dataList);
         adapter.setOnItemClickListener(this);

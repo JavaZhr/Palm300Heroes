@@ -1,15 +1,15 @@
 package cn.nicolite.palm300heroes;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,19 +29,19 @@ import util.LogUtil;
  * Created by NICOLITE on 2016/11/4 0004.
  */
 
-public class HeroesDetailActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    @BindView(R.id.heroes_detail_name) TextView heroesDetailName;
-    @BindView(R.id.heroes_detail_type) TextView heroesDetailType;
-
-    @BindView(R.id.heroes_detail_data) TextView heroesDataButton;
-    @BindView(R.id.heroes_detail_skill)TextView heroesSkillButton;
-    @BindView(R.id.heroes_detail_skin) TextView heroesSkinButton;
-    @BindView(R.id.heroes_detail_sound)TextView heroesSoundButton;
-
-    @BindView(R.id.heroes_detail_viewpager) ViewPager viewPager;
-    private int selectedPositon; //用来记住导航的位置
-
-    List<Fragment> fragments = new ArrayList<>();
+public class HeroesDetailActivity extends BaseActivity {
+    @BindView(R.id.heroes_detail_name)
+    TextView heroesDetailName;
+    @BindView(R.id.heroes_detail_type)
+    TextView heroesDetailType;
+    @BindView(R.id.heroes_detail_viewpager)
+    ViewPager viewPager;
+    @BindView(R.id.heroes_detail_tab)
+    TabLayout tabLayout;
+    @BindView(R.id.heroes_detail_back_button)
+    Button backButton;
+    List<Fragment> fragmentList = new ArrayList<>();
+    List<String> typeList = new ArrayList<>();
     private HeroesDataFragment heroesDataFragment;
     private HeroesSkillFragment heroesSkillFragment;
     private HeroesSkinFragment heroesSkinFragment;
@@ -49,49 +49,28 @@ public class HeroesDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
-            actionBar.setDisplayShowHomeEnabled(true);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            //透明ActionBar
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        }
-
         setContentView(R.layout.heroes_detail_activity);
         ButterKnife.bind(this);
-
         HeroD heroes = (HeroD) getIntent().getSerializableExtra("heroes_data");
         LogUtil.d("heroesDetailActivity", heroes.getHeroName());
-
         heroesDetailName.setText(heroes.getHeroName());
         heroesDetailType.setText(heroes.getHeroType());
-        heroesDataButton.setOnClickListener(this);
-        heroesSkillButton.setOnClickListener(this);
-        heroesSkinButton.setOnClickListener(this);
-        heroesSoundButton.setOnClickListener(this);
-
-        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), getFragments());
+        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), getFragmentList(), getTypeList());
         viewPager.setAdapter(adapter);
-        //默认选择第一个，改变第一个fragment的状态
-        heroesDataButton.setTextColor(getResources().getColor(R.color.orange));
-        viewPager.addOnPageChangeListener(this);
+        tabLayout.setupWithViewPager(viewPager);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
-    private List<Fragment> getFragments() {
+    private List<Fragment> getFragmentList() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         /*开启一个Fragment事务*/
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        fragments.clear();
+        fragmentList.clear();
         if (heroesDataFragment == null) {
             heroesDataFragment = new HeroesDataFragment();
         }
@@ -104,88 +83,20 @@ public class HeroesDetailActivity extends BaseActivity implements View.OnClickLi
         if (heroesSoundFragment == null) {
             heroesSoundFragment = new HeroesSoundFragment();
         }
-
         transaction.commit();
-
-        fragments.add(heroesDataFragment);
-        fragments.add(heroesSkillFragment);
-        fragments.add(heroesSkinFragment);
-        fragments.add(heroesSoundFragment);
-
-        return fragments;
+        fragmentList.add(heroesDataFragment);
+        fragmentList.add(heroesSkillFragment);
+        fragmentList.add(heroesSkinFragment);
+        fragmentList.add(heroesSoundFragment);
+        return fragmentList;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return super.onSupportNavigateUp();
+    private List<String> getTypeList(){
+        typeList.clear();
+        typeList.add("数据");
+        typeList.add("技能");
+        typeList.add("皮肤");
+        typeList.add("语音");
+        return typeList;
     }
-
-    @Override
-    public void onClick(View v) {
-        resetButtonColor();
-        switch (v.getId()) {
-            case R.id.heroes_detail_data :
-                heroesDataButton.setTextColor(getResources().getColor(R.color.orange));
-                selectedPositon = 0;
-                break;
-            case R.id.heroes_detail_skill :
-                heroesSkillButton.setTextColor(getResources().getColor(R.color.orange));
-                selectedPositon = 1;
-                break;
-            case R.id.heroes_detail_skin:
-                heroesSkinButton.setTextColor(getResources().getColor(R.color.orange));
-                selectedPositon = 2;
-                break;
-            case R.id.heroes_detail_sound :
-                heroesSoundButton.setTextColor(getResources().getColor(R.color.orange));
-                selectedPositon = 3;
-                break;
-            default: break;
-        }
-        viewPager.setCurrentItem(selectedPositon);
-    }
-
-    private void resetButtonColor() {
-        heroesDataButton.setTextColor(getResources().getColor(R.color.white));
-        heroesSkillButton.setTextColor(getResources().getColor(R.color.white));
-        heroesSkinButton.setTextColor(getResources().getColor(R.color.white));
-        heroesSoundButton.setTextColor(getResources().getColor(R.color.white));
-    }
-
-    /**
-     * viewpager
-     * @param position
-     * @param positionOffset
-     * @param positionOffsetPixels
-     */
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        resetButtonColor();
-        switch (position) {
-            case 0 :
-                heroesDataButton.setTextColor(getResources().getColor(R.color.orange));
-                break;
-            case 1:
-                heroesSkillButton.setTextColor(getResources().getColor(R.color.orange));
-                break;
-            case 2:
-                heroesSkinButton.setTextColor(getResources().getColor(R.color.orange));
-                break;
-            case 3:
-                heroesSoundButton.setTextColor(getResources().getColor(R.color.orange));
-                break;
-            default: break;
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -29,28 +30,21 @@ import util.Util;
 public class MatchDetailActivity extends BaseActivity implements MatchDetailRecyclerViewAdapter.OnItemClickListener {
     @BindView(R.id.match_detail_recycler_view)
     RecyclerView recyclerView;
-
+    @BindView(R.id.match_detail_toolbar)
+    Toolbar toolbar;
     private MatchDetailRecyclerViewAdapter adapter;
     private MatchDetail matchDetail;
     private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-            //透明ActionBar
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        }
         setContentView(R.layout.activity_match_detail);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         updateData();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new MatchDetailRecyclerViewAdapter(this, matchDetail);

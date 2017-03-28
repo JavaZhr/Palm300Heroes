@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -59,40 +60,27 @@ public class RecordLoggerActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.search_history_lv) ListView searchListView;
     @BindView(R.id.search_history_ll) LinearLayout searchListLayout;
     @BindView(R.id.clear_history_btn) Button clearHistoryBtn;
-
+    @BindView(R.id.record_logger_toolbar)
+    Toolbar toolbar;
     private List<Role> dataList = new ArrayList<>();
     private List<String> historyList = new ArrayList<>();
     private  ArrayAdapter<String> arrayAdapter;
     private ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
-            actionBar.setDisplayShowHomeEnabled(true);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            //透明ActionBar
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        }
         setContentView(R.layout.record_logger_layout);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("战绩查询");
+        }
         matchList.setOnClickListener(this);
         roleRank.setOnClickListener(this);
         submit.setOnClickListener(this);
         clearHistoryBtn.setOnClickListener(this);
-
         roleNameInput.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -101,8 +89,8 @@ public class RecordLoggerActivity extends BaseActivity implements View.OnClickLi
                 roleRank.setVisibility(View.GONE);
                 searchListLayout.setVisibility(View.VISIBLE);
                 return false;
-    }
-});
+            }
+        });
 
     }
 

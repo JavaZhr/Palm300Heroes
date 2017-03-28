@@ -5,7 +5,18 @@
         <item
             android:id="@+id/game"
             android:icon="@drawable/ic_game_asset_white_24dp"
-            android:title="游戏" />
+            android:title="游戏" >
+            <menu>
+                <item
+                    android:id="@+id/fightSkill"
+                    android:icon="@drawable/ic_book_white_24dp"
+                    android:title="战斗技能" />
+                <item
+                    android:id="@+id/recordLogger"
+                    android:icon="@android:drawable/ic_menu_search"
+                    android:title="战绩查询" />
+            </menu>
+        </item>
         <item
             android:id="@+id/updateData"
             android:icon="@android:drawable/ic_popup_sync"

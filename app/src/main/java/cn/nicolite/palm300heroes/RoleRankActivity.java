@@ -1,6 +1,5 @@
 package cn.nicolite.palm300heroes;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -8,13 +7,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.RoleRankRecyclerViewAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.recordLogger.Role;
 import other.DividerItemDecoration;
 
@@ -24,30 +25,21 @@ import other.DividerItemDecoration;
 
 public class RoleRankActivity extends BaseActivity implements RoleRankRecyclerViewAdapter.OnItemClickListener{
     private List<Role.Rank> dataList = new ArrayList<>();
-
+    @BindView(R.id.role_rank_toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.role_rank_recycler_view)
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //透明导航栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
+        setContentView(R.layout.role_rank_layout);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-
             actionBar.setDisplayHomeAsUpEnabled(true);
-
-            actionBar.setDisplayShowHomeEnabled(true);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            //透明ActionBar
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+            actionBar.setTitle("个人排行");
         }
-        setContentView(R.layout.role_rank_layout);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.role_rank_recycler_view);
         Role role = (Role) getIntent().getSerializableExtra("role_data");
         if (role.Rank != null){
             dataList.addAll(role.Rank);

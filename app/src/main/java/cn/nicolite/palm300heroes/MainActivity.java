@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
@@ -62,8 +63,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private HeroesAssistFragment heroesAssistFragment;
     @BindView(R.id.main_coordinator_layout)
     CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.main_root_layout)
-    LinearLayout linearLayout;
+    private boolean status = true; //back key status mark
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,21 +75,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("英雄");
         }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
     }
-
-
 
     @Override
     protected void onDestroy() {
@@ -153,7 +150,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.game:
+            case R.id.fightSkill:
+                Intent fightSkillActivity = new Intent(this, FightSkillActivity.class);
+                startActivity(fightSkillActivity);
+                break;
+            case R.id.recordLogger:
+                Intent recordLogger = new Intent(this, RecordLoggerActivity.class);
+                startActivity(recordLogger);
                 break;
             case R.id.updateData:
                 new AlertDialog.Builder(MainActivity.this)
@@ -181,8 +184,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 updateApp();
                 break;
             case R.id.about:
-                Intent intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
+                Intent aboutActivity = new Intent(this, AboutActivity.class);
+                startActivity(aboutActivity);
                 break;
         }
         drawerLayout.closeDrawers();
@@ -190,7 +193,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void updateApp(){
-        PgyUpdateManager.register(MainActivity.this, "您自定义provider file值", new UpdateManagerListener() {
+        PgyUpdateManager.register(MainActivity.this, "应用更新", new UpdateManagerListener() {
             @Override
             public void onUpdateAvailable(final String result) {
                 // 将新版本信息封装到AppBean中
@@ -220,10 +223,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar.make(linearLayout, "已经是最新版本", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(coordinatorLayout, "已经是最新版本", Snackbar.LENGTH_SHORT).show();
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            if (status){
+                Snackbar.make(coordinatorLayout, "再按一次退出", Snackbar.LENGTH_SHORT).show();
+                status = false;
+            }else {
+                System.exit(0);
+            }
+        }
+        return true;
     }
 }
