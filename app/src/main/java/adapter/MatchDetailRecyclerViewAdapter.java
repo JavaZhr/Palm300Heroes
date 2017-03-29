@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.recordLogger.MatchDetail;
+import util.LogUtil;
 
 /**
  * Created by NICOLITE on 2017/3/20 0020.
@@ -24,13 +27,21 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
     private Context context;
     private LayoutInflater inflater;
     private OnItemClickListener onItemClickListener = null;
-    private List<MatchDetail.Match.WinSide> winSideList = new ArrayList<>();
-    private List<MatchDetail.Match.LoseSide> loseSideList = new ArrayList<>();
-    public MatchDetailRecyclerViewAdapter(Context context, MatchDetail matchDetail) {
+    private List<MatchDetail.Match.WinSide> winSideList;
+    private List<MatchDetail.Match.LoseSide> loseSideList;
+    private int flags = 0;
+
+    public MatchDetailRecyclerViewAdapter(Context context, List<MatchDetail.Match.WinSide> winSideList) {
         this.context = context;
-        this.winSideList = matchDetail.match.winSideList;
-        this.loseSideList = matchDetail.match.loseSideList;
+        this.winSideList = winSideList;
         inflater = LayoutInflater.from(context);
+    }
+
+    public MatchDetailRecyclerViewAdapter(Context context, List<MatchDetail.Match.LoseSide> loseSideList, int flags) {
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        this.loseSideList = loseSideList;
+        this.flags = flags;
     }
 
     @Override
@@ -41,7 +52,7 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
+        initView(holder, position);
         if (onItemClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -54,6 +65,9 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
 
     @Override
     public int getItemCount() {
+        if (flags != 0){
+            return loseSideList.size();
+        }
         return winSideList.size();
     }
 
@@ -76,8 +90,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
         ImageView equip5;
         @BindView(R.id.equip6_match_detail)
         ImageView equip6;
-        @BindView(R.id.result_match_detail)
-        TextView result;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -118,10 +130,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
         public ImageView getEquip6() {
             return equip6;
         }
-
-        public TextView getResult() {
-            return result;
-        }
     }
 
     public interface OnItemClickListener{
@@ -130,6 +138,123 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
+    }
 
+    private void initView(ViewHolder holder, int position){
+        String roleIcon;
+        String roleName;
+        String performance;
+        String equip1 = null;
+        String equip2 = null;
+        String equip3 = null;
+        String equip4 = null;
+        String equip5 = null;
+        String equip6 = null;
+        int equipSize;
+        if (flags != 0){
+            roleIcon = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).hero.IconFile;
+            roleName = loseSideList.get(position).RoleName;
+            performance = loseSideList.get(position).KillCount + "/" + loseSideList.get(position).DeathCount + "/" + loseSideList.get(position).AssistCount;
+            equipSize = loseSideList.get(position).equipList.size();
+            if (equipSize == 1){
+                equip1 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(0).IconFile;
+            }else if (equipSize == 2){
+                equip1 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(1).IconFile;
+            }else if (equipSize == 3){
+                equip1 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(2).IconFile;
+            }else if (equipSize == 4){
+                equip1 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(2).IconFile;
+                equip4 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(3).IconFile;
+            }else if (equipSize ==5){
+                equip1 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(2).IconFile;
+                equip4 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(3).IconFile;
+                equip5 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(4).IconFile;
+            }else if (equipSize == 6){
+                equip1 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(2).IconFile;
+                equip4 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(3).IconFile;
+                equip5 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(4).IconFile;
+                equip6 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(5).IconFile;
+            }
+        }else {
+            roleIcon = "http://300report.jumpw.com/static/images/" + winSideList.get(position).hero.IconFile;
+            roleName = winSideList.get(position).RoleName;
+            performance = winSideList.get(position).KillCount + "/" + winSideList.get(position).DeathCount + "/" + winSideList.get(position).AssistCount;
+            equipSize = winSideList.get(position).equipList.size();
+            if (equipSize == 1){
+                equip1 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(0).IconFile;
+            }else if (equipSize == 2){
+                equip1 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(1).IconFile;
+            }else if (equipSize == 3){
+                equip1 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(2).IconFile;
+            }else if (equipSize == 4){
+                equip1 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(2).IconFile;
+                equip4 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(3).IconFile;
+            }else if (equipSize == 5){
+                equip1 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(2).IconFile;
+                equip4 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(3).IconFile;
+                equip5 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(4).IconFile;
+            }else if (equipSize == 6){
+                equip1 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(0).IconFile;
+                equip2 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(1).IconFile;
+                equip3 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(2).IconFile;
+                equip4 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(3).IconFile;
+                equip5 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(4).IconFile;
+                equip6 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(5).IconFile;
+            }
+        }
+
+        Glide
+                .with(context)
+                .load(roleIcon)
+                .dontAnimate()
+                .into(holder.getRoleIcon());
+        holder.getRoleName().setText(roleName);
+        holder.getPerformance().setText(performance);
+        Glide
+                .with(context)
+                .load(equip1)
+                .dontAnimate()
+                .into(holder.getEquip1());
+        Glide
+                .with(context)
+                .load(equip2)
+                .dontAnimate()
+                .into(holder.getEquip2());
+        Glide
+                .with(context)
+                .load(equip3)
+                .dontAnimate()
+                .into(holder.getEquip3());
+        Glide
+                .with(context)
+                .load(equip4)
+                .dontAnimate()
+                .into(holder.getEquip4());
+        Glide
+                .with(context)
+                .load(equip5)
+                .dontAnimate()
+                .into(holder.getEquip5());
+        Glide
+                .with(context)
+                .load(equip6)
+                .dontAnimate()
+                .into(holder.getEquip6());
     }
 }

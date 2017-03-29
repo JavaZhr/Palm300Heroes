@@ -78,9 +78,9 @@ public class RecentMatchActivity extends BaseActivity implements RecentMatchRecy
 
     @Override
     public void onItemClick(View view, int position) {
-        /*Intent intent = new Intent(this, MatchDetailActivity.class);
-        intent.putExtra("match_id", dataList.get(position).MatchID);
-        startActivity(intent);*/
+        Intent intent = new Intent(this, MatchDetailActivity.class);
+        intent.putExtra("match_id", dataList.get(position).MatchID + "");
+        startActivity(intent);
     }
 
     private void updateData(){

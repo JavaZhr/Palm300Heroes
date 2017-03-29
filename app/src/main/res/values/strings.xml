@@ -34,4 +34,7 @@
     <!-- 装备分类选项 -->
     <string name="battlefield_equipment">战场装备</string>
     <string name="arena_gear">竞技场装备</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

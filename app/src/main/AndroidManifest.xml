@@ -23,7 +23,6 @@
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,7 +38,6 @@
         <meta-data
             android:name="PGYER_APPID"
             android:value="56a216a9115469c1825f738a7792acbd" />
-
         <activity android:name=".MatchDetailActivity" />
         <activity android:name=".AboutActivity"/>
     </application>

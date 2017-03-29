@@ -25,7 +25,7 @@ public class MatchDetail {
         public List<LoseSide> loseSideList;
         public class WinSide {
             public String RoleName;
-            public int RoleID;
+            public long RoleID;
             public int RoleLevel;
             public int HeroID;
             public int HeroLevel;
@@ -72,7 +72,7 @@ public class MatchDetail {
 
         public class LoseSide {
             public String RoleName;
-            public int RoleID;
+            public long RoleID;
             public int RoleLevel;
             public int HeroID;
             public int HeroLevel;
