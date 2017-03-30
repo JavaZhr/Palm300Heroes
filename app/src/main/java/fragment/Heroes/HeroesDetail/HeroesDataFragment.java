@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,7 @@ public class HeroesDataFragment extends Fragment{
         heroesAttackSpeedValue.setText("攻击速度：" + heroes.getAttackSpeedValue());
         heroesAttackRangeValue.setText("攻击范围：" + heroes.getAttackRangeValue());
         heroesMovementSpeedValue.setText("移动速度：" + heroes.getMovementSpeedValue());
-        heroesBackground.setText(heroes.getBackground());
+        heroesBackground.setText(Html.fromHtml(heroes.getBackground()));
 
         String pictureUrl = "http://ogbna06ji.bkt.clouddn.com/heroes/picture/" + Uri.encode(heroes.getPictureUrl());
         if (TextUtils.isEmpty(heroes.getPictureUrl())) {

@@ -6,27 +6,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.FragAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fragment.Heroes.recordLogger.MatchLostFragment;
-import fragment.Heroes.recordLogger.MatchWinFragment;
-import model.recordLogger.MatchDetail;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-import util.HttpUtil;
-import util.LogUtil;
-import util.Util;
+import fragment.recordLogger.MatchLostFragment;
+import fragment.recordLogger.MatchWinFragment;
 
 public class MatchDetailActivity extends BaseActivity{
     @BindView(R.id.match_detail_toolbar)

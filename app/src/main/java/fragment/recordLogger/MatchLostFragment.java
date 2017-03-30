@@ -1,4 +1,4 @@
-package fragment.Heroes.recordLogger;
+package fragment.recordLogger;
 
 
 import android.app.ProgressDialog;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -28,21 +29,23 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import util.HttpUtil;
+import util.LogUtil;
 import util.Util;
 
-public class MatchWinFragment extends Fragment implements MatchDetailRecyclerViewAdapter.OnItemClickListener{
-    @BindView(R.id.match_win_recycler_view)
-    RecyclerView recyclerView;
-    private Unbinder unbinder;
+
+public class MatchLostFragment extends Fragment implements MatchDetailRecyclerViewAdapter.OnItemClickListener{
     private ProgressDialog progressDialog;
     private MatchDetailRecyclerViewAdapter recycleAdapter;
-    private List<MatchDetail.Match.WinSide> winSideList = new ArrayList<>();
+    private List<MatchDetail.Match.LoseSide> loseSideList = new ArrayList<>();
+    @BindView(R.id.match_lost_recycler_view)
+    RecyclerView recyclerView;
+    private Unbinder unbinder;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_match_win, container, false);
+        View view = inflater.inflate(R.layout.fragment_match_lost, container, false);
         unbinder = ButterKnife.bind(this, view);
         updateData();
-        recycleAdapter = new MatchDetailRecyclerViewAdapter(getActivity(), winSideList);
+        recycleAdapter = new MatchDetailRecyclerViewAdapter(getActivity(), loseSideList, 1);
         recycleAdapter.setOnItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
@@ -52,12 +55,12 @@ public class MatchWinFragment extends Fragment implements MatchDetailRecyclerVie
         //设置Adapter
         recyclerView.setAdapter(recycleAdapter);
         //设置分隔线
-        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         return view;
     }
-
     @Override
     public void onItemClick(View view, int position) {
 
@@ -92,13 +95,12 @@ public class MatchWinFragment extends Fragment implements MatchDetailRecyclerVie
                     }
                 });
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-               MatchDetail matchDetail = Util.handleMatchDetailResponse(response.body().string());
+                MatchDetail matchDetail = Util.handleMatchDetailResponse(response.body().string());
                 if (matchDetail != null && matchDetail.Result.equals("OK")){
-                    winSideList.clear();
-                    winSideList.addAll(matchDetail.match.winSideList);
+                    loseSideList.clear();
+                    loseSideList.addAll(matchDetail.match.loseSideList);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

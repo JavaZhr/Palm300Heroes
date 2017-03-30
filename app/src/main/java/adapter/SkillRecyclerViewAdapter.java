@@ -3,6 +3,7 @@ package adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +96,8 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         viewHolder.getSkillName().setText(skill.getName());
         viewHolder.getSkillConsumption().setText(skill.getConsumption());
         viewHolder.getSkillChilldown().setText(skill.getChilldown());
-        viewHolder.getSkillShortCut().setText(skill.getShortcut());
-        viewHolder.getSkillEffectiveness().setText(skill.getEffectiveness());
+        viewHolder.getSkillShortCut().setText("【 " + skill.getShortcut() + " 】");
+        viewHolder.getSkillEffectiveness().setText(Html.fromHtml(skill.getEffectiveness()));
 
         if (onItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

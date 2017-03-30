@@ -26,8 +26,6 @@
     <string name="sound">语音</string>
 
     <!-- 技能类别-->
-    <string name="shortcut">【快捷键</string>
-    <string name="shortcutEnd"> 】</string>
     <string name="consumption">消耗</string>
     <string name="chilldown">冷却</string>
     <string name="effectiveness">效果</string>

@@ -8,11 +8,18 @@ import android.text.TextUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import database.DBUtil;
+import database.FightSkillD;
+import database.HeroD;
+import database.SkillD;
+import database.SkinD;
+import database.SoundD;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -78,6 +85,7 @@ public class SplashActivity extends BaseActivity{
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                DataSupport.deleteAll(HeroD.class);
                 DBUtil.saveHero(Util.handleHeroResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
@@ -101,6 +109,7 @@ public class SplashActivity extends BaseActivity{
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                DataSupport.deleteAll(SkillD.class);
                 DBUtil.saveSkill(Util.handleSkillResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
@@ -124,6 +133,7 @@ public class SplashActivity extends BaseActivity{
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                DataSupport.deleteAll(SkinD.class);
                 DBUtil.saveSkin(Util.handleSkinResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
@@ -147,6 +157,7 @@ public class SplashActivity extends BaseActivity{
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                DataSupport.deleteAll(SoundD.class);
                 DBUtil.saveSound(Util.handleSoundResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override
@@ -171,6 +182,7 @@ public class SplashActivity extends BaseActivity{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                DataSupport.deleteAll(FightSkillD.class);
                 DBUtil.saveFightSkill(Util.handleFightSkillResponse(response.body().string()));
                 runOnUiThread(new Runnable() {
                     @Override

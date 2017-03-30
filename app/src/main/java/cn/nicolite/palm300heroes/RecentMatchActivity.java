@@ -2,18 +2,17 @@ package cn.nicolite.palm300heroes;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -27,7 +26,6 @@ import model.recordLogger.RecentMatchList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import other.DividerItemDecoration;
 import util.HttpUtil;
 import util.Util;
 

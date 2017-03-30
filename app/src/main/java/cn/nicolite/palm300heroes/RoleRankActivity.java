@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +18,6 @@ import adapter.RoleRankRecyclerViewAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import model.recordLogger.Role;
-import other.DividerItemDecoration;
 
 /**
  * Created by NICOLITE on 2017/2/6 0006.

@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.nicolite.palm300heroes.R;
 import model.recordLogger.MatchDetail;
-import util.LogUtil;
 
 /**
  * Created by NICOLITE on 2017/3/20 0020.
@@ -90,8 +88,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
         ImageView equip5;
         @BindView(R.id.equip6_match_detail)
         ImageView equip6;
-        @BindView(R.id.result_match_detail)
-        TextView result;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -132,10 +128,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
         public ImageView getEquip6() {
             return equip6;
         }
-
-        public TextView getResult() {
-            return result;
-        }
     }
 
     public interface OnItemClickListener{
@@ -156,7 +148,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
         String equip4 = null;
         String equip5 = null;
         String equip6 = null;
-        String result;
         int equipSize = 0;
         if (flags != 0){
             roleIcon = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).hero.IconFile;
@@ -191,11 +182,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
                 equip5 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(4).IconFile;
                 equip6 = "http://300report.jumpw.com/static/images/" + loseSideList.get(position).equipList.get(5).IconFile;
             }
-            if (loseSideList.get(position).Result == 1){
-                result = "胜";
-            }else {
-                result = "负";
-            }
         }else {
             roleIcon = "http://300report.jumpw.com/static/images/" + winSideList.get(position).hero.IconFile;
             roleName = winSideList.get(position).RoleName;
@@ -228,11 +214,6 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
                 equip4 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(3).IconFile;
                 equip5 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(4).IconFile;
                 equip6 = "http://300report.jumpw.com/static/images/" + winSideList.get(position).equipList.get(5).IconFile;
-            }
-            if (winSideList.get(position).Result == 1){
-                result = "胜";
-            }else {
-                result = "负";
             }
         }
 
@@ -273,7 +254,5 @@ public class MatchDetailRecyclerViewAdapter extends RecyclerView.Adapter<MatchDe
                 .load(equip6)
                 .dontAnimate()
                 .into(holder.getEquip6());
-
-        holder.getResult().setText(result);
     }
 }
