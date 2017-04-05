@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">掌上300英雄</string>
-    <string name="copyright">Copyright© 2016 - 2017</string>
+    <string name="copyright">Copyright© 2016 – 2017</string>
+    <string name="power">Power by </string>
     <string name="author">NICOLITE</string>
     <string name="update">https://www.pgyer.com/Csva</string>
     <!--功能标题 -->
