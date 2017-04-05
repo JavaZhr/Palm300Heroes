@@ -20,6 +20,7 @@ import database.HeroD;
 import database.SkillD;
 import database.SkinD;
 import database.SoundD;
+import model.UpdateTime;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -36,6 +37,7 @@ public class SplashActivity extends BaseActivity{
     private String skinAddress = "http://og0oucran.bkt.clouddn.com/skin.json";
     private String soundAddress = "http://og0oucran.bkt.clouddn.com/sound.json";
     private String fightSkillAddress = "http://og0oucran.bkt.clouddn.com/fight_skill.json";
+    private String apiUpdateTime = "http://og0oucran.bkt.clouddn.com/api_update_time.json";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class SplashActivity extends BaseActivity{
         super.onResume();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String load = preferences.getString("load", null);
-        if (TextUtils.isEmpty(preferences.getString("load", null))){
+        if (TextUtils.isEmpty(load)){
             updateHeroData();
         }else if (load.equals("1")){
             progressBar.setProgress(20);
@@ -69,7 +71,8 @@ public class SplashActivity extends BaseActivity{
 
     private void startMainActivity(){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getString("load", null).equals("5")){
+        String load = preferences.getString("load", null);
+        if (!TextUtils.isEmpty(load) && load.equals("6")){
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -190,10 +193,33 @@ public class SplashActivity extends BaseActivity{
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
                         editor.putString("load", "5");
                         editor.apply();
-                        progressBar.setProgress(100);
-                        startMainActivity();
+                        progressBar.setProgress(98);
+                        updateDataUpdateTime();
                     }
                 });
+            }
+        });
+    }
+
+    private void updateDataUpdateTime(){
+        HttpUtil.sendOkHttpRequest(apiUpdateTime, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                UpdateTime updateTime = Util.handleUpdateTimeResponse(response.body().string());
+                if (updateTime != null && updateTime.status.equals("ok")){
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
+                    editor.putString("update_time", updateTime.update);  //更新时间
+                    editor.putString("times", updateTime.times);  //更新次数
+                    editor.putString("load", "6");
+                    editor.apply();
+                    progressBar.setProgress(100);
+                    startMainActivity();
+                }
             }
         });
     }

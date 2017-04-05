@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
@@ -26,6 +27,7 @@ import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,12 @@ import fragment.Heroes.HeroesMasterFragment;
 import fragment.Heroes.HeroesShooterFragment;
 import fragment.Heroes.HeroesTankFragment;
 import fragment.Heroes.HeroesWarriorFragment;
+import model.UpdateTime;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import util.HttpUtil;
+import util.Util;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.main_viewpager)
@@ -158,26 +166,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(recordLogger);
                 break;
             case R.id.updateData:
-                new AlertDialog.Builder(MainActivity.this)
-                        .setMessage("更新数据需要重启应用")
-                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-                                editor.putString("load","");
-                                editor.apply();
-                                Intent splashActivity = new Intent(getApplicationContext(), SplashActivity.class);
-                                startActivity(splashActivity);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .show();
+                dataUpdateDetecting();
                 break;
             case R.id.update:
                 updateApp();
@@ -240,5 +229,53 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
         return true;
+    }
+
+    public void dataUpdateDetecting(){
+        String apiUpdateTime = "http://og0oucran.bkt.clouddn.com/api_update_time.json";
+        HttpUtil.sendOkHttpRequest(apiUpdateTime, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                UpdateTime updateTime = Util.handleUpdateTimeResponse(response.body().string());
+                if (updateTime != null && updateTime.status.equals("ok")){
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String updateTimes = preferences.getString("times", null);
+                    if (!TextUtils.isEmpty(updateTimes) && !updateTimes.equals(updateTime.times)){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialog.Builder(MainActivity.this)
+                                        .setMessage("更新数据需要重启应用")
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                                                editor.putString("load","");
+                                                editor.apply();
+                                                Intent splashActivity = new Intent(getApplicationContext(), SplashActivity.class);
+                                                startActivity(splashActivity);
+                                                finish();
+                                            }
+                                        })
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        })
+                                        .show();
+                            }
+                        });
+                    }else {
+                        Snackbar.make(coordinatorLayout, "已经是最新数据", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 }

@@ -2,13 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp" android:background="@color/grey">
     <ImageView
         android:id="@+id/role_icon_match_detail"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@mipmap/ic_launcher"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,20 +42,23 @@
                 android:id="@+id/equip1_match_detail"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/equip2_match_detail"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="0dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/equip3_match_detail"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,19 +69,22 @@
                 android:id="@+id/equip4_match_detail"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/equip5_match_detail"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/equip6_match_detail"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

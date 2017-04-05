@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import model.FightSkill;
+import model.UpdateTime;
 import model.hero.Hero;
 import model.hero.Skill;
 import model.hero.Skin;
@@ -162,4 +163,16 @@ public class Util {
         return null;
     }
 
+    public static UpdateTime handleUpdateTimeResponse(String response){
+        if (!TextUtils.isEmpty(response)){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String updateTime = jsonObject.toString();
+                return new Gson().fromJson(updateTime, UpdateTime.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }
